@@ -1,0 +1,29 @@
+// imports
+@import "../../../../Sites/plugins.coderwelsch.com/scss/mixins.scss";
+
+@import "./_settings.scss";
+
+* {
+	margin: 0;
+	padding: 0;
+}
+
+body {
+	width: 100%;
+	height: 100%;
+
+	#images {
+		width: 100%;
+
+		.image {
+			width: 100px;
+			height: 100px;
+
+			display: inline-block;
+
+			background-color: grey;
+			background-size: cover;
+			background-repeat: no-repeat;
+		}
+	}
+}
