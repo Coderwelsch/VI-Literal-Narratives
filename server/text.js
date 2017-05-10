@@ -72,7 +72,6 @@ module.exports = class TextAnalyzer {
 	}
 
 	enrichWords ( callback ) {
-		// ( current, total ) => { }
 		let foundEntries = [],
 			notFound = [];
 
@@ -91,10 +90,26 @@ module.exports = class TextAnalyzer {
 			return;
 		}
 
+		let cloneObj = ( obj ) => JSON.parse( JSON.stringify( obj ) );
+
 		this.dudenApi.searchWordList( notFound, ( data ) => {
 			callback( data.concat( foundEntries ) );
 		}, ( word, data, current, total, error ) => {
 			if ( !error ) {
+				for ( let item of data ) {
+					let preparedItem = cloneObj( item );
+
+					delete preparedItem.text;
+
+					if ( item.text && !this.db.exists( item.text ) ) {
+						this.db.set( item.text, preparedItem );
+					}
+				}
+
+				if ( data.text === word ) {
+					data.similarWords = 
+				}
+
 				this.db.set( word, data );
 			}
 		} );
