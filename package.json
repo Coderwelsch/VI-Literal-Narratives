@@ -4,7 +4,9 @@
   "description": "Visualization of narratives literals. Built with Webpack 2 + Treeshaking, ES6, Babel, SCSS & Pug Transpilers",
   "main": "src/js/main.js",
   "scripts": {
+    "postinstall": "node init-db.js",
     "start": "npm run build; npm run watch-sass & npm run watch-pug & npm run watch-webpack & npm run start-browser-sync",
+    "analyze": "node ./server/main.js",
     "start-browser-sync": "browser-sync start --proxy 'vi-literal-narratives.local' --files 'built/**'",
     "watch-sass": "node-sass --watch ./src/scss --recursive --output-style nested --output ./built/files/css/",
     "watch-webpack": "echo $PWD; webpack --watch --color --config ./webpack.config.js;",
@@ -35,5 +37,12 @@
     "pug-cli": "^1.0.0-alpha6",
     "raw-loader": "^0.5.1",
     "webpack": "^1.15.0"
+  },
+  "dependencies": {
+    "duden-search-api": "^1.0.0",
+    "lowdb": "^0.16.2",
+    "mongodb": "^2.2.26",
+    "require-json": "0.0.1",
+    "require-text": "0.0.1"
   }
 }
