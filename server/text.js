@@ -9,7 +9,7 @@ const
 
 
 // constants
-const RegExWordSplitting = /\W+/;
+const RegExWordSplitting = /[^a-zA-Z_öäüÖÄÜ]+/i;
 
 
 module.exports = class TextAnalyzer {
@@ -26,8 +26,6 @@ module.exports = class TextAnalyzer {
 
 	init () {
 		let splittedText;
-
-		this.baseText = this.replaceUmlauts( this.baseText );
 
 		splittedText = this.splitText( this.baseText );
 		splittedText = this.removeStopWords( splittedText );
@@ -96,37 +94,37 @@ module.exports = class TextAnalyzer {
 			callback( data.concat( foundEntries ) );
 		}, ( word, data, current, total, error ) => {
 			if ( !error ) {
+				let similarWords = [],
+					preparedData;
+
 				for ( let item of data ) {
 					let preparedItem = cloneObj( item );
 
 					delete preparedItem.text;
 
+					similarWords.push( item.text );
+
 					if ( item.text && !this.db.exists( item.text ) ) {
 						this.db.set( item.text, preparedItem );
 					}
+
+					if ( item.text === word ) {
+						preparedData = preparedItem;
+					}
 				}
 
-				if ( data.text === word ) {
-					data.similarWords = 
+				if ( preparedData && !preparedData.similarWords ) {
+					preparedData.similarWords = similarWords;
+				} else {
+					preparedData = {
+						similarWords: similarWords
+					};
 				}
 
-				this.db.set( word, data );
+				console.log( "ADDED WORD, WORD: %s, SIMILAR: %s", word, similarWords.length );
+				this.db.set( word, preparedData );
 			}
 		} );
-	}
-
-	replaceUmlauts ( text ) {
-		return (
-			text
-				.replace( /ä/g, "ae" )
-				.replace( /ö/g, "oe" )
-				.replace( /ü/g, "ue" )
-				.replace( /ß/g, "ss" )
-
-				.replace( /Ä/g, "Ae" )
-				.replace( /Ö/g, "Oe" )
-				.replace( /Ü/g, "Ue" )
-		);
 	}
 
 	getNarrativeText () {
@@ -134,7 +132,16 @@ module.exports = class TextAnalyzer {
 	}
 
 	splitText ( text ) {
-		return text.split( RegExWordSplitting );
+		let splittedWords = text.split( RegExWordSplitting ),
+			preparedWords = [];
+
+		for ( let word of splittedWords ) {
+			if ( word.trim() !== "" ) {
+				preparedWords.push( word );
+			}
+		}
+
+		return preparedWords;
 	}
 
 	removeStopWords ( wordList ) {
