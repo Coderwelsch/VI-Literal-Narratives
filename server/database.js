@@ -28,11 +28,11 @@ module.exports = class Database {
 	}
 
 	exists ( word ) {
-		return new Promise( ( resolve, reject ) => {
+		return new Promise( ( resolve ) => {
 			this.get( word ).then( () => {
-				resolve( true );
+				resolve( { exists: true, word: word } );
 			} ).catch( () => {
-				reject( false );
+                resolve( { exists: false, word: word } );
 			} );
 		} );
 	}
@@ -54,9 +54,6 @@ module.exports = class Database {
 					if ( error !== null ) {
 						reject( error );
 					}
-
-					console.log( "YEAH" );
-					console.log( data );
 
 					resolve( data );
 				} );

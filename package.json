@@ -6,7 +6,7 @@
   "scripts": {
     "postinstall": "brew update; brew install mongodb",
     "start": "npm run build; npm run watch-sass & npm run watch-pug & npm run watch-webpack & npm run start-browser-sync",
-    "analyze": "npm run start-mongodb; node ./server/main.js",
+    "analyze": "node ./server/main.js",
     "start-mongodb": "mongod --dbpath \"${PWD}/server/database/\"",
     "start-browser-sync": "browser-sync start --proxy 'vi-literal-narratives.local' --files 'built/**'",
     "watch-sass": "node-sass --watch ./src/scss --recursive --output-style nested --output ./built/files/css/",

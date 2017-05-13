@@ -31,7 +31,6 @@ module.exports = class TextAnalyzer {
 		splittedText = this.removeStopWords( splittedText );
 
 		this.wordList = splittedText;
-		this.wordDict = this.generateDict( this.wordList );
 		this.wordDictArray = this.generateDict( this.wordList, true );
 		this.wordDictArray = this.removeNumbers( this.wordDictArray );
 
@@ -69,61 +68,146 @@ module.exports = class TextAnalyzer {
 		return preparedArray;
 	}
 
-	enrichWords ( callback ) {
-		let foundEntries = [],
-			notFound = [];
+	findWordsInDB () {
+		return new Promise( ( resolve, reject ) => {
+            if ( this.wordDictArray.length ) {
+            	let promises = new Array( this.wordDictArray.length ),
+					word;
 
-		if ( this.wordDictArray.length ) {
-			for ( let word of this.wordDictArray ) {
-				if ( this.db.exists( word ) ) {
-					foundEntries.push( this.db.get( word ) );
-				} else {
-					notFound.push( word );
-				}
-			}
-		}
+                for ( let i = 0;  i < this.wordDictArray.length; i++ ) {
+                	word = this.wordDictArray[ i ];
+                	promises[ i ] = this.db.exists( word );
+                }
 
-		if ( !notFound.length ) {
-			callback( foundEntries );
-			return;
-		}
+				Promise.all( promises ).then( ( data ) => {
+					resolve( data );
+				} ).catch( ( error ) => {
+                    reject( error );
+				} );
+            } else {
+                reject( new Error( "No words to check" ) );
+            }
+		} );
+	}
 
-		let cloneObj = ( obj ) => JSON.parse( JSON.stringify( obj ) );
+    getExistingWords ( words ) {
+        let promises = [];
 
-		this.dudenApi.searchWordList( notFound, ( data ) => {
-			callback( data.concat( foundEntries ) );
-		}, ( word, data, current, total, error ) => {
-			if ( !error ) {
-				let similarWords = [],
-					preparedData;
+        for ( let word of words ) {
+            promises.push( this.db.get( word ) );
+        }
 
-				for ( let item of data ) {
-					let preparedItem = cloneObj( item );
-
-					delete preparedItem.text;
-
-					similarWords.push( item.text );
-
-					if ( item.text && !this.db.exists( item.text ) ) {
-						this.db.set( item.text, preparedItem );
-					}
-
-					if ( item.text === word ) {
-						preparedData = preparedItem;
-					}
-				}
-
-				if ( preparedData && !preparedData.similarWords ) {
-					preparedData.similarWords = similarWords;
-				} else {
-					preparedData = {
-						similarWords: similarWords
+        return new Promise( ( resolve, reject ) => {
+            Promise.all( promises ).then( ( data ) => {
+            	resolve( data.map( ( item ) => {
+            		return {
+            			word: item[ 0 ].word,
+						data: item[ 0 ]
 					};
-				}
+				} ) );
+			} ).catch( reject );
+        } );
+	}
 
-				console.log( "ADDED WORD, WORD: %s, SIMILAR: %s", word, similarWords.length );
-				this.db.set( word, preparedData );
+    cloneObj ( obj ) {
+		return JSON.parse( JSON.stringify( obj ) );
+	}
+
+    filterDuplicates ( list ) {
+		let newList = [];
+
+		for ( let item of list ) {
+			if ( newList.indexOf( item ) === -1 ) {
+			    newList.push( item );
 			}
+		}
+
+		return newList;
+	}
+
+    searchForWords ( words ) {
+		return new Promise( ( resolve ) => {
+            this.dudenApi.searchWordList( words, ( data ) => {
+                resolve( data );
+            }, ( word, data, current, total, error ) => {
+                if ( !error ) {
+                    let similarWords = [],
+                        preparedData;
+
+                    for ( let item of data ) {
+                        let preparedItem = this.cloneObj( item );
+
+                        delete preparedItem.text;
+
+                        if ( item.text !== word ) {
+                            similarWords.push( item.text );
+                        }
+
+                        /* if ( item.text ) {
+                            this.db.set( item.text, preparedItem );
+                        } */
+
+                        if ( item.text === word && !preparedData ) {
+                            preparedData = preparedItem;
+                        }
+                    }
+
+                    similarWords = this.filterDuplicates( similarWords );
+
+                    if ( preparedData && !preparedData.similarWords ) {
+                        preparedData.similarWords = similarWords;
+                    } else {
+                        preparedData = {
+                            similarWords: similarWords
+                        };
+                    }
+
+                    console.log( "Added word: [%s], similar: %s", word, similarWords.length );
+                    this.db.set( word, preparedData );
+
+                    return {
+                    	word: word,
+						data: preparedData
+					};
+                }
+            } );
+		} );
+	}
+
+	enrichWords () {
+		return new Promise( ( resolve, reject ) => {
+            let foundEntries = [],
+                notFoundEntries = [];
+
+            this.findWordsInDB().then( ( data ) => {
+				data.map( ( item ) => {
+					if ( item.exists ) {
+					    foundEntries.push( item.word );
+					} else {
+						notFoundEntries.push( item.word );
+					}
+				} );
+
+				if ( !notFoundEntries.length ) {
+                    this.getExistingWords( foundEntries ).then( resolve ).catch( reject );
+                } else {
+                	let promises = [ this.searchForWords( notFoundEntries ) ];
+
+                	if ( foundEntries.length ) {
+                		promises.push( this.getExistingWords( foundEntries ) );
+                	}
+
+					Promise.all( promises ).then( ( data ) => {
+						if ( promises.length === 2 ) {
+						    data = data.map( item => item[ 0 ] );
+						}
+
+						resolve( data );
+					} ).catch( ( error ) => {
+                        reject( error );
+					} );
+				}
+			} ).catch( reject );
 		} );
 	}
 

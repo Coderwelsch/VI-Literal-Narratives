@@ -28,11 +28,11 @@ class Database {
 	}
 
 	exists ( word ) {
-		return new Promise( ( resolve, reject ) => {
+		return new Promise( ( resolve) => {
 			this.get( word ).then( () => {
 				resolve( true );
 			} ).catch( () => {
-				reject( false );
+				resolve( false );
 			} );
 		} );
 	}
@@ -54,9 +54,6 @@ class Database {
 					if ( error !== null ) {
 						reject( error );
 					}
-
-					console.log( "YEAH" );
-					console.log( data );
 
 					resolve( data );
 				} );
@@ -84,13 +81,13 @@ class Database {
 			MongoClient.connect( this.dbUrl, ( error, db ) => {
 				if ( error !== null ) {
 					reject( error );
+				} else {
+                    this.db = db;
+                    this.connected = true;
+                    this.collection = this.db.collection( "documents" );
+
+                    resolve();
 				}
-
-				this.db = db;
-				this.connected = true;
-				this.collection = this.db.collection( "documents" );
-
-				resolve();
 			} );
 		} );
 	}
@@ -99,6 +96,8 @@ class Database {
 module.exports = Database;
 
 
-new Database().get( "hello" ).then( ( data ) => {
-	console.log( data );
+new Database().exists( "leck mich" ).then( ( exists ) => {
+	console.log( exists );
+} ).catch( ( error ) => {
+	console.log( "Error:", error );
 } );
