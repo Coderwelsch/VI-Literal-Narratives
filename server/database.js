@@ -28,12 +28,14 @@ module.exports = class Database {
 	}
 
 	exists ( word ) {
-		return new Promise( ( resolve ) => {
-			this.get( word ).then( () => {
-				resolve( { exists: true, word: word } );
-			} ).catch( () => {
-                resolve( { exists: false, word: word } );
-			} );
+		return new Promise( ( resolve, reject ) => {
+			this.get( word ).then( ( exists ) => {
+				if ( exists.length ) {
+					resolve( { exists: true, word: word } );
+				} else {
+					resolve( { exists: false, word: word } );
+				}
+			} ).catch( reject );
 		} );
 	}
 
@@ -42,20 +44,23 @@ module.exports = class Database {
 			if ( !this.connected ) {
 				this.connect().then( () => {
 					this.collection.find( { word: word } ).toArray( ( error, data ) => {
+						// console.log( word, data, error );
+
 						if ( error !== null || !data.length ) {
 							reject( error );
+						} else {
+							resolve( data );
 						}
-
-						resolve( data );
 					} );
 				} ).catch( reject );
 			} else {
 				this.collection.find( { word: word } ).toArray( ( error, data ) => {
 					if ( error !== null ) {
 						reject( error );
+					} else {
+						resolve( data );
 					}
 
-					resolve( data );
 				} );
 			}
 		} );

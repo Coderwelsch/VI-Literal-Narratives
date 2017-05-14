@@ -28,7 +28,7 @@ class Database {
 	}
 
 	exists ( word ) {
-		return new Promise( ( resolve) => {
+		return new Promise( ( resolve ) => {
 			this.get( word ).then( () => {
 				resolve( true );
 			} ).catch( () => {
@@ -82,11 +82,11 @@ class Database {
 				if ( error !== null ) {
 					reject( error );
 				} else {
-                    this.db = db;
-                    this.connected = true;
-                    this.collection = this.db.collection( "documents" );
+					this.db = db;
+					this.connected = true;
+					this.collection = this.db.collection( "documents" );
 
-                    resolve();
+					resolve();
 				}
 			} );
 		} );
