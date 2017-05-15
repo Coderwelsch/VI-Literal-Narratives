@@ -1,6 +1,6 @@
 // imports
 import $ from "../../../../../Sites/plugins.coderwelsch.com/js/es6/com.coderwelsch.Query.js";
-import Text from "./text.js";
+import Data from "../../json/text-data.json";
 
 
 export default class App {
@@ -10,7 +10,7 @@ export default class App {
 
 			},
 			selectors: {
-
+				content: "#content"
 			}
 		};
 
@@ -18,27 +18,37 @@ export default class App {
 		this.selectors = this.settings.selectors;
 		this.classes = this.settings.classes;
 
-		this.text = new Text();
+		this.$text = new $( this.selectors.content );
 
 		// init
 		this.initText();
 	}
 
 	initText () {
-		console.log( this.text.wordList.length, this.text.wordDictArray.length );
+		this.createNodes();
+	}
 
-		this.text.enricheWords( ( data ) => {
-			let $dom = new $( "<div id='images'></div>" ).appendTo( "body" );
+	createNodes () {
+		let html = Data.text;
 
-			for ( let item of data ) {
-				if ( item && item.value ) {
-					$dom.append( `
-						<div class="image" style="background-image: url( '${ item.value[ 0 ].contentUrl }' );">${ item.searchString }</div>
-					` );
-				} else {
-					console.log( "ERROR" );
-				}
-			}
-		} );
+		for ( let word of Data.splittedWords ) {
+			console.log( ( new RegExp( `[ ](${word})[^(\w|<|>)]`, "gi" ) ).exec( html ) );
+
+			html = html.replace( new RegExp( `([ ]${word}[^(\w|<|>)])`, "gi" ), `<def>$1</def>` );
+		}
+		
+		this.$text.html( html );
+	}
+
+	generateHtml ( word ) {
+		let def = Data.wordDefs[ word ];
+
+		if ( def && def.data.data.wordProperties ) {
+			let item = def.data.data.wordProperties.type;
+
+			return "<def>$1</def>";
+		}
+
+		return word;
 	}
 }
