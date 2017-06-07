@@ -9,7 +9,7 @@ const
 
 
 // constants
-const RegExWordSplitting = /[^a-zA-Z_öäüÖÄÜ]+/i;
+const RegExWordSplitting = /[^a-zA-Z_öäüß]+/i;
 
 
 module.exports = class TextAnalyzer {
@@ -79,7 +79,7 @@ module.exports = class TextAnalyzer {
 					this.db.exists( word ).then( ( exists ) => {
 						wordsData.push( exists );
 						doesExists();
-					} ).catch( ( ) => {
+					} ).catch( ( error ) => {
 						wordsData.push( { exists: false, word: word } );
 						doesExists();
 					} );
@@ -102,12 +102,7 @@ module.exports = class TextAnalyzer {
 					let word = wordList.pop();
 
 					this.db.get( word ).then( ( data ) => {
-						wordsData.push( data.map( ( item ) => {
-							return {
-								word: item.word,
-								data: item
-							};
-						} ) );
+						wordsData.push( data );
 
 						get();
 					} ).catch( reject );
@@ -143,45 +138,14 @@ module.exports = class TextAnalyzer {
 			this.dudenApi.searchWordList( words, ( data ) => {
 				resolve( data );
 			}, ( word, data, current, total, error ) => {
-				if ( !error ) {
-					let similarWords = [],
-						preparedData;
-
-					for ( let item of data ) {
-						let preparedItem = TextAnalyzer.cloneObj( item );
-
-						delete preparedItem.text;
-
-						if ( item.text !== word ) {
-							similarWords.push( item.text );
-						}
-
-						// TODO: save other search results to database
-
-						if ( item.text === word && !preparedData ) {
-							preparedData = preparedItem;
-						}
-					}
-
-					similarWords = TextAnalyzer.filterDuplicates( similarWords );
-
-					if ( preparedData && !preparedData.similarWords ) {
-						preparedData.similarWords = similarWords;
-					} else {
-						preparedData = {
-							similarWords: similarWords
-						};
-					}
-
+				if ( !error && data !== null ) {
 					return new Promise( ( resolve, reject ) => {
-						this.db.set( word, preparedData ).then( () => {
+						this.db.set( word, data ).then( () => {
 							wordIndex++;
-							console.log( "[%s of %s] Added word: [%s], similar: %s", wordIndex, words.length, word, similarWords.length );
 
-							resolve( {
-								word: word,
-								data: preparedData
-							} );
+							console.log( "[%s of %s] Added word: [%s]", wordIndex, words.length, word );
+
+							resolve( data );
 						} ).catch( reject );
 					} );
 				}
@@ -213,6 +177,7 @@ module.exports = class TextAnalyzer {
 					}
 
 					Promise.all( promises ).then( ( data ) => {
+						console.log( data );
 						resolve( TextAnalyzer.flattenArray( data ) );
 					} ).catch( ( error ) => {
 						reject( error );
@@ -226,10 +191,6 @@ module.exports = class TextAnalyzer {
 		return array.reduce( ( flat, toFlatten ) => {
 			return flat.concat( Array.isArray( toFlatten ) ? TextAnalyzer.flattenArray( toFlatten ) : toFlatten );
 		}, [] );
-	}
-
-	static getNarrativeText () {
-		return NarrativeText;
 	}
 
 	static splitText ( text ) {

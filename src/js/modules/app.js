@@ -29,26 +29,28 @@ export default class App {
 	}
 
 	createNodes () {
-		let html = Data.text;
+		let html = Data.text,
+			wordDef;
 
-		for ( let word of Data.splittedWords ) {
-			console.log( ( new RegExp( `[ ](${word})[^(\w|<|>)]`, "gi" ) ).exec( html ) );
 
-			html = html.replace( new RegExp( `([ ]${word}[^(\w|<|>)])`, "gi" ), `<def>$1</def>` );
-		}
-		
+		html = html.replace( /([^\W]|[äöü\-_])+/gi, ( string ) => {
+			for ( let word of Data.splittedWords ) {
+				if ( string === word ) {
+					wordDef = this.getWordDef( word );
+
+					return `<def data-type="${ wordDef.wordProperties ? wordDef.wordProperties.type : "none" }">${ word }</def>`;
+				}
+			}
+
+			return string;
+		} );
+
 		this.$text.html( html );
 	}
 
-	generateHtml ( word ) {
-		let def = Data.wordDefs[ word ];
+	getWordDef ( word ) {
+		let data = Data.wordDefs[ word ].data.data;
 
-		if ( def && def.data.data.wordProperties ) {
-			let item = def.data.data.wordProperties.type;
-
-			return "<def>$1</def>";
-		}
-
-		return word;
+		return data;
 	}
 }

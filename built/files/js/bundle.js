@@ -63,7 +63,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 6);
+/******/ 	return __webpack_require__(__webpack_require__.s = 2);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -96,11 +96,11 @@ Object.defineProperty(exports, "__esModule", {
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }(); // imports
 
 
-var _comCoderwelschQuery = __webpack_require__(4);
+var _comCoderwelschQuery = __webpack_require__(3);
 
 var _comCoderwelschQuery2 = _interopRequireDefault(_comCoderwelschQuery);
 
-var _textData = __webpack_require__(7);
+var _textData = __webpack_require__(5);
 
 var _textData2 = _interopRequireDefault(_textData);
 
@@ -137,49 +137,52 @@ var App = function () {
 	}, {
 		key: "createNodes",
 		value: function createNodes() {
-			var html = _textData2.default.text;
+			var _this = this;
 
-			var _iteratorNormalCompletion = true;
-			var _didIteratorError = false;
-			var _iteratorError = undefined;
+			var html = _textData2.default.text,
+			    wordDef = void 0;
 
-			try {
-				for (var _iterator = _textData2.default.splittedWords[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-					var word = _step.value;
+			html = html.replace(/([^\W]|[äöü\-_])+/gi, function (string) {
+				var _iteratorNormalCompletion = true;
+				var _didIteratorError = false;
+				var _iteratorError = undefined;
 
-					console.log(new RegExp("[ ](" + word + ")[^(w|<|>)]", "gi").exec(html));
-
-					html = html.replace(new RegExp("([ ]" + word + "[^(w|<|>)])", "gi"), "<def>$1</def>");
-				}
-			} catch (err) {
-				_didIteratorError = true;
-				_iteratorError = err;
-			} finally {
 				try {
-					if (!_iteratorNormalCompletion && _iterator.return) {
-						_iterator.return();
+					for (var _iterator = _textData2.default.splittedWords[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+						var word = _step.value;
+
+						if (string === word) {
+							wordDef = _this.getWordDef(word);
+
+							return "<def data-type=\"" + (wordDef.wordProperties ? wordDef.wordProperties.type : "none") + "\">" + word + "</def>";
+						}
 					}
+				} catch (err) {
+					_didIteratorError = true;
+					_iteratorError = err;
 				} finally {
-					if (_didIteratorError) {
-						throw _iteratorError;
+					try {
+						if (!_iteratorNormalCompletion && _iterator.return) {
+							_iterator.return();
+						}
+					} finally {
+						if (_didIteratorError) {
+							throw _iteratorError;
+						}
 					}
 				}
-			}
+
+				return string;
+			});
 
 			this.$text.html(html);
 		}
 	}, {
-		key: "generateHtml",
-		value: function generateHtml(word) {
-			var def = _textData2.default.wordDefs[word];
+		key: "getWordDef",
+		value: function getWordDef(word) {
+			var data = _textData2.default.wordDefs[word].data.data;
 
-			if (def && def.data.data.wordProperties) {
-				var item = def.data.data.wordProperties.type;
-
-				return "<def>$1</def>";
-			}
-
-			return word;
+			return data;
 		}
 	}]);
 
@@ -189,9 +192,14 @@ var App = function () {
 exports.default = App;
 
 /***/ }),
-/* 2 */,
-/* 3 */,
-/* 4 */
+/* 2 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__(0);
+
+
+/***/ }),
+/* 3 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -206,7 +214,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }(); // imports
 
 
-var _comCoderwelschUtils = __webpack_require__(5);
+var _comCoderwelschUtils = __webpack_require__(4);
 
 var _comCoderwelschUtils2 = _interopRequireDefault(_comCoderwelschUtils);
 
@@ -1013,7 +1021,7 @@ var $ = function () {
 exports.default = $;
 
 /***/ }),
-/* 5 */
+/* 4 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1176,14 +1184,7 @@ var Utilities = function () {
 exports.default = Utilities;
 
 /***/ }),
-/* 6 */
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = __webpack_require__(0);
-
-
-/***/ }),
-/* 7 */
+/* 5 */
 /***/ (function(module, exports) {
 
 module.exports = {
@@ -1191,7 +1192,7 @@ module.exports = {
 		"fuhr": {
 			"word": "fuhr",
 			"data": {
-				"_id": "591899f0ce905c0816aaa255",
+				"_id": "591c1a889c23da1cd8476566",
 				"word": "fuhr",
 				"data": {
 					"description": "fahren",
@@ -1224,7 +1225,7 @@ module.exports = {
 		"Pension": {
 			"word": "Pension",
 			"data": {
-				"_id": "591899f0ce905c0816aaa257",
+				"_id": "591c1a879c23da1cd847655a",
 				"word": "Pension",
 				"data": {
 					"description": "Substantiv, feminin - 1a. Ruhestand der Beamten und Beamtinnen; 1b. Bezüge für Beamte und Beamtinnen …1c. Bezüge für Mitglieder der gesetzlichen …",
@@ -1261,7 +1262,7 @@ module.exports = {
 		"Hemd": {
 			"word": "Hemd",
 			"data": {
-				"_id": "591899f0ce905c0816aaa256",
+				"_id": "591c1a889c23da1cd847655b",
 				"word": "Hemd",
 				"data": {
 					"description": "Substantiv, Neutrum - 1a. von männlichen Personen als Oberbekleidung …1b. als Unterwäsche getragenes, über die …2. (besonders früher) über den Kopf …",
@@ -1298,7 +1299,7 @@ module.exports = {
 		"wechseln": {
 			"word": "wechseln",
 			"data": {
-				"_id": "591899f0ce905c0816aaa258",
+				"_id": "591c1a889c23da1cd847655d",
 				"word": "wechseln",
 				"data": {
 					"description": "schwaches Verb - 1a. bewusst etwas durch etwas anderes …1b. jemandem etwas zukommen lassen und …2a. in eine entsprechende Anzahl Scheine …",
@@ -1334,7 +1335,7 @@ module.exports = {
 		"Hose": {
 			"word": "Hose",
 			"data": {
-				"_id": "591899f0ce905c0816aaa259",
+				"_id": "591c1a889c23da1cd847655e",
 				"word": "Hose",
 				"data": {
 					"description": "Substantiv, feminin - 1a. Kleidungsstück, das den Körper von …1b. Schlüpfer, Unterhose; 2. in verschiedener Weise ausgebildete Muskelpartie …",
@@ -1371,7 +1372,7 @@ module.exports = {
 		"klebte": {
 			"word": "klebte",
 			"data": {
-				"_id": "591899f2ce905c0816aaa276",
+				"_id": "591c1a899c23da1cd8476573",
 				"word": "klebte",
 				"data": {
 					"similarWords": [
@@ -1402,7 +1403,7 @@ module.exports = {
 		"Beinen": {
 			"word": "Beinen",
 			"data": {
-				"_id": "591899f0ce905c0816aaa25a",
+				"_id": "591c1a899c23da1cd8476574",
 				"word": "Beinen",
 				"data": {
 					"similarWords": [
@@ -1433,7 +1434,7 @@ module.exports = {
 		"Zimmer": {
 			"word": "Zimmer",
 			"data": {
-				"_id": "591899f0ce905c0816aaa25c",
+				"_id": "591c1a889c23da1cd847655c",
 				"word": "Zimmer",
 				"data": {
 					"description": "Substantiv, Neutrum - 1. (für den Aufenthalt von Menschen …2. das neue Zimmer war sehr …",
@@ -1470,7 +1471,7 @@ module.exports = {
 		"fand": {
 			"word": "fand",
 			"data": {
-				"_id": "591899f1ce905c0816aaa25d",
+				"_id": "591c1a889c23da1cd847655f",
 				"word": "fand",
 				"data": {
 					"description": "siehe finden",
@@ -1503,7 +1504,7 @@ module.exports = {
 		"Tür": {
 			"word": "Tür",
 			"data": {
-				"_id": "591899f1ce905c0816aaa25e",
+				"_id": "591c1a889c23da1cd8476562",
 				"word": "Tür",
 				"data": {
 					"description": "Substantiv, feminin - 1a. Vorrichtung in Form einer in …1b. als Eingang o. Ä. dienende, …2a. einer Tür ähnliche, meist jedoch …",
@@ -1540,7 +1541,7 @@ module.exports = {
 		"durchgeschobenen": {
 			"word": "durchgeschobenen",
 			"data": {
-				"_id": "591899f0ce905c0816aaa25b",
+				"_id": "591c1a899c23da1cd8476572",
 				"word": "durchgeschobenen",
 				"data": {
 					"similarWords": []
@@ -1550,7 +1551,7 @@ module.exports = {
 		"Zettel": {
 			"word": "Zettel",
 			"data": {
-				"_id": "591899f1ce905c0816aaa25f",
+				"_id": "591c1a889c23da1cd8476561",
 				"word": "Zettel",
 				"data": {
 					"description": "Substantiv, maskulin - kleines, meist rechteckiges Stück Papier, besonders Notizzettel o. Ä.",
@@ -1586,7 +1587,7 @@ module.exports = {
 		"Wählen": {
 			"word": "Wählen",
 			"data": {
-				"_id": "591899f1ce905c0816aaa260",
+				"_id": "591c1a8a9c23da1cd847657b",
 				"word": "Wählen",
 				"data": {
 					"similarWords": [
@@ -1617,7 +1618,7 @@ module.exports = {
 		"unten": {
 			"word": "unten",
 			"data": {
-				"_id": "591899f1ce905c0816aaa262",
+				"_id": "591c1a889c23da1cd8476560",
 				"word": "unten",
 				"data": {
 					"description": "Adverb - 1a. an einer (absolut oder vom …1b. am unteren Ende, an der …1c. auf dem Boden, dem Grund …",
@@ -1653,7 +1654,7 @@ module.exports = {
 		"stehende": {
 			"word": "stehende",
 			"data": {
-				"_id": "591899f1ce905c0816aaa261",
+				"_id": "591c1a8a9c23da1cd847657c",
 				"word": "stehende",
 				"data": {
 					"similarWords": [
@@ -1684,7 +1685,7 @@ module.exports = {
 		"Nummer": {
 			"word": "Nummer",
 			"data": {
-				"_id": "591899f1ce905c0816aaa265",
+				"_id": "591c1a889c23da1cd8476565",
 				"word": "Nummer",
 				"data": {
 					"description": "Substantiv, feminin - 1a. Zahl, die etwas kennzeichnet, eine …1b. Ausgabe einer fortlaufend erscheinenden Zeitung, …1c. (bei Schuhen, Kleidungsstücken o. Ä.) …",
@@ -1721,7 +1722,7 @@ module.exports = {
 		"sagen": {
 			"word": "sagen",
 			"data": {
-				"_id": "591899f1ce905c0816aaa266",
+				"_id": "591c1a889c23da1cd8476564",
 				"word": "sagen",
 				"data": {
 					"description": "schwaches Verb - 1a. (Wörter, Sätze o. Ä.) artikulieren, …1b. (ein Wort, eine Wendung o. …1c. auf eine bestimmte Weise, mit …",
@@ -1757,7 +1758,7 @@ module.exports = {
 		"Operator": {
 			"word": "Operator",
 			"data": {
-				"_id": "591899f1ce905c0816aaa264",
+				"_id": "591c1a8a9c23da1cd847657d",
 				"word": "Operator",
 				"data": {
 					"description": "Substantiv, maskulin - 1a. Mittel, Verfahren, Symbol o. Ä. …1b. Rechen-, Abbildungs- oder Transformationsvorschrift, die …2a. jemand, dessen Aufgabe es ist, …",
@@ -1794,7 +1795,7 @@ module.exports = {
 		"Stichwort": {
 			"word": "Stichwort",
 			"data": {
-				"_id": "591899f1ce905c0816aaa267",
+				"_id": "591c1a889c23da1cd8476563",
 				"word": "Stichwort",
 				"data": {
 					"description": "Substantiv, Neutrum - 1a. Wort, das in einem Lexikon, …1b. einzelnes Wort eines Stichwortregisters; 2a. Wort, mit dem ein Schauspieler …",
@@ -1831,7 +1832,7 @@ module.exports = {
 		"need": {
 			"word": "need",
 			"data": {
-				"_id": "591899f1ce905c0816aaa263",
+				"_id": "591c1a899c23da1cd8476575",
 				"word": "need",
 				"data": {
 					"similarWords": [
@@ -1844,7 +1845,7 @@ module.exports = {
 		"bumerangcall": {
 			"word": "bumerangcall",
 			"data": {
-				"_id": "591899f1ce905c0816aaa268",
+				"_id": "591c1a899c23da1cd8476571",
 				"word": "bumerangcall",
 				"data": {
 					"similarWords": []
@@ -1854,7 +1855,7 @@ module.exports = {
 		"Glück": {
 			"word": "Glück",
 			"data": {
-				"_id": "591899f1ce905c0816aaa26a",
+				"_id": "591c1a889c23da1cd8476567",
 				"word": "Glück",
 				"data": {
 					"description": "Substantiv, Neutrum - 1. etwas, was Ergebnis des Zusammentreffens …2. das personifiziert gedachte Glück; Fortuna; 3a. angenehme und freudige Gemütsverfassung, in …",
@@ -1890,7 +1891,7 @@ module.exports = {
 		"duschte": {
 			"word": "duschte",
 			"data": {
-				"_id": "591899f1ce905c0816aaa269",
+				"_id": "591c1a8a9c23da1cd847657f",
 				"word": "duschte",
 				"data": {
 					"similarWords": [
@@ -1904,7 +1905,7 @@ module.exports = {
 		"zog": {
 			"word": "zog",
 			"data": {
-				"_id": "591899f1ce905c0816aaa26c",
+				"_id": "591c1a8b9c23da1cd847658d",
 				"word": "zog",
 				"data": {
 					"description": "siehe ziehen",
@@ -1936,7 +1937,7 @@ module.exports = {
 		"Jeans": {
 			"word": "Jeans",
 			"data": {
-				"_id": "591899f1ce905c0816aaa26b",
+				"_id": "591c1a899c23da1cd8476568",
 				"word": "Jeans",
 				"data": {
 					"description": "Substantiv, Neutrum - verwaschener blauer Farbton, der der Farbe der Bluejeans entspricht",
@@ -1971,7 +1972,7 @@ module.exports = {
 		"frisches": {
 			"word": "frisches",
 			"data": {
-				"_id": "591899f2ce905c0816aaa26e",
+				"_id": "591c1a8a9c23da1cd8476589",
 				"word": "frisches",
 				"data": {
 					"similarWords": [
@@ -2002,7 +2003,7 @@ module.exports = {
 		"Polohemd": {
 			"word": "Polohemd",
 			"data": {
-				"_id": "591899f1ce905c0816aaa26d",
+				"_id": "591c1a8a9c23da1cd847657e",
 				"word": "Polohemd",
 				"data": {
 					"description": "Substantiv, Neutrum - kurzärmeliges Trikothemd mit offenem Kragen",
@@ -2021,7 +2022,7 @@ module.exports = {
 		"bestellte": {
 			"word": "bestellte",
 			"data": {
-				"_id": "591899f2ce905c0816aaa26f",
+				"_id": "591c1a8a9c23da1cd847658b",
 				"word": "bestellte",
 				"data": {
 					"similarWords": [
@@ -2052,7 +2053,7 @@ module.exports = {
 		"nachmittags": {
 			"word": "nachmittags",
 			"data": {
-				"_id": "591899f4ce905c0816aaa29f",
+				"_id": "591c1a899c23da1cd847656a",
 				"word": "nachmittags",
 				"data": {
 					"description": "Adverb - am Nachmittag, zur Nachmittagszeit; während des Nachmittags",
@@ -2088,7 +2089,7 @@ module.exports = {
 		"Portier": {
 			"word": "Portier",
 			"data": {
-				"_id": "591899f2ce905c0816aaa270",
+				"_id": "591c1a899c23da1cd847656b",
 				"word": "Portier",
 				"data": {
 					"description": "Substantiv, maskulin - 1. jemand, der in einem Hotel, …2. Hausmeister",
@@ -2124,7 +2125,7 @@ module.exports = {
 		"arbeitete": {
 			"word": "arbeitete",
 			"data": {
-				"_id": "591899f2ce905c0816aaa273",
+				"_id": "591c1a899c23da1cd847656c",
 				"word": "arbeitete",
 				"data": {
 					"similarWords": [
@@ -2155,7 +2156,7 @@ module.exports = {
 		"Tee": {
 			"word": "Tee",
 			"data": {
-				"_id": "591899f5ce905c0816aaa2b9",
+				"_id": "591c1a899c23da1cd847656e",
 				"word": "Tee",
 				"data": {
 					"description": "Substantiv, Neutrum - 1. kleiner Stift aus Holz oder …2. kleine Fläche, von der aus …",
@@ -2191,7 +2192,7 @@ module.exports = {
 		"Möchten": {
 			"word": "Möchten",
 			"data": {
-				"_id": "591899f2ce905c0816aaa271",
+				"_id": "591c1a899c23da1cd847656d",
 				"word": "Möchten",
 				"data": {
 					"similarWords": [
@@ -2222,7 +2223,7 @@ module.exports = {
 		"Darjeeling": {
 			"word": "Darjeeling",
 			"data": {
-				"_id": "591899f2ce905c0816aaa272",
+				"_id": "591c1a8a9c23da1cd8476581",
 				"word": "Darjeeling",
 				"data": {
 					"description": "Substantiv, maskulin - besonders aromatischer indischer Tee",
@@ -2241,7 +2242,7 @@ module.exports = {
 		"milden": {
 			"word": "milden",
 			"data": {
-				"_id": "591899f2ce905c0816aaa275",
+				"_id": "591c1a899c23da1cd8476569",
 				"word": "milden",
 				"data": {
 					"similarWords": [
@@ -2257,7 +2258,7 @@ module.exports = {
 		"Assam": {
 			"word": "Assam",
 			"data": {
-				"_id": "591899f2ce905c0816aaa274",
+				"_id": "591c1a8a9c23da1cd8476580",
 				"word": "Assam",
 				"data": {
 					"description": "Substantiv, maskulin - Bundesstaat der Republik Indien",
@@ -2276,7 +2277,7 @@ module.exports = {
 		"bitte": {
 			"word": "bitte",
 			"data": {
-				"_id": "591899f2ce905c0816aaa277",
+				"_id": "591c1a8b9c23da1cd8476593",
 				"word": "bitte",
 				"data": {
 					"description": "Partikel - a. Höflichkeitsformel zur Unterstreichung einer Bitte, …b. Höflichkeitsformel zur Unterstreichung einer [höflichen] …c. Höflichkeitsformel als bejahende Antwort auf …",
@@ -2312,7 +2313,7 @@ module.exports = {
 		"Setzen": {
 			"word": "Setzen",
 			"data": {
-				"_id": "591899f2ce905c0816aaa278",
+				"_id": "591c1a899c23da1cd847656f",
 				"word": "Setzen",
 				"data": {
 					"similarWords": [
@@ -2343,7 +2344,7 @@ module.exports = {
 		"ruhig": {
 			"word": "ruhig",
 			"data": {
-				"_id": "591899f2ce905c0816aaa279",
+				"_id": "591c1a899c23da1cd8476570",
 				"word": "ruhig",
 				"data": {
 					"description": "Partikel - a. meinetwegen; a. drückt Gleichgültigkeit oder …b. wenn du möchtest, wenn Sie …c. unbesorgt, getrost; c. drückt eine …",
@@ -2378,7 +2379,7 @@ module.exports = {
 		"Salon": {
 			"word": "Salon",
 			"data": {
-				"_id": "591899f2ce905c0816aaa27a",
+				"_id": "591c1a8c9c23da1cd84765a6",
 				"word": "Salon",
 				"data": {
 					"description": "Substantiv, maskulin - 1. größerer, repräsentativer Raum als Empfangs- …2a. [regelmäßige] Zusammenkunft von besonders literarisch …2b. Kreis von Personen, der sich …",
@@ -2415,7 +2416,7 @@ module.exports = {
 		"bringe": {
 			"word": "bringe",
 			"data": {
-				"_id": "591899f2ce905c0816aaa27b",
+				"_id": "591c1a8a9c23da1cd847657a",
 				"word": "bringe",
 				"data": {
 					"similarWords": [
@@ -2446,7 +2447,7 @@ module.exports = {
 		"zweimal": {
 			"word": "zweimal",
 			"data": {
-				"_id": "591899f2ce905c0816aaa27d",
+				"_id": "591c1a899c23da1cd8476576",
 				"word": "zweimal",
 				"data": {
 					"description": "Zahlwort - zwei Male",
@@ -2482,7 +2483,7 @@ module.exports = {
 		"angerufen": {
 			"word": "angerufen",
 			"data": {
-				"_id": "591899f2ce905c0816aaa27c",
+				"_id": "591c1a8c9c23da1cd84765a7",
 				"word": "angerufen",
 				"data": {
 					"similarWords": [
@@ -2513,7 +2514,7 @@ module.exports = {
 		"Namen": {
 			"word": "Namen",
 			"data": {
-				"_id": "591899f2ce905c0816aaa27e",
+				"_id": "591c1a8a9c23da1cd8476579",
 				"word": "Namen",
 				"data": {
 					"description": "Substantiv, maskulin - 1. Bezeichnung, Wort, mit dem etwas …2a. kennzeichnende Benennung eines Einzelwesens, Ortes …2b. Ruf, Renommee",
@@ -2548,7 +2549,7 @@ module.exports = {
 		"genannt": {
 			"word": "genannt",
 			"data": {
-				"_id": "591899f2ce905c0816aaa27f",
+				"_id": "591c1a899c23da1cd8476577",
 				"word": "genannt",
 				"data": {
 					"description": "nennen",
@@ -2581,7 +2582,7 @@ module.exports = {
 		"Ausländer": {
 			"word": "Ausländer",
 			"data": {
-				"_id": "591899f3ce905c0816aaa293",
+				"_id": "591c1a8c9c23da1cd84765a5",
 				"word": "Ausländer",
 				"data": {
 					"description": "Substantiv, maskulin - Angehöriger eines fremden Staates; ausländischer Staatsangehöriger oder Staatenloser",
@@ -2618,7 +2619,7 @@ module.exports = {
 		"verstanden": {
 			"word": "verstanden",
 			"data": {
-				"_id": "591899f5ce905c0816aaa2ab",
+				"_id": "591c1a8c9c23da1cd84765a8",
 				"word": "verstanden",
 				"data": {
 					"similarWords": [
@@ -2649,7 +2650,7 @@ module.exports = {
 		"mal": {
 			"word": "mal",
 			"data": {
-				"_id": "591899f2ce905c0816aaa280",
+				"_id": "591c1a899c23da1cd8476578",
 				"word": "mal",
 				"data": {
 					"description": "Adverb - 1. malgenommen, multipliziert mit; 1. Ausdruck …",
@@ -2683,7 +2684,7 @@ module.exports = {
 		"anrufen": {
 			"word": "anrufen",
 			"data": {
-				"_id": "591899f4ce905c0816aaa295",
+				"_id": "591c1a8a9c23da1cd847658a",
 				"word": "anrufen",
 				"data": {
 					"description": "starkes Verb - 1. durch Rufen jemanden auf sich …2. jemanden bitten, vermittelnd, helfend o. …3. mit jemandem telefonisch Verbindung aufnehmen",
@@ -2719,7 +2720,7 @@ module.exports = {
 		"Adresse": {
 			"word": "Adresse",
 			"data": {
-				"_id": "591899f4ce905c0816aaa29c",
+				"_id": "591c1a8a9c23da1cd8476587",
 				"word": "Adresse",
 				"data": {
 					"description": "Substantiv, feminin - 1a. Angabe von jemandes Namen und …",
@@ -2756,7 +2757,7 @@ module.exports = {
 		"geben": {
 			"word": "geben",
 			"data": {
-				"_id": "591899f4ce905c0816aaa296",
+				"_id": "591c1a8a9c23da1cd8476583",
 				"word": "geben",
 				"data": {
 					"description": "starkes Verb - 1a. (durch Übergeben, Überreichen, [Hin]reichen, Aushändigen) …1b. als Geschenk, Spende in jemandes …2. zu einem bestimmten Zweck überlassen, …",
@@ -2792,7 +2793,7 @@ module.exports = {
 		"lassen": {
 			"word": "lassen",
 			"data": {
-				"_id": "591899f4ce905c0816aaa299",
+				"_id": "591c1a8a9c23da1cd8476582",
 				"word": "lassen",
 				"data": {
 					"description": "starkes Verb - 1. veranlassen, bewirken (dass etwas geschieht); 2a. zulassen, erlauben; dulden; nicht an …2b. jemandem etwas zugestehen; jemanden nicht …",
@@ -2828,7 +2829,7 @@ module.exports = {
 		"bekam": {
 			"word": "bekam",
 			"data": {
-				"_id": "591899f4ce905c0816aaa298",
+				"_id": "591c1a8c9c23da1cd84765ad",
 				"word": "bekam",
 				"data": {
 					"similarWords": [
@@ -2859,7 +2860,7 @@ module.exports = {
 		"eisigen": {
 			"word": "eisigen",
 			"data": {
-				"_id": "591899f3ce905c0816aaa28c",
+				"_id": "591c1a8b9c23da1cd8476597",
 				"word": "eisigen",
 				"data": {
 					"similarWords": [
@@ -2872,7 +2873,7 @@ module.exports = {
 		"Schreck": {
 			"word": "Schreck",
 			"data": {
-				"_id": "591899f4ce905c0816aaa297",
+				"_id": "591c1a8f9c23da1cd84765de",
 				"word": "Schreck",
 				"data": {
 					"description": "Substantiv, maskulin - heftige Gemütserschütterung, die meist durch das plötzliche Erkennen einer [vermeintlichen] Gefahr, Bedrohung ausgelöst wird",
@@ -2909,7 +2910,7 @@ module.exports = {
 		"sofort": {
 			"word": "sofort",
 			"data": {
-				"_id": "591899f4ce905c0816aaa29a",
+				"_id": "591c1a8a9c23da1cd8476588",
 				"word": "sofort",
 				"data": {
 					"description": "Adverb - 1a. unmittelbar nach einem bestimmten Geschehen; 1b. ohne zeitliche Verzögerung; unverzüglich; 2. innerhalb kürzester Frist",
@@ -2945,7 +2946,7 @@ module.exports = {
 		"Bulgare": {
 			"word": "Bulgare",
 			"data": {
-				"_id": "591899f3ce905c0816aaa282",
+				"_id": "591c1a8b9c23da1cd8476596",
 				"word": "Bulgare",
 				"data": {
 					"description": "Substantiv, maskulin - Einwohnerbezeichnung",
@@ -2964,7 +2965,7 @@ module.exports = {
 		"einfiel": {
 			"word": "einfiel",
 			"data": {
-				"_id": "591899f3ce905c0816aaa281",
+				"_id": "591c1a8b9c23da1cd8476595",
 				"word": "einfiel",
 				"data": {
 					"similarWords": []
@@ -2974,7 +2975,7 @@ module.exports = {
 		"beiger": {
 			"word": "beiger",
 			"data": {
-				"_id": "591899f5ce905c0816aaa2a9",
+				"_id": "591c1a8b9c23da1cd8476598",
 				"word": "beiger",
 				"data": {
 					"similarWords": [
@@ -2986,7 +2987,7 @@ module.exports = {
 		"Gorilla": {
 			"word": "Gorilla",
 			"data": {
-				"_id": "591899f3ce905c0816aaa283",
+				"_id": "591c1a8a9c23da1cd8476584",
 				"word": "Gorilla",
 				"data": {
 					"description": "Substantiv, maskulin - 1. (in den Wäldern Äquatorialafrikas lebender) …2. Leibwächter",
@@ -3012,7 +3013,7 @@ module.exports = {
 		"Hören": {
 			"word": "Hören",
 			"data": {
-				"_id": "591899f4ce905c0816aaa29d",
+				"_id": "591c1a8c9c23da1cd84765ae",
 				"word": "Hören",
 				"data": {
 					"similarWords": [
@@ -3043,7 +3044,7 @@ module.exports = {
 		"falls": {
 			"word": "falls",
 			"data": {
-				"_id": "591899f3ce905c0816aaa284",
+				"_id": "591c1a8a9c23da1cd8476585",
 				"word": "falls",
 				"data": {
 					"description": "Konjunktion - im Falle, für den Fall, unter der Voraussetzung, dass; wenn",
@@ -3079,7 +3080,7 @@ module.exports = {
 		"Fall": {
 			"word": "Fall",
 			"data": {
-				"_id": "591899f3ce905c0816aaa285",
+				"_id": "591c1a8a9c23da1cd8476586",
 				"word": "Fall",
 				"data": {
 					"description": "Substantiv, maskulin - 1a. das Fallen; 1b. das Fallen, Hinfallen; Sturz; 2a. etwas, womit man rechnen muss",
@@ -3115,7 +3116,7 @@ module.exports = {
 		"Privatadresse": {
 			"word": "Privatadresse",
 			"data": {
-				"_id": "591899f3ce905c0816aaa286",
+				"_id": "591c1a8c9c23da1cd84765a9",
 				"word": "Privatadresse",
 				"data": {
 					"description": "Substantiv, feminin - private, nicht dienstliche Adresse",
@@ -3132,7 +3133,7 @@ module.exports = {
 		"Klar": {
 			"word": "Klar",
 			"data": {
-				"_id": "591899face905c0816aaa315",
+				"_id": "591c1a8d9c23da1cd84765c0",
 				"word": "Klar",
 				"data": {
 					"similarWords": [
@@ -3162,7 +3163,7 @@ module.exports = {
 		"Anlageberater": {
 			"word": "Anlageberater",
 			"data": {
-				"_id": "591899f3ce905c0816aaa287",
+				"_id": "591c1a8c9c23da1cd84765ab",
 				"word": "Anlageberater",
 				"data": {
 					"description": "Substantiv, maskulin - Berufsbezeichnung; jemand, der bei Anlagen berät",
@@ -3181,7 +3182,7 @@ module.exports = {
 		"fragte": {
 			"word": "fragte",
 			"data": {
-				"_id": "591899f3ce905c0816aaa28e",
+				"_id": "591c1a8b9c23da1cd847658e",
 				"word": "fragte",
 				"data": {
 					"similarWords": [
@@ -3212,7 +3213,7 @@ module.exports = {
 		"Ähnliches": {
 			"word": "Ähnliches",
 			"data": {
-				"_id": "591899f3ce905c0816aaa28d",
+				"_id": "591c1a8d9c23da1cd84765bf",
 				"word": "Ähnliches",
 				"data": {
 					"similarWords": [
@@ -3243,7 +3244,7 @@ module.exports = {
 		"morgens": {
 			"word": "morgens",
 			"data": {
-				"_id": "591899f3ce905c0816aaa28f",
+				"_id": "591c1a8b9c23da1cd847658c",
 				"word": "morgens",
 				"data": {
 					"description": "Adverb - zur Zeit des Morgens; am Morgen, jeden Morgen",
@@ -3279,7 +3280,7 @@ module.exports = {
 		"Frühstücksraum": {
 			"word": "Frühstücksraum",
 			"data": {
-				"_id": "591899f3ce905c0816aaa288",
+				"_id": "591c1a8c9c23da1cd84765af",
 				"word": "Frühstücksraum",
 				"data": {
 					"description": "Substantiv, maskulin - Raum in einem Hotel o. Ä., in dem das Frühstück serviert wird",
@@ -3296,7 +3297,7 @@ module.exports = {
 		"hohe": {
 			"word": "hohe",
 			"data": {
-				"_id": "591899f3ce905c0816aaa290",
+				"_id": "591c1a8f9c23da1cd84765e0",
 				"word": "hohe",
 				"data": {
 					"similarWords": [
@@ -3327,7 +3328,7 @@ module.exports = {
 		"Flügeltür": {
 			"word": "Flügeltür",
 			"data": {
-				"_id": "591899f3ce905c0816aaa289",
+				"_id": "591c1a8d9c23da1cd84765c2",
 				"word": "Flügeltür",
 				"data": {
 					"description": "Substantiv, feminin - Tür mit zwei Flügeln",
@@ -3346,7 +3347,7 @@ module.exports = {
 		"Balkon": {
 			"word": "Balkon",
 			"data": {
-				"_id": "591899f3ce905c0816aaa291",
+				"_id": "591c1a8b9c23da1cd847658f",
 				"word": "Balkon",
 				"data": {
 					"description": "Substantiv, maskulin - 1. vom Wohnungsinnern betretbarer offener Vorbau, …2. stark erhöhter Teil des Zuschauerraums …",
@@ -3383,7 +3384,7 @@ module.exports = {
 		"stand": {
 			"word": "stand",
 			"data": {
-				"_id": "591899f5ce905c0816aaa2b3",
+				"_id": "591c1a8b9c23da1cd8476590",
 				"word": "stand",
 				"data": {
 					"description": "stehen",
@@ -3412,23 +3413,24 @@ module.exports = {
 				}
 			}
 		},
-		"Stra": {
-			"word": "Stra",
+		"Straße": {
+			"word": "Straße",
 			"data": {
-				"_id": "591899f3ce905c0816aaa292",
-				"word": "Stra",
+				"_id": "591c1a8b9c23da1cd8476591",
+				"word": "Straße",
 				"data": {
+					"description": "Substantiv, feminin - 1. (besonders in Städten, Ortschaften gewöhnlich …2. Menschen, die in einer Straße …3. Meerenge",
+					"wordProperties": {
+						"type": "Substantiv",
+						"genus": "feminin",
+						"definition": "1. (besonders in Städten, Ortschaften gewöhnlich …2. Menschen, die in einer Straße …3. Meerenge"
+					},
+					"definitionUrl": "http://www.duden.de/rechtschreibung/Strasze",
 					"similarWords": [
-						"strack",
-						"stramm",
-						"straff",
-						"Straus",
-						"Strahl",
-						"Strang",
-						"Strak",
-						"Strand",
-						"Strass",
-						"Straps",
+						"Mont-Cenis-Straße",
+						"Sankt-Blasien-Straße",
+						"Straße-Schiene-Verkehr",
+						"Meeresstraße",
 						"Straßenbahn",
 						"Straßenbild",
 						"Straßenkind",
@@ -3438,7 +3440,12 @@ module.exports = {
 						"Straßenbord",
 						"Straßenzoll",
 						"Straßenecke",
-						"Straßenraub"
+						"Straßenraub",
+						"Straßenzug",
+						"Straßendamm",
+						"Straßenbau",
+						"Straßenrand",
+						"Straßenkot"
 					]
 				}
 			}
@@ -3446,7 +3453,7 @@ module.exports = {
 		"Stimmen": {
 			"word": "Stimmen",
 			"data": {
-				"_id": "591899f5ce905c0816aaa2b1",
+				"_id": "591c1a8e9c23da1cd84765ce",
 				"word": "Stimmen",
 				"data": {
 					"similarWords": [
@@ -3477,7 +3484,7 @@ module.exports = {
 		"Autolärm": {
 			"word": "Autolärm",
 			"data": {
-				"_id": "591899f5ce905c0816aaa2ac",
+				"_id": "591c1a8d9c23da1cd84765c4",
 				"word": "Autolärm",
 				"data": {
 					"similarWords": []
@@ -3487,7 +3494,7 @@ module.exports = {
 		"hören": {
 			"word": "hören",
 			"data": {
-				"_id": "591899f5ce905c0816aaa2b4",
+				"_id": "591c1a8b9c23da1cd8476592",
 				"word": "hören",
 				"data": {
 					"description": "schwaches Verb - 1a. aufgrund der Beschaffenheit seines Gehörs …1b. mit dem Gehör registrieren, akustisch …2a. (eine Darbietung o. Ä.) durch …",
@@ -3523,7 +3530,7 @@ module.exports = {
 		"Sofa": {
 			"word": "Sofa",
 			"data": {
-				"_id": "591899f5ce905c0816aaa2ae",
+				"_id": "591c1a8b9c23da1cd8476594",
 				"word": "Sofa",
 				"data": {
 					"description": "Substantiv, Neutrum - gepolstertes Sitzmöbel mit Rückenlehne und Armlehnen, dessen Sitzfläche für mehrere Personen Platz bietet",
@@ -3560,17 +3567,49 @@ module.exports = {
 		"Lesetisch": {
 			"word": "Lesetisch",
 			"data": {
-				"_id": "591899f4ce905c0816aaa29e",
+				"_id": "591c1a979c23da1cd8476689",
 				"word": "Lesetisch",
 				"data": {
 					"similarWords": []
 				}
 			}
 		},
+		"saß": {
+			"word": "saß",
+			"data": {
+				"_id": "591c1a8b9c23da1cd8476599",
+				"word": "saß",
+				"data": {
+					"description": "siehe sitzen",
+					"wordProperties": {},
+					"definitionUrl": "http://www.duden.de/rechtschreibung/sasz",
+					"similarWords": [
+						"Sass",
+						"Sassnitz",
+						"Sasse",
+						"Elsass",
+						"Freisass",
+						"Kotsass",
+						"Sassolin",
+						"Sassafras",
+						"Sassanide, fachsprachlich auch Sasanide",
+						"Hintersass",
+						"sassanidisch, fachsprachlich auch sasanidisch",
+						"Sassafrasöl",
+						"Sassaparille",
+						"elsass-lothringisch",
+						"Elsass-Lothringen",
+						"Sassafrasbaum",
+						"Hintersäss",
+						"Freisasse"
+					]
+				}
+			}
+		},
 		"verknitterten": {
 			"word": "verknitterten",
 			"data": {
-				"_id": "591899f5ce905c0816aaa2ad",
+				"_id": "591c1a8e9c23da1cd84765c6",
 				"word": "verknitterten",
 				"data": {
 					"similarWords": []
@@ -3580,7 +3619,7 @@ module.exports = {
 		"schwarzen": {
 			"word": "schwarzen",
 			"data": {
-				"_id": "591899f3ce905c0816aaa294",
+				"_id": "591c1a8f9c23da1cd84765df",
 				"word": "schwarzen",
 				"data": {
 					"similarWords": [
@@ -3611,7 +3650,7 @@ module.exports = {
 		"Leinenanzug": {
 			"word": "Leinenanzug",
 			"data": {
-				"_id": "591899f3ce905c0816aaa28a",
+				"_id": "591c1a8e9c23da1cd84765c8",
 				"word": "Leinenanzug",
 				"data": {
 					"similarWords": []
@@ -3621,7 +3660,7 @@ module.exports = {
 		"blätterte": {
 			"word": "blätterte",
 			"data": {
-				"_id": "591899f3ce905c0816aaa28b",
+				"_id": "591c1a8e9c23da1cd84765cc",
 				"word": "blätterte",
 				"data": {
 					"similarWords": [
@@ -3635,7 +3674,7 @@ module.exports = {
 		"Buch": {
 			"word": "Buch",
 			"data": {
-				"_id": "591899f5ce905c0816aaa2a8",
+				"_id": "591c1a8b9c23da1cd847659a",
 				"word": "Buch",
 				"data": {
 					"description": "Substantiv, Neutrum - 1a. größeres, gebundenes Druckwerk; Band; 1b. in Buchform veröffentlichter literarischer, wissenschaftlicher …1c. Teil eines gegliederten [literarischen] Werkes",
@@ -3672,7 +3711,7 @@ module.exports = {
 		"Christo": {
 			"word": "Christo",
 			"data": {
-				"_id": "591899f4ce905c0816aaa29b",
+				"_id": "591c1a909c23da1cd84765ef",
 				"word": "Christo",
 				"data": {
 					"similarWords": [
@@ -3703,7 +3742,7 @@ module.exports = {
 		"Jeanne": {
 			"word": "Jeanne",
 			"data": {
-				"_id": "591899f5ce905c0816aaa2af",
+				"_id": "591c1a8e9c23da1cd84765c7",
 				"word": "Jeanne",
 				"data": {
 					"description": "Eigenname - weiblicher Vorname",
@@ -3722,7 +3761,7 @@ module.exports = {
 		"Claude": {
 			"word": "Claude",
 			"data": {
-				"_id": "591899f5ce905c0816aaa2b0",
+				"_id": "591c1a8e9c23da1cd84765cb",
 				"word": "Claude",
 				"data": {
 					"similarWords": [
@@ -3735,7 +3774,7 @@ module.exports = {
 		"Verhüllung": {
 			"word": "Verhüllung",
 			"data": {
-				"_id": "591899f5ce905c0816aaa2b7",
+				"_id": "591c1a8f9c23da1cd84765dc",
 				"word": "Verhüllung",
 				"data": {
 					"description": "Substantiv, feminin - das Verhüllen; das Verhülltwerden",
@@ -3759,7 +3798,7 @@ module.exports = {
 		"herausgebracht": {
 			"word": "herausgebracht",
 			"data": {
-				"_id": "591899f5ce905c0816aaa2b5",
+				"_id": "591c1a8f9c23da1cd84765e1",
 				"word": "herausgebracht",
 				"data": {
 					"similarWords": [
@@ -3779,7 +3818,7 @@ module.exports = {
 		"Reichstag": {
 			"word": "Reichstag",
 			"data": {
-				"_id": "591899f4ce905c0816aaa2a0",
+				"_id": "591c1a8b9c23da1cd847659b",
 				"word": "Reichstag",
 				"data": {
 					"description": "Substantiv, maskulin - 1a. im Deutschen Reich bis 1806 …1b. Vertretung der Reichsstände gegenüber dem …2a. Volksvertretung im Norddeutschen Bund von …",
@@ -3813,7 +3852,7 @@ module.exports = {
 		"verrücktes": {
 			"word": "verrücktes",
 			"data": {
-				"_id": "591899f4ce905c0816aaa2a1",
+				"_id": "591c1a939c23da1cd847662c",
 				"word": "verrücktes",
 				"data": {
 					"similarWords": [
@@ -3844,7 +3883,7 @@ module.exports = {
 		"Unternehmen": {
 			"word": "Unternehmen",
 			"data": {
-				"_id": "591899f4ce905c0816aaa2a2",
+				"_id": "591c1a8c9c23da1cd84765a2",
 				"word": "Unternehmen",
 				"data": {
 					"description": "Substantiv, Neutrum - 1. etwas, was unternommen wird; Vorhaben; 2. [aus mehreren Werken, Filialen o. …",
@@ -3880,7 +3919,7 @@ module.exports = {
 		"einfach": {
 			"word": "einfach",
 			"data": {
-				"_id": "591899f4ce905c0816aaa2a4",
+				"_id": "591c1a8c9c23da1cd847659e",
 				"word": "einfach",
 				"data": {
 					"description": "Adjektiv - 1. nur einmal gemacht, gefertigt; nicht …2a. leicht verständlich, durchführbar; ohne Mühe …2b. leicht einsehbar; einleuchtend, eindeutig",
@@ -3915,7 +3954,7 @@ module.exports = {
 		"verrückt": {
 			"word": "verrückt",
 			"data": {
-				"_id": "591899f4ce905c0816aaa2a3",
+				"_id": "591c1a8b9c23da1cd847659c",
 				"word": "verrückt",
 				"data": {
 					"description": "Adjektiv - 1. krankhaft wirr im Denken und …2. auf absonderliche, auffällige Weise ungewöhnlich, …3. über die Maßen, außerordentlich, sehr",
@@ -3951,7 +3990,7 @@ module.exports = {
 		"gefällt": {
 			"word": "gefällt",
 			"data": {
-				"_id": "591899f6ce905c0816aaa2bf",
+				"_id": "591c1a8c9c23da1cd847659f",
 				"word": "gefällt",
 				"data": {
 					"similarWords": [
@@ -3982,7 +4021,7 @@ module.exports = {
 		"sagte": {
 			"word": "sagte",
 			"data": {
-				"_id": "591899f5ce905c0816aaa2b2",
+				"_id": "591c1a8c9c23da1cd84765a1",
 				"word": "sagte",
 				"data": {
 					"similarWords": [
@@ -4013,7 +4052,7 @@ module.exports = {
 		"überzeugt": {
 			"word": "überzeugt",
 			"data": {
-				"_id": "591899f4ce905c0816aaa2a6",
+				"_id": "591c1a8c9c23da1cd84765a4",
 				"word": "überzeugt",
 				"data": {
 					"description": "Adjektiv - fest an etwas Bestimmtes glaubend",
@@ -4049,7 +4088,7 @@ module.exports = {
 		"verändert": {
 			"word": "verändert",
 			"data": {
-				"_id": "591899f4ce905c0816aaa2a5",
+				"_id": "591c1a8c9c23da1cd84765a0",
 				"word": "verändert",
 				"data": {
 					"similarWords": [
@@ -4080,7 +4119,7 @@ module.exports = {
 		"Geheimnis": {
 			"word": "Geheimnis",
 			"data": {
-				"_id": "591899f6ce905c0816aaa2bd",
+				"_id": "591c1a8c9c23da1cd847659d",
 				"word": "Geheimnis",
 				"data": {
 					"description": "Substantiv, Neutrum - 1a. etwas, was geheim bleiben soll; 1b. etwas, was nur Eingeweihten bekannt …2. etwas Unerforschtes oder nicht Erforschbares",
@@ -4117,7 +4156,7 @@ module.exports = {
 		"liegt": {
 			"word": "liegt",
 			"data": {
-				"_id": "591899f5ce905c0816aaa2aa",
+				"_id": "591c1a8c9c23da1cd84765a3",
 				"word": "liegt",
 				"data": {
 					"similarWords": [
@@ -4148,7 +4187,7 @@ module.exports = {
 		"Kunstkritiker": {
 			"word": "Kunstkritiker",
 			"data": {
-				"_id": "591899f4ce905c0816aaa2a7",
+				"_id": "591c1a8c9c23da1cd84765aa",
 				"word": "Kunstkritiker",
 				"data": {
 					"description": "Substantiv, maskulin - auf dem Gebiet der Kunstkritik tätiger Publizist",
@@ -4168,7 +4207,7 @@ module.exports = {
 		"aufgefallen": {
 			"word": "aufgefallen",
 			"data": {
-				"_id": "591899f6ce905c0816aaa2be",
+				"_id": "591c1a8c9c23da1cd84765ac",
 				"word": "aufgefallen",
 				"data": {
 					"similarWords": [
@@ -4186,7 +4225,7 @@ module.exports = {
 		"Juni": {
 			"word": "Juni",
 			"data": {
-				"_id": "591899f5ce905c0816aaa2b8",
+				"_id": "591c1a929c23da1cd847661f",
 				"word": "Juni",
 				"data": {
 					"description": "Substantiv, maskulin - sechster Monat des Jahres",
@@ -4214,8 +4253,8 @@ module.exports = {
 						"Juniorpartner",
 						"Juniorchefin",
 						"A-Junioren-Bundesliga",
-						"Juno",
-						"Brachmonat"
+						"Juniorpartnerin",
+						"Juniorenmeisterin"
 					]
 				}
 			}
@@ -4223,7 +4262,7 @@ module.exports = {
 		"vollendet": {
 			"word": "vollendet",
 			"data": {
-				"_id": "591899f5ce905c0816aaa2b6",
+				"_id": "591c1a8d9c23da1cd84765b1",
 				"word": "vollendet",
 				"data": {
 					"description": "Adjektiv - vollkommen, tadellos, unübertrefflich",
@@ -4259,7 +4298,7 @@ module.exports = {
 		"Mittsommernacht": {
 			"word": "Mittsommernacht",
 			"data": {
-				"_id": "591899f5ce905c0816aaa2bb",
+				"_id": "591c1a8d9c23da1cd84765c3",
 				"word": "Mittsommernacht",
 				"data": {
 					"description": "Substantiv, feminin - 1. Nacht im Mittsommer; 2. Nacht der Sommersonnenwende",
@@ -4278,7 +4317,7 @@ module.exports = {
 		"kunterbunt": {
 			"word": "kunterbunt",
 			"data": {
-				"_id": "591899f6ce905c0816aaa2c5",
+				"_id": "591c1a8d9c23da1cd84765b9",
 				"word": "kunterbunt",
 				"data": {
 					"description": "Adjektiv - a. bunt, vielfarbig; b. abwechslungsreich, bunt gemischt; c. ungeordnet",
@@ -4314,7 +4353,7 @@ module.exports = {
 		"zugeht": {
 			"word": "zugeht",
 			"data": {
-				"_id": "591899f5ce905c0816aaa2ba",
+				"_id": "591c1a8e9c23da1cd84765ca",
 				"word": "zugeht",
 				"data": {
 					"similarWords": [
@@ -4326,7 +4365,7 @@ module.exports = {
 		"Verwechslungen": {
 			"word": "Verwechslungen",
 			"data": {
-				"_id": "591899f5ce905c0816aaa2bc",
+				"_id": "591c1a909c23da1cd84765f3",
 				"word": "Verwechslungen",
 				"data": {
 					"similarWords": [
@@ -4340,7 +4379,7 @@ module.exports = {
 		"Verkleidungen": {
 			"word": "Verkleidungen",
 			"data": {
-				"_id": "591899f6ce905c0816aaa2c0",
+				"_id": "591c1a8e9c23da1cd84765c9",
 				"word": "Verkleidungen",
 				"data": {
 					"similarWords": [
@@ -4353,7 +4392,7 @@ module.exports = {
 		"Vertauschungen": {
 			"word": "Vertauschungen",
 			"data": {
-				"_id": "591899f6ce905c0816aaa2c1",
+				"_id": "591c1a8e9c23da1cd84765c5",
 				"word": "Vertauschungen",
 				"data": {
 					"similarWords": [
@@ -4365,7 +4404,7 @@ module.exports = {
 		"sozusagen": {
 			"word": "sozusagen",
 			"data": {
-				"_id": "591899f6ce905c0816aaa2c6",
+				"_id": "591c1a8d9c23da1cd84765b2",
 				"word": "sozusagen",
 				"data": {
 					"description": "Adverb - 1. wie man es ausdrücken könnte; …2. quasi, ungefähr",
@@ -4390,7 +4429,7 @@ module.exports = {
 		"Tagesordnung": {
 			"word": "Tagesordnung",
 			"data": {
-				"_id": "591899f6ce905c0816aaa2c7",
+				"_id": "591c1a909c23da1cd84765f8",
 				"word": "Tagesordnung",
 				"data": {
 					"description": "Substantiv, feminin - Programm einer Sitzung",
@@ -4426,7 +4465,7 @@ module.exports = {
 		"gehören": {
 			"word": "gehören",
 			"data": {
-				"_id": "591899f6ce905c0816aaa2cc",
+				"_id": "591c1a8c9c23da1cd84765b0",
 				"word": "gehören",
 				"data": {
 					"description": "schwaches Verb - 1. jemandes Besitz, jemandes Eigentum sein; 2. Glied oder Teil eines Ganzen …3. (an einer bestimmten Stelle passend) …",
@@ -4439,9 +4478,9 @@ module.exports = {
 						"hierher gehörend, hierhergehörend",
 						"zugehören",
 						"gebühren",
+						"innewohnen",
 						"Anstand",
 						"Pertinenz",
-						"innewohnen",
 						"zusammengehören",
 						"Sub",
 						"Handelskonzern",
@@ -4450,11 +4489,11 @@ module.exports = {
 						"gehörig",
 						"irregulär",
 						"impertinent",
-						"Themenbereich",
-						"Partenreederei",
 						"ziemen",
 						"zustehen",
-						"geziemen"
+						"geziemen",
+						"angehören",
+						"einwohnen"
 					]
 				}
 			}
@@ -4462,7 +4501,7 @@ module.exports = {
 		"ästhetischste": {
 			"word": "ästhetischste",
 			"data": {
-				"_id": "591899f6ce905c0816aaa2c2",
+				"_id": "591c1a8f9c23da1cd84765e2",
 				"word": "ästhetischste",
 				"data": {
 					"similarWords": []
@@ -4472,7 +4511,7 @@ module.exports = {
 		"Nacht": {
 			"word": "Nacht",
 			"data": {
-				"_id": "591899f6ce905c0816aaa2cd",
+				"_id": "591c1a8d9c23da1cd84765ba",
 				"word": "Nacht",
 				"data": {
 					"description": "Substantiv, feminin - Zeitraum etwa zwischen Sonnenuntergang und Sonnenaufgang, zwischen Einbruch der Dunkelheit und Beginn der Morgendämmerung",
@@ -4509,7 +4548,7 @@ module.exports = {
 		"Jahres": {
 			"word": "Jahres",
 			"data": {
-				"_id": "591899f7ce905c0816aaa2e1",
+				"_id": "591c1a8d9c23da1cd84765bb",
 				"word": "Jahres",
 				"data": {
 					"similarWords": [
@@ -4540,7 +4579,7 @@ module.exports = {
 		"Dinge": {
 			"word": "Dinge",
 			"data": {
-				"_id": "591899f8ce905c0816aaa2ee",
+				"_id": "591c1a8d9c23da1cd84765b5",
 				"word": "Dinge",
 				"data": {
 					"similarWords": [
@@ -4571,7 +4610,7 @@ module.exports = {
 		"zeigen": {
 			"word": "zeigen",
 			"data": {
-				"_id": "591899f7ce905c0816aaa2e0",
+				"_id": "591c1a8d9c23da1cd84765b4",
 				"word": "zeigen",
 				"data": {
 					"description": "schwaches Verb - 1. mit dem Finger, Arm eine …2a. jemandem etwas mit Hinweisen, Erläuterungen, …2b. jemanden etwas ansehen, betrachten lassen; …",
@@ -4607,7 +4646,7 @@ module.exports = {
 		"Seite": {
 			"word": "Seite",
 			"data": {
-				"_id": "591899f6ce905c0816aaa2c8",
+				"_id": "591c1a8d9c23da1cd84765bc",
 				"word": "Seite",
 				"data": {
 					"description": "Substantiv, feminin - 1a. eine von mehreren ebenen Flächen, …1b. linke oder rechte, vordere oder …1c. rechter oder linker flächiger Teil …",
@@ -4644,7 +4683,7 @@ module.exports = {
 		"Fräulein": {
 			"word": "Fräulein",
 			"data": {
-				"_id": "591899f7ce905c0816aaa2e2",
+				"_id": "591c1a8d9c23da1cd84765b3",
 				"word": "Fräulein",
 				"data": {
 					"description": "Substantiv, Neutrum - 1. kinderlose, ledige [junge] Frau; 2a. titelähnliche, auch als Anrede verwendete …2b. als Zusatz bei Verwandtschaftsbezeichnungen",
@@ -4676,7 +4715,7 @@ module.exports = {
 		"Spinnweb": {
 			"word": "Spinnweb",
 			"data": {
-				"_id": "591899f9ce905c0816aaa302",
+				"_id": "591c1a929c23da1cd8476623",
 				"word": "Spinnweb",
 				"data": {
 					"description": "Substantiv, Neutrum - Spinnwebe",
@@ -4699,7 +4738,7 @@ module.exports = {
 		"Frau": {
 			"word": "Frau",
 			"data": {
-				"_id": "591899f9ce905c0816aaa2fc",
+				"_id": "591c1a8d9c23da1cd84765b6",
 				"word": "Frau",
 				"data": {
 					"description": "Substantiv, feminin - 1. erwachsene Person weiblichen Geschlechts; 2. hebt weniger die gesetzmäßige Bindung …3. Hausherrin, Dame",
@@ -4736,7 +4775,7 @@ module.exports = {
 		"Bohnenblüte": {
 			"word": "Bohnenblüte",
 			"data": {
-				"_id": "591899f7ce905c0816aaa2de",
+				"_id": "591c1a8e9c23da1cd84765cd",
 				"word": "Bohnenblüte",
 				"data": {
 					"description": "Substantiv, feminin - Blüte der Bohne",
@@ -4750,33 +4789,38 @@ module.exports = {
 				}
 			}
 		},
-		"grü": {
-			"word": "grü",
+		"grüßen": {
+			"word": "grüßen",
 			"data": {
-				"_id": "591899f6ce905c0816aaa2c9",
-				"word": "grü",
+				"_id": "591c1a8d9c23da1cd84765bd",
+				"word": "grüßen",
 				"data": {
+					"description": "schwaches Verb - 1. mit einem Gruß auf jemanden …2. jemandem einen Gruß zusenden; Grüße …",
+					"wordProperties": {
+						"type": "schwaches",
+						"definition": "1. mit einem Gruß auf jemanden …2. jemandem einen Gruß zusenden; Grüße …"
+					},
+					"definitionUrl": "http://www.duden.de/rechtschreibung/grueszen",
 					"similarWords": [
-						"grün",
-						"Grün",
-						"Grüsch",
-						"grüßen",
-						"grübeln",
-						"Grübelei",
-						"Begrüßungsrede",
-						"Begrüßungsabend",
-						"Begrüßungstrunk",
-						"Grünenvorsitzender",
-						"Grünenfraktion",
-						"Begrüßungskuss",
-						"Begrüßungsgeld",
-						"Grünenvorsitzende",
-						"vergrübelt",
-						"Grünewald",
-						"Eingrünung",
-						"Begrünung",
-						"begrüßen",
-						"nachgrübeln"
+						"ergebenst",
+						"salutieren",
+						"zunicken",
+						"grußlos",
+						"Gruß",
+						"gruscheln",
+						"MfG",
+						"hochachtungsvoll",
+						"verneigen",
+						"verbeugen",
+						"ihre",
+						"herübergrüßen",
+						"Grußpflicht",
+						"Grußbekanntschaft",
+						"ihrige",
+						"ehrerbietig",
+						"respektvoll",
+						"zutrinken",
+						"nicken"
 					]
 				}
 			}
@@ -4784,7 +4828,7 @@ module.exports = {
 		"treffen": {
 			"word": "treffen",
 			"data": {
-				"_id": "591899face905c0816aaa317",
+				"_id": "591c1a8d9c23da1cd84765b7",
 				"word": "treffen",
 				"data": {
 					"description": "starkes Verb - 1a. (von einem Geschoss, einem Schuss, …1b. (mit einem Schlag, Stoß, Wurf, …2a. jemandem Bekannten zufällig begegnen",
@@ -4820,7 +4864,7 @@ module.exports = {
 		"Reggaekonzert": {
 			"word": "Reggaekonzert",
 			"data": {
-				"_id": "591899f6ce905c0816aaa2c3",
+				"_id": "591c1a909c23da1cd84765f1",
 				"word": "Reggaekonzert",
 				"data": {
 					"similarWords": []
@@ -4830,7 +4874,7 @@ module.exports = {
 		"anhören": {
 			"word": "anhören",
 			"data": {
-				"_id": "591899f6ce905c0816aaa2ca",
+				"_id": "591c1a909c23da1cd84765f7",
 				"word": "anhören",
 				"data": {
 					"description": "schwaches Verb - 1a. bereitwillig, aufmerksam zuhören, was jemand …1b. [etwas] aufmerksam, bewusst bis zu …2. etwas unbeabsichtigt, unfreiwillig hören, mithören",
@@ -4866,7 +4910,7 @@ module.exports = {
 		"Augenblick": {
 			"word": "Augenblick",
 			"data": {
-				"_id": "591899face905c0816aaa318",
+				"_id": "591c1a8d9c23da1cd84765be",
 				"word": "Augenblick",
 				"data": {
 					"description": "Substantiv, maskulin - Zeitraum von sehr kurzer Dauer, Moment",
@@ -4903,7 +4947,7 @@ module.exports = {
 		"überlegte": {
 			"word": "überlegte",
 			"data": {
-				"_id": "591899f8ce905c0816aaa2f0",
+				"_id": "591c1a939c23da1cd847662f",
 				"word": "überlegte",
 				"data": {
 					"similarWords": [
@@ -4934,7 +4978,7 @@ module.exports = {
 		"getroffen": {
 			"word": "getroffen",
 			"data": {
-				"_id": "591899face905c0816aaa311",
+				"_id": "591c1a8d9c23da1cd84765b8",
 				"word": "getroffen",
 				"data": {
 					"description": "siehe treffen",
@@ -4966,7 +5010,7 @@ module.exports = {
 		"Bar": {
 			"word": "Bar",
 			"data": {
-				"_id": "591899f7ce905c0816aaa2df",
+				"_id": "591c1a939c23da1cd8476638",
 				"word": "Bar",
 				"data": {
 					"description": "Substantiv, Neutrum - Zeichen: bar [in der Meteorologie nur: b]; alte Maßeinheit des [Luft]drucks",
@@ -4998,7 +5042,7 @@ module.exports = {
 		"spielt": {
 			"word": "spielt",
 			"data": {
-				"_id": "591899f6ce905c0816aaa2cb",
+				"_id": "591c1a939c23da1cd847663b",
 				"word": "spielt",
 				"data": {
 					"similarWords": [
@@ -5029,7 +5073,7 @@ module.exports = {
 		"Band": {
 			"word": "Band",
 			"data": {
-				"_id": "591899f8ce905c0816aaa2f3",
+				"_id": "591c1a8e9c23da1cd84765d1",
 				"word": "Band",
 				"data": {
 					"description": "Substantiv, Neutrum - 1. längerer, schmaler [Gewebe]streifen zum Schmuck, …",
@@ -5064,7 +5108,7 @@ module.exports = {
 		"Mischung": {
 			"word": "Mischung",
 			"data": {
-				"_id": "591899face905c0816aaa314",
+				"_id": "591c1a939c23da1cd8476639",
 				"word": "Mischung",
 				"data": {
 					"description": "Substantiv, feminin - 1. das Mischen; 2a. Gemischtes, Gemisch; 2b. etwas, was [noch deutlich erkennbare] …",
@@ -5101,7 +5145,7 @@ module.exports = {
 		"Hip": {
 			"word": "Hip",
 			"data": {
-				"_id": "591899f8ce905c0816aaa2ef",
+				"_id": "591c1a939c23da1cd8476635",
 				"word": "Hip",
 				"data": {
 					"similarWords": [
@@ -5132,7 +5176,7 @@ module.exports = {
 		"Hop": {
 			"word": "Hop",
 			"data": {
-				"_id": "591899f8ce905c0816aaa2ec",
+				"_id": "591c1a939c23da1cd8476637",
 				"word": "Hop",
 				"data": {
 					"description": "Substantiv, Neutrum - Dosis Morphium oder Heroin",
@@ -5167,7 +5211,7 @@ module.exports = {
 		"Reggae": {
 			"word": "Reggae",
 			"data": {
-				"_id": "591899f6ce905c0816aaa2c4",
+				"_id": "591c1a929c23da1cd8476625",
 				"word": "Reggae",
 				"data": {
 					"description": "Substantiv, maskulin - aus Jamaika stammende Spielart der Popmusik, deren Rhythmus durch die Hervorhebung unbetonter Taktteile gekennzeichnet ist",
@@ -5188,7 +5232,7 @@ module.exports = {
 		"paar": {
 			"word": "paar",
 			"data": {
-				"_id": "591899f9ce905c0816aaa303",
+				"_id": "591c1a8e9c23da1cd84765cf",
 				"word": "paar",
 				"data": {
 					"description": "Pronomen - 1. einige; 2. wenige, nicht viele",
@@ -5223,7 +5267,7 @@ module.exports = {
 		"Jungs": {
 			"word": "Jungs",
 			"data": {
-				"_id": "591899f8ce905c0816aaa2f1",
+				"_id": "591c1a8e9c23da1cd84765d0",
 				"word": "Jungs",
 				"data": {
 					"similarWords": [
@@ -5241,9 +5285,9 @@ module.exports = {
 						"Kammerjungfer",
 						"blutjung",
 						"Jungchen",
+						"Jungseniorin",
 						"Jungsteinzeit",
 						"Jungsozialist",
-						"Jungseniorin",
 						"jungvermählt",
 						"Jungholz",
 						"Ziegenlamm"
@@ -5254,7 +5298,7 @@ module.exports = {
 		"Jamaika": {
 			"word": "Jamaika",
 			"data": {
-				"_id": "591899f7ce905c0816aaa2e3",
+				"_id": "591c1a8e9c23da1cd84765d4",
 				"word": "Jamaika",
 				"data": {
 					"description": "Substantiv, Neutrum - Inselstaat im Karibischen Meer",
@@ -5285,7 +5329,7 @@ module.exports = {
 		"holen": {
 			"word": "holen",
 			"data": {
-				"_id": "591899f9ce905c0816aaa306",
+				"_id": "591c1a8f9c23da1cd84765db",
 				"word": "holen",
 				"data": {
 					"description": "schwaches Verb - 1a. von einem Ort, einer Stelle, …1b. jemanden [schnell] herbeirufen, an einen …1c. von einem bestimmten Ort abholen …",
@@ -5321,7 +5365,7 @@ module.exports = {
 		"sanftem": {
 			"word": "sanftem",
 			"data": {
-				"_id": "591899f8ce905c0816aaa2e4",
+				"_id": "591c1a939c23da1cd8476628",
 				"word": "sanftem",
 				"data": {
 					"similarWords": [
@@ -5336,7 +5380,7 @@ module.exports = {
 		"Druck": {
 			"word": "Druck",
 			"data": {
-				"_id": "591899fbce905c0816aaa326",
+				"_id": "591c1a8e9c23da1cd84765d2",
 				"word": "Druck",
 				"data": {
 					"description": "Substantiv, maskulin - 1. auf eine Fläche wirkende Kraft; 2a. Betätigung durch Druck, das Drücken; 2b. Gefühl des Drucks an einer …",
@@ -5372,7 +5416,7 @@ module.exports = {
 		"Urträume": {
 			"word": "Urträume",
 			"data": {
-				"_id": "591899f6ce905c0816aaa2cf",
+				"_id": "591c1a929c23da1cd8476626",
 				"word": "Urträume",
 				"data": {
 					"similarWords": []
@@ -5382,7 +5426,7 @@ module.exports = {
 		"Stammhirn": {
 			"word": "Stammhirn",
 			"data": {
-				"_id": "591899f8ce905c0816aaa2ed",
+				"_id": "591c1a939c23da1cd8476629",
 				"word": "Stammhirn",
 				"data": {
 					"description": "Substantiv, Neutrum - Gehirnstamm",
@@ -5399,7 +5443,7 @@ module.exports = {
 		"Woher": {
 			"word": "Woher",
 			"data": {
-				"_id": "591899f9ce905c0816aaa307",
+				"_id": "591c1a989c23da1cd8476697",
 				"word": "Woher",
 				"data": {
 					"similarWords": [
@@ -5430,7 +5474,7 @@ module.exports = {
 		"fragen": {
 			"word": "fragen",
 			"data": {
-				"_id": "591899f8ce905c0816aaa2f5",
+				"_id": "591c1a8e9c23da1cd84765d3",
 				"word": "fragen",
 				"data": {
 					"description": "schwaches Verb - 1a. sich mit einer Äußerung an …1b. Fragen stellen; 2a. sich erkundigen, Auskunft über jemanden, …",
@@ -5466,7 +5510,7 @@ module.exports = {
 		"komme": {
 			"word": "komme",
 			"data": {
-				"_id": "591899f8ce905c0816aaa2f4",
+				"_id": "591c1a989c23da1cd8476695",
 				"word": "komme",
 				"data": {
 					"similarWords": [
@@ -5497,7 +5541,7 @@ module.exports = {
 		"München": {
 			"word": "München",
 			"data": {
-				"_id": "591899f8ce905c0816aaa2f2",
+				"_id": "591c1a8e9c23da1cd84765d6",
 				"word": "München",
 				"data": {
 					"description": "Eigenname - Landeshauptstadt von Bayern",
@@ -5533,7 +5577,7 @@ module.exports = {
 		"Hamburg": {
 			"word": "Hamburg",
 			"data": {
-				"_id": "591899f7ce905c0816aaa2d0",
+				"_id": "591c1a989c23da1cd8476696",
 				"word": "Hamburg",
 				"data": {
 					"description": "Substantiv, Neutrum - Stadt und deutsches Bundesland",
@@ -5568,7 +5612,7 @@ module.exports = {
 		"Berliner": {
 			"word": "Berliner",
 			"data": {
-				"_id": "591899fdce905c0816aaa357",
+				"_id": "591c1a8e9c23da1cd84765d8",
 				"word": "Berliner",
 				"data": {
 					"description": "Adjektiv - der Berliner Bär; die Berliner Mauer; Berliner Weiße mit Schuss",
@@ -5602,7 +5646,7 @@ module.exports = {
 		"Hamburger": {
 			"word": "Hamburger",
 			"data": {
-				"_id": "591899fcce905c0816aaa337",
+				"_id": "591c1a8e9c23da1cd84765d7",
 				"word": "Hamburger",
 				"data": {
 					"description": "Adjektiv - der Hamburger Hafen",
@@ -5636,7 +5680,7 @@ module.exports = {
 		"lachte": {
 			"word": "lachte",
 			"data": {
-				"_id": "591899fdce905c0816aaa358",
+				"_id": "591c1a949c23da1cd8476642",
 				"word": "lachte",
 				"data": {
 					"similarWords": [
@@ -5664,32 +5708,33 @@ module.exports = {
 				}
 			}
 		},
-		"pa": {
-			"word": "pa",
+		"paßt": {
+			"word": "paßt",
 			"data": {
-				"_id": "591899f7ce905c0816aaa2d1",
-				"word": "pa",
+				"_id": "591c1a8f9c23da1cd84765dd",
+				"word": "paßt",
 				"data": {
 					"similarWords": [
-						"Pa",
-						"PA",
-						"kPa",
-						"hPa",
-						"iPad®, I-Pad",
-						"Papaverin",
-						"Papamobil",
-						"Paparazza",
-						"Papamonat",
-						"Papagallo",
-						"Paparazzo",
-						"Papachen",
-						"Papalist",
-						"Papageiengrün",
-						"Papageitaucher",
-						"papageiengrün",
-						"papalistisch",
-						"Papageifisch",
-						"Papa"
+						"Angepasstheit",
+						"Unangepasstheit",
+						"angepasst",
+						"unangepasst",
+						"Passepartout",
+						"passen",
+						"handklein",
+						"Zunft",
+						"ausgehen",
+						"glasweise",
+						"passenderweise",
+						"gereizt",
+						"Sperrmüll",
+						"Hauptschlüssel",
+						"unterschließen",
+						"überschließen",
+						"anprobieren",
+						"dagegenhalten",
+						"Röntgenauge",
+						"Nebensache"
 					]
 				}
 			}
@@ -5697,7 +5742,7 @@ module.exports = {
 		"hierhergekommen": {
 			"word": "hierhergekommen",
 			"data": {
-				"_id": "591899fcce905c0816aaa335",
+				"_id": "591c1a8d9c23da1cd84765c1",
 				"word": "hierhergekommen",
 				"data": {
 					"similarWords": [
@@ -5710,7 +5755,7 @@ module.exports = {
 		"verhüllten": {
 			"word": "verhüllten",
 			"data": {
-				"_id": "591899f6ce905c0816aaa2ce",
+				"_id": "591c1a949c23da1cd8476641",
 				"word": "verhüllten",
 				"data": {
 					"similarWords": [
@@ -5722,7 +5767,7 @@ module.exports = {
 		"anzusehen": {
 			"word": "anzusehen",
 			"data": {
-				"_id": "591899f7ce905c0816aaa2d3",
+				"_id": "591c1a8e9c23da1cd84765d9",
 				"word": "anzusehen",
 				"data": {
 					"similarWords": [
@@ -5753,7 +5798,7 @@ module.exports = {
 		"Zufall": {
 			"word": "Zufall",
 			"data": {
-				"_id": "591899f7ce905c0816aaa2d2",
+				"_id": "591c1a8f9c23da1cd84765da",
 				"word": "Zufall",
 				"data": {
 					"description": "Substantiv, maskulin - 1. etwas, was man nicht vorausgesehen …2. plötzlich auftretender Anfall",
@@ -5789,7 +5834,7 @@ module.exports = {
 		"Uraufführung": {
 			"word": "Uraufführung",
 			"data": {
-				"_id": "591899f7ce905c0816aaa2d4",
+				"_id": "591c1a949c23da1cd847663e",
 				"word": "Uraufführung",
 				"data": {
 					"description": "Substantiv, feminin - erste Aufführung eines neuen Werkes",
@@ -5815,7 +5860,7 @@ module.exports = {
 		"Theater": {
 			"word": "Theater",
 			"data": {
-				"_id": "591899f7ce905c0816aaa2d6",
+				"_id": "591c1a8e9c23da1cd84765d5",
 				"word": "Theater",
 				"data": {
 					"description": "Substantiv, Neutrum - 1a. zur Aufführung von Bühnenwerken bestimmtes …1b. Theater als kulturelle Institution; 1c. Aufführung im Theater; Vorstellung",
@@ -5852,7 +5897,7 @@ module.exports = {
 		"Komponist": {
 			"word": "Komponist",
 			"data": {
-				"_id": "591899fbce905c0816aaa321",
+				"_id": "591c1a929c23da1cd8476622",
 				"word": "Komponist",
 				"data": {
 					"description": "Substantiv, maskulin - jemand, der komponiert",
@@ -5889,7 +5934,7 @@ module.exports = {
 		"aufgeführt": {
 			"word": "aufgeführt",
 			"data": {
-				"_id": "591899f7ce905c0816aaa2d7",
+				"_id": "591c1a8f9c23da1cd84765e3",
 				"word": "aufgeführt",
 				"data": {
 					"similarWords": [
@@ -5920,7 +5965,7 @@ module.exports = {
 		"Requiem": {
 			"word": "Requiem",
 			"data": {
-				"_id": "591899f7ce905c0816aaa2d5",
+				"_id": "591c1a8f9c23da1cd84765e5",
 				"word": "Requiem",
 				"data": {
 					"description": "Substantiv, Neutrum - 1. Totenmesse; 2a. Messe, die das Requiem zum …2b. dem Oratorium oder der Kantate …",
@@ -5941,37 +5986,32 @@ module.exports = {
 				}
 			}
 		},
-		"hei": {
-			"word": "hei",
+		"heißt": {
+			"word": "heißt",
 			"data": {
-				"_id": "591899fbce905c0816aaa333",
-				"word": "hei",
+				"_id": "591c1a8f9c23da1cd84765eb",
+				"word": "heißt",
 				"data": {
-					"description": "Interjektion - Ausruf ausgelassener Freude, Munterkeit, Lustigkeit",
-					"wordProperties": {
-						"type": "Interjektion",
-						"definition": "Ausruf ausgelassener Freude, Munterkeit, Lustigkeit"
-					},
-					"definitionUrl": "http://www.duden.de/rechtschreibung/hei",
 					"similarWords": [
-						"heia",
-						"heim",
-						"Heim",
-						"heil",
-						"Heil",
-						"Hein",
-						"Heia",
-						"Heim-WM",
-						"heim-",
-						"-heit",
-						"heida",
-						"Heißluftheizung",
-						"heiß",
-						"Heinz",
-						"Heindl",
-						"gut Heil!",
-						"brennheiß",
-						"aufheißen"
+						"das heißt",
+						"id est",
+						"d. h.",
+						"pièce touchée, pièce jouée",
+						"sogenannt, so genannt",
+						"heißen",
+						"respektive",
+						"scilicet",
+						"Gauklerblume",
+						"Bergmannsgruß",
+						"Eden",
+						"Pressetext",
+						"beziehungsweise",
+						"gutheißen",
+						"Währungseinheit",
+						"Spitzname",
+						"Zauberformel",
+						"Klüver",
+						"nämlich"
 					]
 				}
 			}
@@ -5979,7 +6019,7 @@ module.exports = {
 		"Aspiration": {
 			"word": "Aspiration",
 			"data": {
-				"_id": "591899face905c0816aaa30e",
+				"_id": "591c1a939c23da1cd847662a",
 				"word": "Aspiration",
 				"data": {
 					"description": "Substantiv, feminin - 1. Bestrebung, Hoffnung, ehrgeiziger Plan; 2. [Aussprache eines Verschlusslautes mit] Behauchung",
@@ -6016,7 +6056,7 @@ module.exports = {
 		"unterschiedlichen": {
 			"word": "unterschiedlichen",
 			"data": {
-				"_id": "591899f7ce905c0816aaa2d8",
+				"_id": "591c1a939c23da1cd8476636",
 				"word": "unterschiedlichen",
 				"data": {
 					"similarWords": [
@@ -6047,7 +6087,7 @@ module.exports = {
 		"Instrumenten": {
 			"word": "Instrumenten",
 			"data": {
-				"_id": "591899f7ce905c0816aaa2d9",
+				"_id": "591c1a939c23da1cd8476634",
 				"word": "Instrumenten",
 				"data": {
 					"similarWords": [
@@ -6078,7 +6118,7 @@ module.exports = {
 		"experimentiert": {
 			"word": "experimentiert",
 			"data": {
-				"_id": "591899f9ce905c0816aaa2fa",
+				"_id": "591c1a909c23da1cd84765f5",
 				"word": "experimentiert",
 				"data": {
 					"similarWords": [
@@ -6093,7 +6133,7 @@ module.exports = {
 		"Instrumente": {
 			"word": "Instrumente",
 			"data": {
-				"_id": "591899f9ce905c0816aaa305",
+				"_id": "591c1a939c23da1cd8476631",
 				"word": "Instrumente",
 				"data": {
 					"similarWords": [
@@ -6123,7 +6163,7 @@ module.exports = {
 		"weitesten": {
 			"word": "weitesten",
 			"data": {
-				"_id": "591899fdce905c0816aaa353",
+				"_id": "591c1a939c23da1cd847662b",
 				"word": "weitesten",
 				"data": {
 					"similarWords": [
@@ -6149,7 +6189,7 @@ module.exports = {
 		"Sinn": {
 			"word": "Sinn",
 			"data": {
-				"_id": "591899f7ce905c0816aaa2da",
+				"_id": "591c1a8f9c23da1cd84765ea",
 				"word": "Sinn",
 				"data": {
 					"description": "Substantiv, maskulin - 1. Fähigkeit der Wahrnehmung und Empfindung …2. Gefühl, Verständnis für etwas; innere …3a. jemandes Gedanken, Denken",
@@ -6186,7 +6226,7 @@ module.exports = {
 		"Atmungshilfen": {
 			"word": "Atmungshilfen",
 			"data": {
-				"_id": "591899f9ce905c0816aaa301",
+				"_id": "591c1a909c23da1cd84765f6",
 				"word": "Atmungshilfen",
 				"data": {
 					"similarWords": []
@@ -6196,7 +6236,7 @@ module.exports = {
 		"Asthmatiker": {
 			"word": "Asthmatiker",
 			"data": {
-				"_id": "591899f9ce905c0816aaa300",
+				"_id": "591c1a909c23da1cd84765f4",
 				"word": "Asthmatiker",
 				"data": {
 					"description": "Substantiv, maskulin - jemand, der an Asthma leidet",
@@ -6216,7 +6256,7 @@ module.exports = {
 		"Blasebalg": {
 			"word": "Blasebalg",
 			"data": {
-				"_id": "591899fece905c0816aaa372",
+				"_id": "591c1a939c23da1cd847662e",
 				"word": "Blasebalg",
 				"data": {
 					"description": "Substantiv, maskulin - mit Hand oder Fuß betriebenes Gerät zur Erzeugung eines Luftstromes",
@@ -6244,7 +6284,7 @@ module.exports = {
 		"Hochöfen": {
 			"word": "Hochöfen",
 			"data": {
-				"_id": "591899f9ce905c0816aaa2ff",
+				"_id": "591c1a929c23da1cd8476624",
 				"word": "Hochöfen",
 				"data": {
 					"similarWords": [
@@ -6259,7 +6299,7 @@ module.exports = {
 		"Hörner": {
 			"word": "Hörner",
 			"data": {
-				"_id": "591899fbce905c0816aaa323",
+				"_id": "591c1a949c23da1cd8476640",
 				"word": "Hörner",
 				"data": {
 					"similarWords": [
@@ -6286,7 +6326,7 @@ module.exports = {
 		"Ventile": {
 			"word": "Ventile",
 			"data": {
-				"_id": "591899fbce905c0816aaa329",
+				"_id": "591c1a909c23da1cd84765ee",
 				"word": "Ventile",
 				"data": {
 					"similarWords": [
@@ -6317,7 +6357,7 @@ module.exports = {
 		"Sauerstoffzelt": {
 			"word": "Sauerstoffzelt",
 			"data": {
-				"_id": "591899f9ce905c0816aaa2fb",
+				"_id": "591c1a909c23da1cd84765f2",
 				"word": "Sauerstoffzelt",
 				"data": {
 					"description": "Substantiv, Neutrum - zeltähnlicher Aufbau aus Kunststoff über dem Bett eines Patienten, unter dem dem Patienten mit Sauerstoff …",
@@ -6334,7 +6374,7 @@ module.exports = {
 		"Intensivstation": {
 			"word": "Intensivstation",
 			"data": {
-				"_id": "591899fbce905c0816aaa328",
+				"_id": "591c1a949c23da1cd847663f",
 				"word": "Intensivstation",
 				"data": {
 					"description": "Substantiv, feminin - Krankenhausstation zur Betreuung akut lebensgefährlich erkrankter Personen (z. B. bei Herzinfarkt, Verbrennungen) unter Anwendung bestimmter …",
@@ -6357,7 +6397,7 @@ module.exports = {
 		"Luft": {
 			"word": "Luft",
 			"data": {
-				"_id": "591899f9ce905c0816aaa30b",
+				"_id": "591c1a8f9c23da1cd84765e4",
 				"word": "Luft",
 				"data": {
 					"description": "Substantiv, feminin - 1a. (die Erde umgebender) hauptsächlich aus …1b. Atemluft; 2. freier Raum über dem Erdboden; …",
@@ -6394,7 +6434,7 @@ module.exports = {
 		"arbeiten": {
 			"word": "arbeiten",
 			"data": {
-				"_id": "591899f9ce905c0816aaa304",
+				"_id": "591c1a909c23da1cd84765ec",
 				"word": "arbeiten",
 				"data": {
 					"description": "schwaches Verb - 1a. Arbeit leisten, verrichten; tätig sein; 1b. beruflich tätig, beschäftigt sein; 1c. sich mit jemandem, etwas befassen …",
@@ -6430,7 +6470,7 @@ module.exports = {
 		"Atmen": {
 			"word": "Atmen",
 			"data": {
-				"_id": "591899f9ce905c0816aaa30a",
+				"_id": "591c1a939c23da1cd8476630",
 				"word": "Atmen",
 				"data": {
 					"similarWords": [
@@ -6461,7 +6501,7 @@ module.exports = {
 		"Vokal": {
 			"word": "Vokal",
 			"data": {
-				"_id": "591899face905c0816aaa31b",
+				"_id": "591c1a909c23da1cd84765ed",
 				"word": "Vokal",
 				"data": {
 					"description": "Substantiv, maskulin - a. deutlich erklingender Laut, bei dessen …b. Vokalbuchstabe",
@@ -6498,7 +6538,7 @@ module.exports = {
 		"reine": {
 			"word": "reine",
 			"data": {
-				"_id": "591899fbce905c0816aaa320",
+				"_id": "591c1a939c23da1cd8476632",
 				"word": "reine",
 				"data": {
 					"similarWords": [
@@ -6529,7 +6569,7 @@ module.exports = {
 		"Rosa": {
 			"word": "Rosa",
 			"data": {
-				"_id": "591899f7ce905c0816aaa2db",
+				"_id": "591c1a939c23da1cd8476633",
 				"word": "Rosa",
 				"data": {
 					"description": "Eigenname - weiblicher Vorname",
@@ -6563,7 +6603,7 @@ module.exports = {
 		"Luxemburg": {
 			"word": "Luxemburg",
 			"data": {
-				"_id": "591899face905c0816aaa312",
+				"_id": "591c1a8f9c23da1cd84765e6",
 				"word": "Luxemburg",
 				"data": {
 					"description": "Substantiv, Neutrum - belgische Provinz",
@@ -6593,7 +6633,7 @@ module.exports = {
 		"ungewöhnlich": {
 			"word": "ungewöhnlich",
 			"data": {
-				"_id": "591899face905c0816aaa316",
+				"_id": "591c1a8f9c23da1cd84765e8",
 				"word": "ungewöhnlich",
 				"data": {
 					"description": "Adjektiv - 1. vom Üblichen, Gewohnten, Erwarteten abweichend; …2a. das gewohnte Maß übersteigend, enorm; 2b. sehr, überaus, über alle Maßen",
@@ -6629,7 +6669,7 @@ module.exports = {
 		"jedenfalls": {
 			"word": "jedenfalls",
 			"data": {
-				"_id": "591899fcce905c0816aaa341",
+				"_id": "591c1a8f9c23da1cd84765e9",
 				"word": "jedenfalls",
 				"data": {
 					"description": "Adverb - a. auf jeden Fall; b. zumindest, wenigstens",
@@ -6655,7 +6695,7 @@ module.exports = {
 		"Moment": {
 			"word": "Moment",
 			"data": {
-				"_id": "591899fece905c0816aaa36f",
+				"_id": "591c1a8f9c23da1cd84765e7",
 				"word": "Moment",
 				"data": {
 					"description": "Substantiv, Neutrum - 1. ausschlaggebender Umstand, Gesichtspunkt; 2. z. B. Kraft × Hebelarm; …",
@@ -6691,7 +6731,7 @@ module.exports = {
 		"Schriften": {
 			"word": "Schriften",
 			"data": {
-				"_id": "591899fcce905c0816aaa336",
+				"_id": "591c1a939c23da1cd847662d",
 				"word": "Schriften",
 				"data": {
 					"description": "Pluralwort - Ausweispapiere",
@@ -6704,9 +6744,9 @@ module.exports = {
 						"Schriftenreihe",
 						"Schriftenverzeichnis",
 						"Anepigrapha",
+						"Ketubim",
 						"Corpus Reformatorum",
 						"Schrifttum",
-						"Ketubim",
 						"Aristoteles",
 						"Awesta",
 						"Erbauungsliteratur",
@@ -6727,7 +6767,7 @@ module.exports = {
 		"las": {
 			"word": "las",
 			"data": {
-				"_id": "591899face905c0816aaa313",
+				"_id": "591c1a929c23da1cd847661c",
 				"word": "las",
 				"data": {
 					"description": "siehe lesenlesen",
@@ -6759,7 +6799,7 @@ module.exports = {
 		"Bild": {
 			"word": "Bild",
 			"data": {
-				"_id": "591899face905c0816aaa31d",
+				"_id": "591c1a9a9c23da1cd84766bf",
 				"word": "Bild",
 				"data": {
 					"description": "Substantiv, Neutrum - 1a. mit künstlerischen Mitteln auf einer …1b. Fotografie; gedruckt wiedergegebene bildliche Darstellung; 1c. auf dem Fernsehschirm Erscheinendes",
@@ -6796,7 +6836,7 @@ module.exports = {
 		"Transparenten": {
 			"word": "Transparenten",
 			"data": {
-				"_id": "591899face905c0816aaa31c",
+				"_id": "591c1a989c23da1cd847669f",
 				"word": "Transparenten",
 				"data": {
 					"similarWords": [
@@ -6812,10 +6852,41 @@ module.exports = {
 				}
 			}
 		},
+		"Straßen": {
+			"word": "Straßen",
+			"data": {
+				"_id": "591c1a929c23da1cd8476620",
+				"word": "Straßen",
+				"data": {
+					"similarWords": [
+						"Straßenbahn",
+						"Straßenbild",
+						"Straßenkind",
+						"Straßendorf",
+						"Straßenfest",
+						"Straßennetz",
+						"Straßenbord",
+						"Straßenzoll",
+						"Straßenecke",
+						"Straßenraub",
+						"Straßenzug",
+						"Straßendamm",
+						"Straßenbau",
+						"Straßenrand",
+						"Straßenkot",
+						"Straße",
+						"kurvig",
+						"straßenweise",
+						"Straßenkunst",
+						"Straßenglätte"
+					]
+				}
+			}
+		},
 		"trug": {
 			"word": "trug",
 			"data": {
-				"_id": "591899face905c0816aaa319",
+				"_id": "591c1a9a9c23da1cd84766be",
 				"word": "trug",
 				"data": {
 					"description": "siehe tragen",
@@ -6848,7 +6919,7 @@ module.exports = {
 		"nötig": {
 			"word": "nötig",
 			"data": {
-				"_id": "591899fcce905c0816aaa33d",
+				"_id": "591c1a929c23da1cd8476618",
 				"word": "nötig",
 				"data": {
 					"description": "Adjektiv - (für etwas) erforderlich; eine unerlässliche Voraussetzung für etwas [bildend]; so beschaffen, dass man es braucht, …",
@@ -6884,7 +6955,7 @@ module.exports = {
 		"lebendig": {
 			"word": "lebendig",
 			"data": {
-				"_id": "591899fbce905c0816aaa32b",
+				"_id": "591c1a929c23da1cd847661d",
 				"word": "lebendig",
 				"data": {
 					"description": "Adjektiv - 1. lebend, am Leben; 2. lebhaft, munter, voll Leben",
@@ -6920,7 +6991,7 @@ module.exports = {
 		"diskutierte": {
 			"word": "diskutierte",
 			"data": {
-				"_id": "591899fbce905c0816aaa32a",
+				"_id": "591c1a999c23da1cd84766ac",
 				"word": "diskutierte",
 				"data": {
 					"similarWords": [
@@ -6938,8 +7009,8 @@ module.exports = {
 						"Diskussionsforum",
 						"Diskussionsthema",
 						"viel",
-						"Stammtisch",
 						"diskutieren",
+						"Stammtisch",
 						"durchdiskutieren",
 						"ausdiskutieren",
 						"wegdiskutieren",
@@ -6951,7 +7022,7 @@ module.exports = {
 		"Frauengruppen": {
 			"word": "Frauengruppen",
 			"data": {
-				"_id": "591899fcce905c0816aaa338",
+				"_id": "591c1a979c23da1cd847667a",
 				"word": "Frauengruppen",
 				"data": {
 					"similarWords": [
@@ -6963,7 +7034,7 @@ module.exports = {
 		"benannten": {
 			"word": "benannten",
 			"data": {
-				"_id": "591899fcce905c0816aaa340",
+				"_id": "591c1a919c23da1cd847660c",
 				"word": "benannten",
 				"data": {
 					"similarWords": [
@@ -6985,7 +7056,7 @@ module.exports = {
 		"verordnete": {
 			"word": "verordnete",
 			"data": {
-				"_id": "591899fcce905c0816aaa334",
+				"_id": "591c1a989c23da1cd84766a0",
 				"word": "verordnete",
 				"data": {
 					"similarWords": [
@@ -7014,7 +7085,7 @@ module.exports = {
 		"Verehrung": {
 			"word": "Verehrung",
 			"data": {
-				"_id": "591899ffce905c0816aaa378",
+				"_id": "591c1a919c23da1cd8476610",
 				"word": "Verehrung",
 				"data": {
 					"description": "Substantiv, feminin - a. das Verehren; b. das Verehren",
@@ -7051,7 +7122,7 @@ module.exports = {
 		"DDR": {
 			"word": "DDR",
 			"data": {
-				"_id": "59189a00ce905c0816aaa38c",
+				"_id": "591c1a9a9c23da1cd84766c0",
 				"word": "DDR",
 				"data": {
 					"description": "Substantiv, feminin - Deutsche Demokratische Republik (1949–1990)",
@@ -7088,7 +7159,7 @@ module.exports = {
 		"Interesse": {
 			"word": "Interesse",
 			"data": {
-				"_id": "591899face905c0816aaa31a",
+				"_id": "591c1a919c23da1cd8476609",
 				"word": "Interesse",
 				"data": {
 					"description": "Substantiv, Neutrum - 1. geistige Anteilnahme, Aufmerksamkeit; 2a. Neigung, Vorliebe; 2b. Neigungen zum Erwerb, Kauf",
@@ -7125,7 +7196,7 @@ module.exports = {
 		"Neugierde": {
 			"word": "Neugierde",
 			"data": {
-				"_id": "591899f9ce905c0816aaa308",
+				"_id": "591c1a989c23da1cd847669b",
 				"word": "Neugierde",
 				"data": {
 					"description": "Substantiv, feminin - Beherrschtsein von dem Wunsch, etwas Bestimmtes zu erfahren, in Angelegenheiten, Bereiche einzudringen, die besonders andere …",
@@ -7153,7 +7224,7 @@ module.exports = {
 		"freiwillig": {
 			"word": "freiwillig",
 			"data": {
-				"_id": "591899f9ce905c0816aaa309",
+				"_id": "591c1a929c23da1cd847661a",
 				"word": "freiwillig",
 				"data": {
 					"description": "Adjektiv - aus eigenem freiem Willen geschehend; ohne Zwang ausgeführt",
@@ -7189,7 +7260,7 @@ module.exports = {
 		"entgegengebracht": {
 			"word": "entgegengebracht",
 			"data": {
-				"_id": "591899face905c0816aaa31e",
+				"_id": "591c1a929c23da1cd847661b",
 				"word": "entgegengebracht",
 				"data": {
 					"similarWords": [
@@ -7211,7 +7282,7 @@ module.exports = {
 		"gekommen": {
 			"word": "gekommen",
 			"data": {
-				"_id": "591899fcce905c0816aaa33c",
+				"_id": "591c1a919c23da1cd8476607",
 				"word": "gekommen",
 				"data": {
 					"description": "siehe kommen",
@@ -7244,7 +7315,7 @@ module.exports = {
 		"Foto": {
 			"word": "Foto",
 			"data": {
-				"_id": "591899fcce905c0816aaa33b",
+				"_id": "591c1a929c23da1cd8476617",
 				"word": "Foto",
 				"data": {
 					"description": "Substantiv, Neutrum oder Substantiv, feminin - Fotografie",
@@ -7280,7 +7351,7 @@ module.exports = {
 		"Zeitung": {
 			"word": "Zeitung",
 			"data": {
-				"_id": "591899fbce905c0816aaa327",
+				"_id": "591c1a929c23da1cd8476619",
 				"word": "Zeitung",
 				"data": {
 					"description": "Substantiv, feminin - 1a. täglich bzw. regelmäßig in kurzen …1b. Redaktion bzw. Unternehmung, die eine …2. Nachricht von einem Ereignis",
@@ -7317,7 +7388,7 @@ module.exports = {
 		"aufgehackten": {
 			"word": "aufgehackten",
 			"data": {
-				"_id": "591899f7ce905c0816aaa2dc",
+				"_id": "591c1a969c23da1cd8476678",
 				"word": "aufgehackten",
 				"data": {
 					"similarWords": []
@@ -7327,7 +7398,7 @@ module.exports = {
 		"Schweinskopf": {
 			"word": "Schweinskopf",
 			"data": {
-				"_id": "591899fbce905c0816aaa324",
+				"_id": "591c1a979c23da1cd8476679",
 				"word": "Schweinskopf",
 				"data": {
 					"description": "Substantiv, maskulin - a. Kopf eines [geschlachteten] Schweins; b. menschlicher Kopf, der wie der …",
@@ -7348,7 +7419,7 @@ module.exports = {
 		"Gedenkstelle": {
 			"word": "Gedenkstelle",
 			"data": {
-				"_id": "591899f9ce905c0816aaa2fd",
+				"_id": "591c1a969c23da1cd8476664",
 				"word": "Gedenkstelle",
 				"data": {
 					"similarWords": []
@@ -7358,7 +7429,7 @@ module.exports = {
 		"gelegt": {
 			"word": "gelegt",
 			"data": {
-				"_id": "591899f8ce905c0816aaa2e5",
+				"_id": "591c1a919c23da1cd8476605",
 				"word": "gelegt",
 				"data": {
 					"similarWords": [
@@ -7389,7 +7460,7 @@ module.exports = {
 		"Leiche": {
 			"word": "Leiche",
 			"data": {
-				"_id": "591899f8ce905c0816aaa2e7",
+				"_id": "591c1a989c23da1cd8476698",
 				"word": "Leiche",
 				"data": {
 					"description": "Substantiv, feminin - 1a. Körper eines Toten, Gestorbenen; 1b. totes Tier, Tierleiche; 2. Begräbnis",
@@ -7426,7 +7497,7 @@ module.exports = {
 		"Landwehrkanal": {
 			"word": "Landwehrkanal",
 			"data": {
-				"_id": "591899f7ce905c0816aaa2dd",
+				"_id": "591c1a969c23da1cd8476677",
 				"word": "Landwehrkanal",
 				"data": {
 					"similarWords": []
@@ -7436,7 +7507,7 @@ module.exports = {
 		"geworfen": {
 			"word": "geworfen",
 			"data": {
-				"_id": "591899f8ce905c0816aaa2e6",
+				"_id": "591c1a919c23da1cd847660e",
 				"word": "geworfen",
 				"data": {
 					"description": "siehe werfen",
@@ -7469,7 +7540,7 @@ module.exports = {
 		"dachte": {
 			"word": "dachte",
 			"data": {
-				"_id": "591899f8ce905c0816aaa2e8",
+				"_id": "591c1a929c23da1cd8476616",
 				"word": "dachte",
 				"data": {
 					"description": "siehe denken",
@@ -7502,7 +7573,7 @@ module.exports = {
 		"ich": {
 			"word": "ich",
 			"data": {
-				"_id": "591899f8ce905c0816aaa2eb",
+				"_id": "591c1a919c23da1cd8476606",
 				"word": "ich",
 				"data": {
 					"description": "Pronomen - Person, in der man von sich selbst spricht; Bezeichnung für die eigene Person",
@@ -7538,7 +7609,7 @@ module.exports = {
 		"müsse": {
 			"word": "müsse",
 			"data": {
-				"_id": "591899f8ce905c0816aaa2ea",
+				"_id": "591c1a919c23da1cd847660f",
 				"word": "müsse",
 				"data": {
 					"similarWords": [
@@ -7569,7 +7640,7 @@ module.exports = {
 		"Stadt": {
 			"word": "Stadt",
 			"data": {
-				"_id": "591899f8ce905c0816aaa2e9",
+				"_id": "591c1a919c23da1cd8476601",
 				"word": "Stadt",
 				"data": {
 					"description": "Substantiv, feminin - 1a. größere, dicht geschlossene Siedlung, die …1b. Gesamtheit der Einwohner einer Stadt; 2. Verwaltung einer Stadt",
@@ -7606,7 +7677,7 @@ module.exports = {
 		"zurückkommen": {
 			"word": "zurückkommen",
 			"data": {
-				"_id": "591899f9ce905c0816aaa2f9",
+				"_id": "591c1a909c23da1cd84765fa",
 				"word": "zurückkommen",
 				"data": {
 					"description": "starkes Verb - 1a. wieder am Ausgangsort, -punkt ankommen; …1b. sich wieder einstellen; 1c. zurückgelegt, -gebracht o. Ä. werden",
@@ -7642,7 +7713,7 @@ module.exports = {
 		"weggegangen": {
 			"word": "weggegangen",
 			"data": {
-				"_id": "591899f9ce905c0816aaa2fe",
+				"_id": "591c1a909c23da1cd84765f0",
 				"word": "weggegangen",
 				"data": {
 					"similarWords": [
@@ -7657,7 +7728,7 @@ module.exports = {
 		"schreiben": {
 			"word": "schreiben",
 			"data": {
-				"_id": "591899face905c0816aaa31f",
+				"_id": "591c1a909c23da1cd84765fc",
 				"word": "schreiben",
 				"data": {
 					"description": "starkes Verb - 1a. Schriftzeichen, Buchstaben, Ziffern, Noten o. …1b. (von Schreibgeräten) beim Schreiben bestimmte …1c. sich mit den gegebenen Mitteln …",
@@ -7672,8 +7743,6 @@ module.exports = {
 						"wund schreiben",
 						"Songwriting",
 						"antedatieren",
-						"geschrieben",
-						"schrieb",
 						"Geschreibe",
 						"Schreibpult",
 						"Schreibheft",
@@ -7685,7 +7754,9 @@ module.exports = {
 						"maschinschreiben",
 						"stenografieren, stenographieren",
 						"ketzern",
-						"urkunden"
+						"urkunden",
+						"geschrieben",
+						"schrieb"
 					]
 				}
 			}
@@ -7693,7 +7764,7 @@ module.exports = {
 		"verstehen": {
 			"word": "verstehen",
 			"data": {
-				"_id": "591899fdce905c0816aaa34a",
+				"_id": "591c1a909c23da1cd84765fb",
 				"word": "verstehen",
 				"data": {
 					"description": "unregelmäßiges Verb - 1. (Gesprochenes) deutlich hören; 2a. den Sinn von etwas erfassen; …2b. in bestimmter Weise auslegen, deuten, …",
@@ -7726,7 +7797,7 @@ module.exports = {
 		"falsch": {
 			"word": "falsch",
 			"data": {
-				"_id": "591899fdce905c0816aaa355",
+				"_id": "591c1a909c23da1cd84765f9",
 				"word": "falsch",
 				"data": {
 					"description": "Adjektiv - 1a. (einer echten Sache gleicher Art) …1b. gefälscht; 2a. dem tatsächlichen Sachverhalt, der realen …",
@@ -7762,7 +7833,7 @@ module.exports = {
 		"ziemlich": {
 			"word": "ziemlich",
 			"data": {
-				"_id": "591899f9ce905c0816aaa2f8",
+				"_id": "591c1a909c23da1cd84765fd",
 				"word": "ziemlich",
 				"data": {
 					"description": "Adverb - 1. in verhältnismäßig hohem, großem, reichlichem …2. annähernd, fast; ungefähr",
@@ -7797,7 +7868,7 @@ module.exports = {
 		"schwierig": {
 			"word": "schwierig",
 			"data": {
-				"_id": "591899f9ce905c0816aaa2f7",
+				"_id": "591c1a919c23da1cd8476608",
 				"word": "schwierig",
 				"data": {
 					"description": "Adjektiv - 1a. viel Kraft, Mühe, große Anstrengung …1b. in besonderem Maße mit der …2. schwer zu behandeln, zufriedenzustellen",
@@ -7833,7 +7904,7 @@ module.exports = {
 		"Versuch": {
 			"word": "Versuch",
 			"data": {
-				"_id": "591899f8ce905c0816aaa2f6",
+				"_id": "591c1a919c23da1cd8476602",
 				"word": "Versuch",
 				"data": {
 					"description": "Substantiv, maskulin - 1a. Handlung, mit der etwas versucht …1b. literarisches Produkt, Kunstwerk, durch das …2a. (einmaliges) Ausführen einer Übung in …",
@@ -7867,92 +7938,71 @@ module.exports = {
 				}
 			}
 		},
-		"ma": {
-			"word": "ma",
+		"maßlos": {
+			"word": "maßlos",
 			"data": {
-				"_id": "591899ffce905c0816aaa37e",
-				"word": "ma",
+				"_id": "591c1a919c23da1cd847660a",
+				"word": "maßlos",
 				"data": {
+					"description": "Adjektiv - a. über das gewöhnliche Maß weit …b. sehr, über die Maßen; außerordentlich",
+					"wordProperties": {
+						"type": "Adjektiv",
+						"definition": "a. über das gewöhnliche Maß weit …b. sehr, über die Maßen; außerordentlich"
+					},
+					"definitionUrl": "http://www.duden.de/rechtschreibung/maszlos",
 					"similarWords": [
-						"ma.",
-						"MA",
-						"MA.",
-						"mA",
-						"Ma",
-						"ma non tanto",
-						"ma non troppo",
-						"non tanto",
-						"non troppo",
-						"troppo",
-						"Mamapuppe",
-						"Mamachen",
-						"Primamalerei",
-						"Mama",
-						"Milliampere",
-						"Mathematiker",
-						"Mathematikbuch",
-						"Onomatomanie",
-						"-omane",
-						"Manama"
+						"Maßlosigkeit",
+						"ausschweifend",
+						"totärgern",
+						"gigantesk",
+						"überzogen",
+						"unstillbar",
+						"exzessiv",
+						"ungezügelt",
+						"exzedieren",
+						"enthemmt",
+						"sinnlos",
+						"grenzenlos",
+						"krankhaft",
+						"pathologisch",
+						"zügellos",
+						"uferlos",
+						"unmäßig",
+						"viehisch",
+						"beweihräuchern"
 					]
 				}
 			}
 		},
-		"wei": {
-			"word": "wei",
+		"weiß": {
+			"word": "weiß",
 			"data": {
-				"_id": "591899fcce905c0816aaa342",
-				"word": "wei",
+				"_id": "591c1a919c23da1cd8476611",
+				"word": "weiß",
 				"data": {
+					"description": "Adjektiv - 1. von der hellsten Farbe; alle …2a. sehr hell aussehend; 2b. von heller Hautfarbe",
+					"wordProperties": {
+						"type": "Adjektiv",
+						"definition": "1. von der hellsten Farbe; alle …2a. sehr hell aussehend; 2b. von heller Hautfarbe"
+					},
+					"definitionUrl": "http://www.duden.de/rechtschreibung/weisz_hell_hellhaeutig_bleich",
 					"similarWords": [
-						"weil",
-						"weil.",
-						"weit",
-						"so weit",
-						"EU-weit",
-						"Weib",
-						"Weit",
-						"Wein",
-						"Weih",
-						"weich",
-						"weiß",
 						"Weiß",
 						"Weiss",
 						"weißt",
-						"weizenblond",
-						"Weißenfels",
-						"Weitergabe"
-					]
-				}
-			}
-		},
-		"mu": {
-			"word": "mu",
-			"data": {
-				"_id": "591899face905c0816aaa30d",
-				"word": "mu",
-				"data": {
-					"similarWords": [
-						"μg",
-						"μF",
-						"μm",
-						"mukös",
-						"musiert",
-						"Samuel",
-						"Murillo",
-						"Rapmusik",
-						"Soulmusik",
-						"Skamusik",
-						"Mutität",
-						"Museologie",
-						"Musi",
-						"Musche",
-						"Musikfest",
-						"Musikvideo",
-						"Musentochter",
-						"Uranmunition",
-						"Waschmuschel",
-						"Dreikantmuschel"
+						"Weißrussland",
+						"weiß Gott!",
+						"Weißblütigkeit",
+						"Weißbroteinlage",
+						"Weißschimmelkäse",
+						"Weißkäse",
+						"Weißkabis",
+						"Weißbuche",
+						"Weißrusse",
+						"Weißtanne",
+						"Weißherbst",
+						"Weißstorch",
+						"Weißwaren"
 					]
 				}
 			}
@@ -7960,7 +8010,7 @@ module.exports = {
 		"entsteht": {
 			"word": "entsteht",
 			"data": {
-				"_id": "591899face905c0816aaa30c",
+				"_id": "591c1a919c23da1cd8476603",
 				"word": "entsteht",
 				"data": {
 					"similarWords": [
@@ -7991,7 +8041,7 @@ module.exports = {
 		"Braves": {
 			"word": "Braves",
 			"data": {
-				"_id": "591899fbce905c0816aaa325",
+				"_id": "591c1a929c23da1cd8476627",
 				"word": "Braves",
 				"data": {
 					"similarWords": [
@@ -8005,7 +8055,7 @@ module.exports = {
 		"scheitern": {
 			"word": "scheitern",
 			"data": {
-				"_id": "59189a01ce905c0816aaa3ae",
+				"_id": "591c1a919c23da1cd8476604",
 				"word": "scheitern",
 				"data": {
 					"description": "schwaches Verb - a. ein angestrebtes Ziel o. Ä. …b. misslingen, missglücken, fehlschlagen",
@@ -8023,13 +8073,13 @@ module.exports = {
 						"Erzwingungsstreik",
 						"stranden",
 						"zunichtemachen",
+						"baden",
+						"verurteilen",
 						"Boygroup",
 						"floppen",
 						"durchrauschen",
 						"durchrasseln",
 						"danebengeraten",
-						"baden",
-						"verurteilen",
 						"Aus",
 						"annihilieren",
 						"fehlschlagen",
@@ -8041,7 +8091,7 @@ module.exports = {
 		"gelesen": {
 			"word": "gelesen",
 			"data": {
-				"_id": "591899fdce905c0816aaa356",
+				"_id": "591c1a949c23da1cd847663c",
 				"word": "gelesen",
 				"data": {
 					"description": "siehe lesen",
@@ -8074,7 +8124,7 @@ module.exports = {
 		"verbinden": {
 			"word": "verbinden",
 			"data": {
-				"_id": "591899fcce905c0816aaa345",
+				"_id": "591c1a919c23da1cd847660d",
 				"word": "verbinden",
 				"data": {
 					"description": "starkes Verb - 1a. mit einem Verband versehen; 1b. (bei jemandem) einen Verband anlegen; 2. eine [Art] Binde vor, um …",
@@ -8110,7 +8160,7 @@ module.exports = {
 		"versöhnen": {
 			"word": "versöhnen",
 			"data": {
-				"_id": "591899fcce905c0816aaa33e",
+				"_id": "591c1a939c23da1cd847663a",
 				"word": "versöhnen",
 				"data": {
 					"description": "schwaches Verb - 1. mit jemandem nach einem Streit …2a. (zwei miteinander im Streit liegende …2b. veranlassen, nicht länger zu grollen, …",
@@ -8145,7 +8195,7 @@ module.exports = {
 		"per": {
 			"word": "per",
 			"data": {
-				"_id": "591899fece905c0816aaa364",
+				"_id": "591c1a909c23da1cd84765fe",
 				"word": "per",
 				"data": {
 					"description": "Präposition - 1a. mit, durch, mittels; 1a. gibt …1b. durch; 1b. gibt das Mittel …2. zum, für; 2. zur Angabe …",
@@ -8178,7 +8228,7 @@ module.exports = {
 		"se": {
 			"word": "se",
 			"data": {
-				"_id": "591899ffce905c0816aaa37d",
+				"_id": "591c1a989c23da1cd847669e",
 				"word": "se",
 				"data": {
 					"similarWords": [
@@ -8206,31 +8256,19 @@ module.exports = {
 				}
 			}
 		},
-		"ausschlie": {
-			"word": "ausschlie",
+		"ausschließt": {
+			"word": "ausschließt",
 			"data": {
-				"_id": "591899fbce905c0816aaa332",
-				"word": "ausschlie",
+				"_id": "591c1a989c23da1cd8476699",
+				"word": "ausschließt",
 				"data": {
 					"similarWords": [
-						"ausschließen",
-						"Ausschließung",
-						"ausschließend",
-						"ausschließlich",
-						"ausschließbar",
-						"exzeptiv",
-						"zwangläufig",
-						"Thelygenie",
-						"Mundartsprecher",
-						"Präklusion",
-						"Pauschaltourist",
-						"Menschenlaus",
-						"Drumband",
-						"Ausschließlichkeit",
-						"dilemmatisch",
-						"unfallsicher",
-						"Vegetarismus",
-						"Biologismus"
+						"Monotheismus",
+						"Zielkonflikt",
+						"Strafausschließungsgrund",
+						"Isolationsmechanismus",
+						"Kommentkampf",
+						"enteiern"
 					]
 				}
 			}
@@ -8238,7 +8276,7 @@ module.exports = {
 		"Gleichheit": {
 			"word": "Gleichheit",
 			"data": {
-				"_id": "591899face905c0816aaa30f",
+				"_id": "591c1a999c23da1cd84766b9",
 				"word": "Gleichheit",
 				"data": {
 					"description": "Substantiv, feminin - a. Übereinstimmung in bestimmten Merkmalen; große …b. gleiche Stellung, gleiche Rechte",
@@ -8275,7 +8313,7 @@ module.exports = {
 		"Freiheit": {
 			"word": "Freiheit",
 			"data": {
-				"_id": "591899fdce905c0816aaa354",
+				"_id": "591c1a909c23da1cd84765ff",
 				"word": "Freiheit",
 				"data": {
 					"description": "Substantiv, feminin - 1. Zustand, in dem jemand von …2. Möglichkeit, sich frei und ungehindert …3. Recht, etwas zu tun; bestimmtes …",
@@ -8312,7 +8350,7 @@ module.exports = {
 		"Ausgleich": {
 			"word": "Ausgleich",
 			"data": {
-				"_id": "591899ffce905c0816aaa388",
+				"_id": "591c1a919c23da1cd847660b",
 				"word": "Ausgleich",
 				"data": {
 					"description": "Substantiv, maskulin - 1a. das Ausgleichen von Ungleichheiten, Gegensätzlichkeiten, …1b. etwas, was ein Gleichgewicht wiederherstellt; …",
@@ -8349,7 +8387,7 @@ module.exports = {
 		"zustande": {
 			"word": "zustande",
 			"data": {
-				"_id": "591899fcce905c0816aaa349",
+				"_id": "591c1a919c23da1cd8476600",
 				"word": "zustande",
 				"data": {
 					"similarWords": [
@@ -8380,7 +8418,7 @@ module.exports = {
 		"bringen": {
 			"word": "bringen",
 			"data": {
-				"_id": "59189a00ce905c0816aaa38b",
+				"_id": "591c1a929c23da1cd8476621",
 				"word": "bringen",
 				"data": {
 					"description": "unregelmäßiges Verb - 1a. an einen bestimmten Ort schaffen, …1b. zu jemandem tragen und übergeben; 2. an einen bestimmten Ort begleiten",
@@ -8413,7 +8451,7 @@ module.exports = {
 		"infinitesimale": {
 			"word": "infinitesimale",
 			"data": {
-				"_id": "591899fbce905c0816aaa331",
+				"_id": "591c1a979c23da1cd8476680",
 				"word": "infinitesimale",
 				"data": {
 					"similarWords": [
@@ -8425,7 +8463,7 @@ module.exports = {
 		"Politik": {
 			"word": "Politik",
 			"data": {
-				"_id": "591899fcce905c0816aaa33f",
+				"_id": "591c1a929c23da1cd8476615",
 				"word": "Politik",
 				"data": {
 					"description": "Substantiv, feminin - 1. auf die Durchsetzung bestimmter Ziele …2. taktierendes Verhalten, zielgerichtetes Vorgehen",
@@ -8462,7 +8500,7 @@ module.exports = {
 		"Bedürfnisse": {
 			"word": "Bedürfnisse",
 			"data": {
-				"_id": "591899fece905c0816aaa367",
+				"_id": "591c1a949c23da1cd847663d",
 				"word": "Bedürfnisse",
 				"data": {
 					"similarWords": [
@@ -8493,7 +8531,7 @@ module.exports = {
 		"Fähigkeiten": {
 			"word": "Fähigkeiten",
 			"data": {
-				"_id": "591899fdce905c0816aaa35a",
+				"_id": "591c1a919c23da1cd8476613",
 				"word": "Fähigkeiten",
 				"data": {
 					"similarWords": [
@@ -8524,7 +8562,7 @@ module.exports = {
 		"Interessen": {
 			"word": "Interessen",
 			"data": {
-				"_id": "591899fece905c0816aaa36a",
+				"_id": "591c1a919c23da1cd8476612",
 				"word": "Interessen",
 				"data": {
 					"similarWords": [
@@ -8555,7 +8593,7 @@ module.exports = {
 		"Wünsche": {
 			"word": "Wünsche",
 			"data": {
-				"_id": "591899fcce905c0816aaa348",
+				"_id": "591c1a9a9c23da1cd84766bd",
 				"word": "Wünsche",
 				"data": {
 					"similarWords": [
@@ -8586,7 +8624,7 @@ module.exports = {
 		"Zwänge": {
 			"word": "Zwänge",
 			"data": {
-				"_id": "591899fdce905c0816aaa35c",
+				"_id": "591c1a989c23da1cd847669c",
 				"word": "Zwänge",
 				"data": {
 					"similarWords": [
@@ -8610,7 +8648,7 @@ module.exports = {
 		"zivilen": {
 			"word": "zivilen",
 			"data": {
-				"_id": "59189a00ce905c0816aaa38a",
+				"_id": "591c1a989c23da1cd847669a",
 				"word": "zivilen",
 				"data": {
 					"similarWords": [
@@ -8634,7 +8672,7 @@ module.exports = {
 		"empörend": {
 			"word": "empörend",
 			"data": {
-				"_id": "59189a00ce905c0816aaa389",
+				"_id": "591c1a929c23da1cd8476614",
 				"word": "empörend",
 				"data": {
 					"description": "Adjektiv - Empörung hervorrufend; unerhört, skandalös",
@@ -8670,7 +8708,7 @@ module.exports = {
 		"dumme": {
 			"word": "dumme",
 			"data": {
-				"_id": "591899fece905c0816aaa366",
+				"_id": "591c1a999c23da1cd84766b6",
 				"word": "dumme",
 				"data": {
 					"similarWords": [
@@ -8701,7 +8739,7 @@ module.exports = {
 		"Unrecht": {
 			"word": "Unrecht",
 			"data": {
-				"_id": "591899face905c0816aaa310",
+				"_id": "591c1a929c23da1cd847661e",
 				"word": "Unrecht",
 				"data": {
 					"description": "Substantiv, Neutrum - 1a. dem Recht, der Gerechtigkeit entgegengesetztes, …1b. als unrecht empfundene Verhaltensweise, Handlung, …1c. als Störung der rechtlichen oder …",
@@ -8738,7 +8776,7 @@ module.exports = {
 		"Wort": {
 			"word": "Wort",
 			"data": {
-				"_id": "591899ffce905c0816aaa37b",
+				"_id": "591c1a949c23da1cd8476644",
 				"word": "Wort",
 				"data": {
 					"description": "Substantiv, Neutrum - 1a. kleinste selbstständige sprachliche Einheit von …1b. Wort in speziellem Hinblick auf …2. etwas, was jemand als Ausdruck …",
@@ -8775,7 +8813,7 @@ module.exports = {
 		"naturgegeben": {
 			"word": "naturgegeben",
 			"data": {
-				"_id": "591899fbce905c0816aaa32c",
+				"_id": "591c1a949c23da1cd8476643",
 				"word": "naturgegeben",
 				"data": {
 					"description": "Adjektiv - unabwendbar, vom menschlichen Willen nicht beeinflussbar",
@@ -8798,7 +8836,7 @@ module.exports = {
 		"steckt": {
 			"word": "steckt",
 			"data": {
-				"_id": "591899fbce905c0816aaa32f",
+				"_id": "591c1a999c23da1cd84766b2",
 				"word": "steckt",
 				"data": {
 					"similarWords": [
@@ -8829,7 +8867,7 @@ module.exports = {
 		"wissen": {
 			"word": "wissen",
 			"data": {
-				"_id": "591899fbce905c0816aaa32d",
+				"_id": "591c1a949c23da1cd8476645",
 				"word": "wissen",
 				"data": {
 					"description": "unregelmäßiges Verb - 1. durch eigene Erfahrung oder Mitteilung …2. über jemanden, etwas unterrichtet sein; …3. davon Kenntnis haben, sicher sein, …",
@@ -8862,7 +8900,7 @@ module.exports = {
 		"schwere": {
 			"word": "schwere",
 			"data": {
-				"_id": "591899fbce905c0816aaa32e",
+				"_id": "591c1a949c23da1cd8476649",
 				"word": "schwere",
 				"data": {
 					"similarWords": [
@@ -8893,7 +8931,7 @@ module.exports = {
 		"Hüftluxation": {
 			"word": "Hüftluxation",
 			"data": {
-				"_id": "591899fbce905c0816aaa322",
+				"_id": "591c1a979c23da1cd8476691",
 				"word": "Hüftluxation",
 				"data": {
 					"similarWords": []
@@ -8903,7 +8941,7 @@ module.exports = {
 		"natürliche": {
 			"word": "natürliche",
 			"data": {
-				"_id": "591899fcce905c0816aaa343",
+				"_id": "591c1a999c23da1cd84766b0",
 				"word": "natürliche",
 				"data": {
 					"similarWords": [
@@ -8934,7 +8972,7 @@ module.exports = {
 		"gesellschaftliches": {
 			"word": "gesellschaftliches",
 			"data": {
-				"_id": "591899fdce905c0816aaa351",
+				"_id": "591c1a989c23da1cd84766a2",
 				"word": "gesellschaftliches",
 				"data": {
 					"similarWords": [
@@ -8965,7 +9003,7 @@ module.exports = {
 		"auszubalancieren": {
 			"word": "auszubalancieren",
 			"data": {
-				"_id": "591899ffce905c0816aaa379",
+				"_id": "591c1a989c23da1cd8476693",
 				"word": "auszubalancieren",
 				"data": {
 					"similarWords": [
@@ -8974,30 +9012,22 @@ module.exports = {
 				}
 			}
 		},
-		"blo": {
-			"word": "blo",
+		"bloßes": {
+			"word": "bloßes",
 			"data": {
-				"_id": "59189a00ce905c0816aaa394",
-				"word": "blo",
+				"_id": "591c1a949c23da1cd8476646",
+				"word": "bloßes",
 				"data": {
 					"similarWords": [
-						"en bloc",
-						"Blog",
+						"Epsilon",
+						"Ypsilon",
+						"Sensor",
+						"Betel",
+						"Prestigeobjekt",
+						"Faktenwissen",
 						"bloß",
-						"Block",
-						"blond",
-						"Bloch",
-						"Blond",
-						"Blockierung",
-						"Blow-up, Blowup",
-						"Blocking",
-						"Blockung",
-						"blockig",
-						"blocken",
-						"Blocker",
-						"Blocher",
-						"blochen",
-						"Pop-up-Blocker"
+						"Dasein",
+						"Blick"
 					]
 				}
 			}
@@ -9005,7 +9035,7 @@ module.exports = {
 		"Sozialmaterial": {
 			"word": "Sozialmaterial",
 			"data": {
-				"_id": "591899fcce905c0816aaa339",
+				"_id": "591c1a989c23da1cd8476694",
 				"word": "Sozialmaterial",
 				"data": {
 					"similarWords": []
@@ -9015,7 +9045,7 @@ module.exports = {
 		"sehen": {
 			"word": "sehen",
 			"data": {
-				"_id": "591899fece905c0816aaa35e",
+				"_id": "591c1a949c23da1cd8476648",
 				"word": "sehen",
 				"data": {
 					"description": "starkes Verb - 1. mit dem Gesichtssinn, mit den …2a. den Blick irgendwohin richten, gerichtet …2b. Aufmerksamkeit, Interesse, Erwartungen auf jemanden, …",
@@ -9051,7 +9081,7 @@ module.exports = {
 		"Einmaligkeit": {
 			"word": "Einmaligkeit",
 			"data": {
-				"_id": "591899fcce905c0816aaa33a",
+				"_id": "591c1a979c23da1cd847668a",
 				"word": "Einmaligkeit",
 				"data": {
 					"description": "Substantiv, feminin - das Einmaligsein",
@@ -9072,7 +9102,7 @@ module.exports = {
 		"Unversehrtheit": {
 			"word": "Unversehrtheit",
 			"data": {
-				"_id": "591899fbce905c0816aaa330",
+				"_id": "591c1a949c23da1cd8476647",
 				"word": "Unversehrtheit",
 				"data": {
 					"description": "Substantiv, feminin - das Unversehrtsein",
@@ -9092,7 +9122,7 @@ module.exports = {
 		"garantieren": {
 			"word": "garantieren",
 			"data": {
-				"_id": "591899fece905c0816aaa35d",
+				"_id": "591c1a959c23da1cd8476650",
 				"word": "garantieren",
 				"data": {
 					"description": "schwaches Verb - a. (durch Versprechen) fest zusichern, zusagen; b. gewährleisten, sicherstellen, sichern; c. die Garantie übernehmen, sich verbürgen",
@@ -9128,7 +9158,7 @@ module.exports = {
 		"akustisch": {
 			"word": "akustisch",
 			"data": {
-				"_id": "591899fdce905c0816aaa352",
+				"_id": "591c1a999c23da1cd84766a9",
 				"word": "akustisch",
 				"data": {
 					"description": "Adjektiv - 1. die Akustik betreffend; 2. den Schall, Klang betreffend, klanglich, …",
@@ -9164,7 +9194,7 @@ module.exports = {
 		"thematisieren": {
 			"word": "thematisieren",
 			"data": {
-				"_id": "591899fdce905c0816aaa359",
+				"_id": "591c1a949c23da1cd847664b",
 				"word": "thematisieren",
 				"data": {
 					"description": "schwaches Verb - zum Thema von etwas machen, als Thema diskutieren",
@@ -9187,7 +9217,7 @@ module.exports = {
 		"Artikel": {
 			"word": "Artikel",
 			"data": {
-				"_id": "59189a01ce905c0816aaa3ac",
+				"_id": "591c1a949c23da1cd847664c",
 				"word": "Artikel",
 				"data": {
 					"description": "Substantiv, maskulin - 1. Aufsatz, Abhandlung; Beitrag; 2a. [mit einer Nummer gekennzeichneter] Abschnitt …2b. Glaubenssatz; Abschnitt eines Bekenntnisses oder …",
@@ -9224,7 +9254,7 @@ module.exports = {
 		"Reden": {
 			"word": "Reden",
 			"data": {
-				"_id": "591899fcce905c0816aaa344",
+				"_id": "591c1a949c23da1cd847664a",
 				"word": "Reden",
 				"data": {
 					"similarWords": [
@@ -9255,7 +9285,7 @@ module.exports = {
 		"Briefe": {
 			"word": "Briefe",
 			"data": {
-				"_id": "591899fece905c0816aaa362",
+				"_id": "591c1a999c23da1cd84766ad",
 				"word": "Briefe",
 				"data": {
 					"similarWords": [
@@ -9286,7 +9316,7 @@ module.exports = {
 		"die": {
 			"word": "die",
 			"data": {
-				"_id": "591899ffce905c0816aaa37a",
+				"_id": "591c1a959c23da1cd8476651",
 				"word": "die",
 				"data": {
 					"similarWords": [
@@ -9315,7 +9345,7 @@ module.exports = {
 		"Gefängnis": {
 			"word": "Gefängnis",
 			"data": {
-				"_id": "591899fece905c0816aaa360",
+				"_id": "591c1a959c23da1cd8476660",
 				"word": "Gefängnis",
 				"data": {
 					"description": "Substantiv, Neutrum - 1. Gebäude, Anstalt für Häftlinge mit …2. Gefängnisstrafe",
@@ -9352,7 +9382,7 @@ module.exports = {
 		"geschrieben": {
 			"word": "geschrieben",
 			"data": {
-				"_id": "591899fdce905c0816aaa35b",
+				"_id": "591c1a999c23da1cd84766b8",
 				"word": "geschrieben",
 				"data": {
 					"description": "siehe schreiben",
@@ -9369,9 +9399,9 @@ module.exports = {
 						"Kammeroper",
 						"Texterkennung",
 						"Papsturkunde",
+						"idiografisch, idiographisch",
 						"handgeschrieben",
 						"Geschmiere",
-						"idiografisch, idiographisch",
 						"maschinenschriftlich",
 						"bilingue",
 						"bilinguisch",
@@ -9385,7 +9415,7 @@ module.exports = {
 		"Liebesbriefe": {
 			"word": "Liebesbriefe",
 			"data": {
-				"_id": "59189a00ce905c0816aaa399",
+				"_id": "591c1a979c23da1cd8476684",
 				"word": "Liebesbriefe",
 				"data": {
 					"similarWords": [
@@ -9400,7 +9430,7 @@ module.exports = {
 		"altmodischen": {
 			"word": "altmodischen",
 			"data": {
-				"_id": "59189a00ce905c0816aaa39a",
+				"_id": "591c1a979c23da1cd8476685",
 				"word": "altmodischen",
 				"data": {
 					"similarWords": [
@@ -9412,7 +9442,7 @@ module.exports = {
 		"melancholischen": {
 			"word": "melancholischen",
 			"data": {
-				"_id": "591899ffce905c0816aaa376",
+				"_id": "591c1a989c23da1cd8476692",
 				"word": "melancholischen",
 				"data": {
 					"similarWords": [
@@ -9425,7 +9455,7 @@ module.exports = {
 		"Keuschheit": {
 			"word": "Keuschheit",
 			"data": {
-				"_id": "591899fece905c0816aaa35f",
+				"_id": "591c1a999c23da1cd84766ae",
 				"word": "Keuschheit",
 				"data": {
 					"description": "Substantiv, feminin - a. sexuelle Enthaltsamkeit; b. Sittsamkeit; c. moralische Reinheit, Integrität",
@@ -9459,7 +9489,7 @@ module.exports = {
 		"all": {
 			"word": "all",
 			"data": {
-				"_id": "591899ffce905c0816aaa37c",
+				"_id": "591c1a959c23da1cd8476653",
 				"word": "all",
 				"data": {
 					"description": "Pronomen und Zahlwort - 1a. ganz, gesamt; 1a. auf etwas …1b. jeder, jedes, jegliches; 1b. stärker …1c. alle Leute hier; jeder Anwesende; …",
@@ -9494,7 +9524,7 @@ module.exports = {
 		"Stellen": {
 			"word": "Stellen",
 			"data": {
-				"_id": "59189a00ce905c0816aaa395",
+				"_id": "591c1a949c23da1cd847664e",
 				"word": "Stellen",
 				"data": {
 					"similarWords": [
@@ -9525,7 +9555,7 @@ module.exports = {
 		"abgegangen": {
 			"word": "abgegangen",
 			"data": {
-				"_id": "591899fece905c0816aaa361",
+				"_id": "591c1a989c23da1cd84766a1",
 				"word": "abgegangen",
 				"data": {
 					"description": "abgehen",
@@ -9547,7 +9577,7 @@ module.exports = {
 		"Berlin": {
 			"word": "Berlin",
 			"data": {
-				"_id": "591899fcce905c0816aaa346",
+				"_id": "591c1a949c23da1cd847664d",
 				"word": "Berlin",
 				"data": {
 					"description": "Substantiv, Neutrum - Hauptstadt von Deutschland und deutsches Bundesland",
@@ -9584,7 +9614,7 @@ module.exports = {
 		"gelebt": {
 			"word": "gelebt",
 			"data": {
-				"_id": "591899ffce905c0816aaa387",
+				"_id": "591c1a949c23da1cd847664f",
 				"word": "gelebt",
 				"data": {
 					"similarWords": [
@@ -9610,7 +9640,7 @@ module.exports = {
 		"gearbeitet": {
 			"word": "gearbeitet",
 			"data": {
-				"_id": "591899fcce905c0816aaa347",
+				"_id": "591c1a959c23da1cd847665b",
 				"word": "gearbeitet",
 				"data": {
 					"similarWords": [
@@ -9641,7 +9671,7 @@ module.exports = {
 		"Atem": {
 			"word": "Atem",
 			"data": {
-				"_id": "59189a01ce905c0816aaa3ab",
+				"_id": "591c1a959c23da1cd847665c",
 				"word": "Atem",
 				"data": {
 					"description": "Substantiv, maskulin - 1. das Atmen; Atmung; 2. ein- und ausgeatmete Luft",
@@ -9678,7 +9708,7 @@ module.exports = {
 		"aufgenommen": {
 			"word": "aufgenommen",
 			"data": {
-				"_id": "591899fece905c0816aaa363",
+				"_id": "591c1a959c23da1cd847665d",
 				"word": "aufgenommen",
 				"data": {
 					"similarWords": [
@@ -9709,7 +9739,7 @@ module.exports = {
 		"denkt": {
 			"word": "denkt",
 			"data": {
-				"_id": "59189a00ce905c0816aaa396",
+				"_id": "591c1a999c23da1cd84766ba",
 				"word": "denkt",
 				"data": {
 					"similarWords": [
@@ -9737,47 +9767,38 @@ module.exports = {
 				}
 			}
 		},
-		"gleichmä": {
-			"word": "gleichmä",
+		"gleichmäßig": {
+			"word": "gleichmäßig",
 			"data": {
-				"_id": "59189a00ce905c0816aaa398",
-				"word": "gleichmä",
+				"_id": "591c1a959c23da1cd8476659",
+				"word": "gleichmäßig",
 				"data": {
+					"description": "Adjektiv - in einem Gleichmaß, ohne [starke] Veränderungen vor sich gehend, ablaufend; ausgeglichen",
+					"wordProperties": {
+						"type": "Adjektiv",
+						"definition": "in einem Gleichmaß, ohne [starke] Veränderungen vor sich gehend, ablaufend; ausgeglichen"
+					},
+					"definitionUrl": "http://www.duden.de/rechtschreibung/gleichmaeszig",
 					"similarWords": [
-						"gleichmäßig",
-						"gleichmächtig",
-						"Gleichmäßigkeit"
-					]
-				}
-			}
-		},
-		"ig": {
-			"word": "ig",
-			"data": {
-				"_id": "591899fdce905c0816aaa34b",
-				"word": "ig",
-				"data": {
-					"similarWords": [
-						"IG",
-						"Ignoszenz",
-						"-igkeit",
-						"ignoszieren",
-						"Ignatius",
-						"Ignitron",
-						"ignoramus et ignorabimus",
-						"Ignipunktur",
-						"Ignorantentum",
-						"ignorant",
-						"Ignoranz",
-						"Igluzelt",
-						"Neuigkeit",
-						"Schlauigkeit",
-						"Rauigkeit",
-						"Ignorant",
-						"Böigkeit",
-						"ignorieren",
-						"böig",
-						"tauig"
+						"Gleichmäßigkeit",
+						"schwankungsfrei",
+						"Gleichmaß",
+						"uneinheitlich",
+						"plattig",
+						"stimmig",
+						"proportioniert",
+						"homogen",
+						"abgemessen",
+						"laminar",
+						"gleichbleibend, gleich bleibend",
+						"ausgewogen",
+						"ebenmäßig",
+						"rhythmisch",
+						"gleichförmig",
+						"dahinbewegen",
+						"Symmetrie",
+						"eben",
+						"ausgeglichen"
 					]
 				}
 			}
@@ -9785,7 +9806,7 @@ module.exports = {
 		"bewegt": {
 			"word": "bewegt",
 			"data": {
-				"_id": "591899fdce905c0816aaa34c",
+				"_id": "591c1a959c23da1cd847665e",
 				"word": "bewegt",
 				"data": {
 					"description": "Adjektiv - 1a. in Bewegung befindlich, unruhig; 1b. ereignisreich, unruhig; 2. durch Bewegung gekennzeichnet, von Bewegung …",
@@ -9821,7 +9842,7 @@ module.exports = {
 		"hört": {
 			"word": "hört",
 			"data": {
-				"_id": "591899fdce905c0816aaa350",
+				"_id": "591c1a959c23da1cd8476658",
 				"word": "hört",
 				"data": {
 					"similarWords": [
@@ -9851,7 +9872,7 @@ module.exports = {
 		"genau": {
 			"word": "genau",
 			"data": {
-				"_id": "591899fdce905c0816aaa34d",
+				"_id": "591c1a959c23da1cd847665a",
 				"word": "genau",
 				"data": {
 					"description": "Adjektiv - a. mit einem Muster, Vorbild, einer …b. gründlich, gewissenhaft ins Einzelne gehend; …",
@@ -9886,7 +9907,7 @@ module.exports = {
 		"winzige": {
 			"word": "winzige",
 			"data": {
-				"_id": "591899fece905c0816aaa365",
+				"_id": "591c1a959c23da1cd8476654",
 				"word": "winzige",
 				"data": {
 					"similarWords": [
@@ -9917,7 +9938,7 @@ module.exports = {
 		"Veränderung": {
 			"word": "Veränderung",
 			"data": {
-				"_id": "591899fdce905c0816aaa34e",
+				"_id": "591c1a959c23da1cd8476655",
 				"word": "Veränderung",
 				"data": {
 					"description": "Substantiv, feminin - 1. das Verändern; 2. das Sichverändern, das Anderswerden; 3. Ergebnis einer Veränderung",
@@ -9954,7 +9975,7 @@ module.exports = {
 		"Schritts": {
 			"word": "Schritts",
 			"data": {
-				"_id": "591899fdce905c0816aaa34f",
+				"_id": "591c1a989c23da1cd84766a7",
 				"word": "Schritts",
 				"data": {
 					"similarWords": [
@@ -9985,7 +10006,7 @@ module.exports = {
 		"sieht": {
 			"word": "sieht",
 			"data": {
-				"_id": "591899fece905c0816aaa369",
+				"_id": "591c1a959c23da1cd8476656",
 				"word": "sieht",
 				"data": {
 					"description": "siehe sehen",
@@ -10018,7 +10039,7 @@ module.exports = {
 		"fühlt": {
 			"word": "fühlt",
 			"data": {
-				"_id": "591899fece905c0816aaa368",
+				"_id": "591c1a999c23da1cd84766b5",
 				"word": "fühlt",
 				"data": {
 					"similarWords": [
@@ -10046,64 +10067,14 @@ module.exports = {
 				}
 			}
 		},
-		"Schlo": {
-			"word": "Schlo",
+		"Schloßplatz": {
+			"word": "Schloßplatz",
 			"data": {
-				"_id": "591899ffce905c0816aaa37f",
-				"word": "Schlo",
+				"_id": "591c1aa09c23da1cd847673e",
+				"word": "Schloßplatz",
 				"data": {
 					"similarWords": [
-						"Hagelschloße",
-						"Schlot",
-						"Schloße",
-						"Schloss",
-						"schloff",
-						"schloss",
-						"schloßen",
-						"schlohweiß",
-						"Schlorre",
-						"Schlotte",
-						"Schlöte",
-						"schlottrig",
-						"Schlosser",
-						"Schlosshof",
-						"Kfz-Schlosser",
-						"Schlossbau",
-						"schlorren",
-						"schlotzen",
-						"Schlösser",
-						"schlöffe"
-					]
-				}
-			}
-		},
-		"platz": {
-			"word": "platz",
-			"data": {
-				"_id": "591899ffce905c0816aaa381",
-				"word": "platz",
-				"data": {
-					"similarWords": [
-						"Platz",
-						"plitz, platz",
-						"Platzdeckchen",
-						"Platzverhältnisse",
-						"Platzrunde",
-						"Platzkarte",
-						"Platzwunde",
-						"Platzwette",
-						"Platzmiete",
-						"Platzhirsch",
-						"Platzregen",
-						"Platzregel",
-						"Platzvertretung",
-						"Platzkonzert",
-						"Platzverweis",
-						"Platzwechsel",
-						"Platzgründe",
-						"Platzvorteil",
-						"Platzersparnis",
-						"Platzvertreter"
+						"halten"
 					]
 				}
 			}
@@ -10111,7 +10082,7 @@ module.exports = {
 		"geredet": {
 			"word": "geredet",
 			"data": {
-				"_id": "591899ffce905c0816aaa380",
+				"_id": "591c1a959c23da1cd847665f",
 				"word": "geredet",
 				"data": {
 					"similarWords": [
@@ -10131,11 +10102,11 @@ module.exports = {
 				}
 			}
 		},
-		"Barnimstra": {
-			"word": "Barnimstra",
+		"Barnimstraße": {
+			"word": "Barnimstraße",
 			"data": {
-				"_id": "591899fece905c0816aaa36b",
-				"word": "Barnimstra",
+				"_id": "591c1a979c23da1cd847667e",
+				"word": "Barnimstraße",
 				"data": {
 					"similarWords": []
 				}
@@ -10144,7 +10115,7 @@ module.exports = {
 		"Hof": {
 			"word": "Hof",
 			"data": {
-				"_id": "591899ffce905c0816aaa383",
+				"_id": "591c1a959c23da1cd8476652",
 				"word": "Hof",
 				"data": {
 					"description": "Substantiv, maskulin - 1. zu einem Gebäude[komplex] gehörender, von …2. landwirtschaftlicher Betrieb (mit allen Gebäuden …3a. Sitz eines regierenden Fürsten, Herrschers",
@@ -10181,7 +10152,7 @@ module.exports = {
 		"Fliederstrauch": {
 			"word": "Fliederstrauch",
 			"data": {
-				"_id": "591899fece905c0816aaa370",
+				"_id": "591c1a979c23da1cd8476683",
 				"word": "Fliederstrauch",
 				"data": {
 					"description": "Substantiv, maskulin - als Strauch wachsende Pflanze mit weißen oder hell- bis dunkellila, stark duftenden Blüten in großen …",
@@ -10200,7 +10171,7 @@ module.exports = {
 		"pflanzte": {
 			"word": "pflanzte",
 			"data": {
-				"_id": "591899ffce905c0816aaa385",
+				"_id": "591c1a989c23da1cd84766a5",
 				"word": "pflanzte",
 				"data": {
 					"similarWords": [
@@ -10218,7 +10189,7 @@ module.exports = {
 		"Hotel": {
 			"word": "Hotel",
 			"data": {
-				"_id": "591899ffce905c0816aaa382",
+				"_id": "591c1a959c23da1cd8476657",
 				"word": "Hotel",
 				"data": {
 					"description": "Substantiv, Neutrum - (als Gewerbebetrieb geführtes) Haus mit bestimmtem Komfort, in dem Gäste übernachten bzw. für eine bestimmte …",
@@ -10255,7 +10226,7 @@ module.exports = {
 		"Eden": {
 			"word": "Eden",
 			"data": {
-				"_id": "59189a00ce905c0816aaa38e",
+				"_id": "591c1a969c23da1cd8476671",
 				"word": "Eden",
 				"data": {
 					"description": "Substantiv, Neutrum - 1. der Garten Eden; 2. Paradies",
@@ -10280,7 +10251,7 @@ module.exports = {
 		"verhöhnt": {
 			"word": "verhöhnt",
 			"data": {
-				"_id": "591899fece905c0816aaa36d",
+				"_id": "591c1a979c23da1cd8476681",
 				"word": "verhöhnt",
 				"data": {
 					"similarWords": [
@@ -10293,7 +10264,7 @@ module.exports = {
 		"erschlagen": {
 			"word": "erschlagen",
 			"data": {
-				"_id": "59189a00ce905c0816aaa38f",
+				"_id": "591c1a999c23da1cd84766ab",
 				"word": "erschlagen",
 				"data": {
 					"description": "Adjektiv - erschöpft, am Ende der Kräfte",
@@ -10328,7 +10299,7 @@ module.exports = {
 		"Lichtensteinbrücke": {
 			"word": "Lichtensteinbrücke",
 			"data": {
-				"_id": "591899fece905c0816aaa36c",
+				"_id": "591c1a979c23da1cd847668c",
 				"word": "Lichtensteinbrücke",
 				"data": {
 					"similarWords": []
@@ -10338,7 +10309,7 @@ module.exports = {
 		"Schleuse": {
 			"word": "Schleuse",
 			"data": {
-				"_id": "59189a00ce905c0816aaa391",
+				"_id": "591c1a989c23da1cd84766a4",
 				"word": "Schleuse",
 				"data": {
 					"description": "Substantiv, feminin - 1a. Vorrichtung zum Absperren eines Wasserstroms, …1b. aus zwei Toren und einer …2. den einzigen Zugang zu einem …",
@@ -10375,7 +10346,7 @@ module.exports = {
 		"dreieinhalb": {
 			"word": "dreieinhalb",
 			"data": {
-				"_id": "591899ffce905c0816aaa374",
+				"_id": "591c1a979c23da1cd8476690",
 				"word": "dreieinhalb",
 				"data": {
 					"description": "Zahlwort - in Ziffern: 3 1/2",
@@ -10394,7 +10365,7 @@ module.exports = {
 		"Monate": {
 			"word": "Monate",
 			"data": {
-				"_id": "59189a00ce905c0816aaa393",
+				"_id": "591c1a969c23da1cd8476672",
 				"word": "Monate",
 				"data": {
 					"similarWords": [
@@ -10425,7 +10396,7 @@ module.exports = {
 		"herausgezogen": {
 			"word": "herausgezogen",
 			"data": {
-				"_id": "591899ffce905c0816aaa384",
+				"_id": "591c1a989c23da1cd84766a3",
 				"word": "herausgezogen",
 				"data": {
 					"similarWords": [
@@ -10444,7 +10415,7 @@ module.exports = {
 		"Friedhof": {
 			"word": "Friedhof",
 			"data": {
-				"_id": "59189a01ce905c0816aaa3af",
+				"_id": "591c1a999c23da1cd84766bc",
 				"word": "Friedhof",
 				"data": {
 					"description": "Substantiv, maskulin - Ort, an dem die Toten bestattet werden",
@@ -10481,7 +10452,7 @@ module.exports = {
 		"Friedrichsfelde": {
 			"word": "Friedrichsfelde",
 			"data": {
-				"_id": "591899fece905c0816aaa371",
+				"_id": "591c1a979c23da1cd847668d",
 				"word": "Friedrichsfelde",
 				"data": {
 					"similarWords": []
@@ -10491,7 +10462,7 @@ module.exports = {
 		"beerdigt": {
 			"word": "beerdigt",
 			"data": {
-				"_id": "59189a01ce905c0816aaa3a3",
+				"_id": "591c1a979c23da1cd8476687",
 				"word": "beerdigt",
 				"data": {
 					"similarWords": [
@@ -10506,7 +10477,7 @@ module.exports = {
 		"Grab": {
 			"word": "Grab",
 			"data": {
-				"_id": "59189a00ce905c0816aaa38d",
+				"_id": "591c1a999c23da1cd84766af",
 				"word": "Grab",
 				"data": {
 					"description": "Substantiv, Neutrum - a. für die Beerdigung eines Toten …b. oft durch einen kleinen [geschmückten] …",
@@ -10543,7 +10514,7 @@ module.exports = {
 		"Nazis": {
 			"word": "Nazis",
 			"data": {
-				"_id": "59189a00ce905c0816aaa392",
+				"_id": "591c1a999c23da1cd84766aa",
 				"word": "Nazis",
 				"data": {
 					"similarWords": [
@@ -10567,7 +10538,7 @@ module.exports = {
 		"eingeebnet": {
 			"word": "eingeebnet",
 			"data": {
-				"_id": "591899fece905c0816aaa373",
+				"_id": "591c1a959c23da1cd8476662",
 				"word": "eingeebnet",
 				"data": {
 					"similarWords": [
@@ -10581,7 +10552,7 @@ module.exports = {
 		"Politbürokrat": {
 			"word": "Politbürokrat",
 			"data": {
-				"_id": "591899ffce905c0816aaa375",
+				"_id": "591c1a979c23da1cd847668f",
 				"word": "Politbürokrat",
 				"data": {
 					"similarWords": []
@@ -10591,7 +10562,7 @@ module.exports = {
 		"Ulbricht": {
 			"word": "Ulbricht",
 			"data": {
-				"_id": "591899fece905c0816aaa36e",
+				"_id": "591c1a979c23da1cd8476688",
 				"word": "Ulbricht",
 				"data": {
 					"similarWords": []
@@ -10601,7 +10572,7 @@ module.exports = {
 		"angelagert": {
 			"word": "angelagert",
 			"data": {
-				"_id": "591899ffce905c0816aaa377",
+				"_id": "591c1a959c23da1cd8476661",
 				"word": "angelagert",
 				"data": {
 					"similarWords": [
@@ -10616,7 +10587,7 @@ module.exports = {
 		"starke": {
 			"word": "starke",
 			"data": {
-				"_id": "591899ffce905c0816aaa386",
+				"_id": "591c1a999c23da1cd84766b7",
 				"word": "starke",
 				"data": {
 					"similarWords": [
@@ -10647,7 +10618,7 @@ module.exports = {
 		"zart": {
 			"word": "zart",
 			"data": {
-				"_id": "59189a01ce905c0816aaa3ad",
+				"_id": "591c1a969c23da1cd8476674",
 				"word": "zart",
 				"data": {
 					"description": "Adjektiv - 1a. [auf anmutige Weise] empfindlich, verletzlich, …1b. sehr empfindlich [reagierend], sensibel; mimosenhaft; 2. auf angenehme Weise weich, mürbe …",
@@ -10683,7 +10654,7 @@ module.exports = {
 		"stark": {
 			"word": "stark",
 			"data": {
-				"_id": "59189a00ce905c0816aaa390",
+				"_id": "591c1a969c23da1cd8476675",
 				"word": "stark",
 				"data": {
 					"description": "Adjektiv - 1a. viel Kraft besitzend, über genügend …1b. (in Bezug auf seine Funktion) …2a. dick, stabil, fest und daher …",
@@ -10719,7 +10690,7 @@ module.exports = {
 		"kräftig": {
 			"word": "kräftig",
 			"data": {
-				"_id": "59189a00ce905c0816aaa39b",
+				"_id": "591c1a969c23da1cd8476676",
 				"word": "kräftig",
 				"data": {
 					"description": "Adjektiv - 1a. über Körperkraft verfügend, [in der …1b. von gesundem Wuchs zeugend; gut …2a. in hohem Maße ausgeprägt, vorhanden; …",
@@ -10755,7 +10726,7 @@ module.exports = {
 		"körperlich": {
 			"word": "körperlich",
 			"data": {
-				"_id": "59189a01ce905c0816aaa39e",
+				"_id": "591c1a999c23da1cd84766b1",
 				"word": "körperlich",
 				"data": {
 					"description": "Adjektiv - den Körper betreffend; auf den Körper bezogen",
@@ -10791,7 +10762,7 @@ module.exports = {
 		"verletzt": {
 			"word": "verletzt",
 			"data": {
-				"_id": "59189a00ce905c0816aaa39c",
+				"_id": "591c1a999c23da1cd84766b4",
 				"word": "verletzt",
 				"data": {
 					"description": "Adjektiv - 1. sich eine Verletzung zugezogen habend; 2. gekränkt, beleidigt",
@@ -10827,7 +10798,7 @@ module.exports = {
 		"Clara": {
 			"word": "Clara",
 			"data": {
-				"_id": "59189a01ce905c0816aaa3a5",
+				"_id": "591c1a969c23da1cd8476663",
 				"word": "Clara",
 				"data": {
 					"similarWords": [
@@ -10841,7 +10812,7 @@ module.exports = {
 		"Zetkin": {
 			"word": "Zetkin",
 			"data": {
-				"_id": "59189a00ce905c0816aaa397",
+				"_id": "591c1a979c23da1cd8476682",
 				"word": "Zetkin",
 				"data": {
 					"similarWords": []
@@ -10851,7 +10822,7 @@ module.exports = {
 		"Hüte": {
 			"word": "Hüte",
 			"data": {
-				"_id": "59189a02ce905c0816aaa3bf",
+				"_id": "591c1a969c23da1cd8476665",
 				"word": "Hüte",
 				"data": {
 					"similarWords": [
@@ -10882,7 +10853,7 @@ module.exports = {
 		"hinguckt": {
 			"word": "hinguckt",
 			"data": {
-				"_id": "59189a01ce905c0816aaa3a7",
+				"_id": "591c1a979c23da1cd847668e",
 				"word": "hinguckt",
 				"data": {
 					"similarWords": []
@@ -10892,7 +10863,7 @@ module.exports = {
 		"hinkt": {
 			"word": "hinkt",
 			"data": {
-				"_id": "59189a00ce905c0816aaa39d",
+				"_id": "591c1a999c23da1cd84766a8",
 				"word": "hinkt",
 				"data": {
 					"similarWords": [
@@ -10911,7 +10882,7 @@ module.exports = {
 		"geschritten": {
 			"word": "geschritten",
 			"data": {
-				"_id": "59189a01ce905c0816aaa3a8",
+				"_id": "591c1a979c23da1cd847668b",
 				"word": "geschritten",
 				"data": {
 					"description": "siehe schreiten",
@@ -10927,7 +10898,7 @@ module.exports = {
 		"Erinnerung": {
 			"word": "Erinnerung",
 			"data": {
-				"_id": "59189a02ce905c0816aaa3b9",
+				"_id": "591c1a969c23da1cd8476668",
 				"word": "Erinnerung",
 				"data": {
 					"description": "Substantiv, feminin - 1a. Fähigkeit, sich an etwas zu …1b. Besitz aller bisher aufgenommenen Eindrücke; …2. Eindruck, an den jemand sich …",
@@ -10964,7 +10935,7 @@ module.exports = {
 		"Hoffnungen": {
 			"word": "Hoffnungen",
 			"data": {
-				"_id": "59189a01ce905c0816aaa3aa",
+				"_id": "591c1a989c23da1cd84766a6",
 				"word": "Hoffnungen",
 				"data": {
 					"similarWords": [
@@ -10995,7 +10966,7 @@ module.exports = {
 		"Ohr": {
 			"word": "Ohr",
 			"data": {
-				"_id": "59189a01ce905c0816aaa3b0",
+				"_id": "591c1a969c23da1cd8476673",
 				"word": "Ohr",
 				"data": {
 					"description": "Substantiv, Neutrum - Gehörorgan bei Mensch und Wirbeltier, dessen äußerer Teil je ein meist an beiden Seiten des …",
@@ -11032,7 +11003,7 @@ module.exports = {
 		"Stück": {
 			"word": "Stück",
 			"data": {
-				"_id": "59189a01ce905c0816aaa3b2",
+				"_id": "591c1a999c23da1cd84766b3",
 				"word": "Stück",
 				"data": {
 					"description": "Substantiv, Neutrum - 1a. abgetrennter oder abzutrennender Teil eines …1b. einzelner, eine Einheit bildender Teil …2. bestimmte Menge eines Stoffes, Materials …",
@@ -11069,7 +11040,7 @@ module.exports = {
 		"Schalmeien": {
 			"word": "Schalmeien",
 			"data": {
-				"_id": "59189a01ce905c0816aaa39f",
+				"_id": "591c1a979c23da1cd847667b",
 				"word": "Schalmeien",
 				"data": {
 					"similarWords": [
@@ -11082,7 +11053,7 @@ module.exports = {
 		"schlichten": {
 			"word": "schlichten",
 			"data": {
-				"_id": "59189a02ce905c0816aaa3c4",
+				"_id": "591c1a969c23da1cd847666b",
 				"word": "schlichten",
 				"data": {
 					"description": "schwaches Verb - 1. als unbeteiligter Dritter zwischen streitenden …2a. (eine Oberfläche) glätten; 2b. (Leder) weich und geschmeidig machen",
@@ -11118,7 +11089,7 @@ module.exports = {
 		"Märsche": {
 			"word": "Märsche",
 			"data": {
-				"_id": "59189a01ce905c0816aaa3a0",
+				"_id": "591c1a979c23da1cd847667f",
 				"word": "Märsche",
 				"data": {
 					"similarWords": [
@@ -11132,7 +11103,7 @@ module.exports = {
 		"ablösen": {
 			"word": "ablösen",
 			"data": {
-				"_id": "59189a01ce905c0816aaa3b3",
+				"_id": "591c1a969c23da1cd8476667",
 				"word": "ablösen",
 				"data": {
 					"description": "schwaches Verb - 1a. von seinem Untergrund lösen; abmachen; 1b. sich lösen; 2. die Tätigkeit, den Dienst, die …",
@@ -11168,7 +11139,7 @@ module.exports = {
 		"Neues": {
 			"word": "Neues",
 			"data": {
-				"_id": "59189a01ce905c0816aaa3b1",
+				"_id": "591c1a969c23da1cd847666a",
 				"word": "Neues",
 				"data": {
 					"similarWords": [
@@ -11199,7 +11170,7 @@ module.exports = {
 		"Mai": {
 			"word": "Mai",
 			"data": {
-				"_id": "59189a02ce905c0816aaa3b6",
+				"_id": "591c1a969c23da1cd8476669",
 				"word": "Mai",
 				"data": {
 					"description": "Substantiv, maskulin - fünfter Monat des Jahres",
@@ -11236,7 +11207,7 @@ module.exports = {
 		"Gehörtes": {
 			"word": "Gehörtes",
 			"data": {
-				"_id": "59189a01ce905c0816aaa3b4",
+				"_id": "591c1a989c23da1cd847669d",
 				"word": "Gehörtes",
 				"data": {
 					"similarWords": [
@@ -11267,7 +11238,7 @@ module.exports = {
 		"Instrument": {
 			"word": "Instrument",
 			"data": {
-				"_id": "59189a02ce905c0816aaa3c1",
+				"_id": "591c1a969c23da1cd8476666",
 				"word": "Instrument",
 				"data": {
 					"description": "Substantiv, Neutrum - 1. meist fein gearbeitetes, oft kompliziert …2. jemand, etwas als Mittel, dessen …3. ein schwieriges, wertvolles, altes Instrument; …",
@@ -11289,13 +11260,13 @@ module.exports = {
 						"Kampfbegriff",
 						"Instrumentation",
 						"Yantra",
-						"instrumental",
-						"Nomen Instrumenti",
 						"Tonometer",
 						"Folterwerkzeug",
 						"Tutti",
 						"Nyktometer",
-						"Hämodynamometer"
+						"Hämodynamometer",
+						"Kraniometer",
+						"Planisphäre"
 					]
 				}
 			}
@@ -11303,7 +11274,7 @@ module.exports = {
 		"Streckenarbeiter": {
 			"word": "Streckenarbeiter",
 			"data": {
-				"_id": "59189a01ce905c0816aaa3a1",
+				"_id": "591c1a979c23da1cd8476686",
 				"word": "Streckenarbeiter",
 				"data": {
 					"description": "Substantiv, maskulin - Arbeiter, der beim Bau, bei der Unterhaltung, Reparatur von Gleisanlagen mit Gleisarbeiten beschäftigt ist",
@@ -11322,7 +11293,7 @@ module.exports = {
 		"nahenden": {
 			"word": "nahenden",
 			"data": {
-				"_id": "59189a03ce905c0816aaa3cc",
+				"_id": "591c1a979c23da1cd847667d",
 				"word": "nahenden",
 				"data": {
 					"similarWords": [
@@ -11334,7 +11305,7 @@ module.exports = {
 		"Gefahr": {
 			"word": "Gefahr",
 			"data": {
-				"_id": "59189a02ce905c0816aaa3c5",
+				"_id": "591c1a969c23da1cd847666f",
 				"word": "Gefahr",
 				"data": {
 					"description": "Substantiv, feminin - Möglichkeit, dass jemandem etwas zustößt, dass ein Schaden eintritt; drohendes Unheil",
@@ -11371,7 +11342,7 @@ module.exports = {
 		"warnen": {
 			"word": "warnen",
 			"data": {
-				"_id": "59189a02ce905c0816aaa3c2",
+				"_id": "591c1a969c23da1cd8476670",
 				"word": "warnen",
 				"data": {
 					"description": "schwaches Verb - 1. auf eine Gefahr hinweisen; 2. jemandem nachdrücklich, dringend [und unter …",
@@ -11407,7 +11378,7 @@ module.exports = {
 		"Art": {
 			"word": "Art",
 			"data": {
-				"_id": "59189a02ce905c0816aaa3c6",
+				"_id": "591c1a969c23da1cd847666e",
 				"word": "Art",
 				"data": {
 					"description": "Substantiv, feminin - 1. angeborene Eigenart, Eigentümlichkeit; Wesen[sart], Natur, …2. häufig in intensivierender Verbindung mit …3. gutes Benehmen",
@@ -11444,7 +11415,7 @@ module.exports = {
 		"Agitpropstück": {
 			"word": "Agitpropstück",
 			"data": {
-				"_id": "59189a01ce905c0816aaa3a2",
+				"_id": "591c1a979c23da1cd847667c",
 				"word": "Agitpropstück",
 				"data": {
 					"similarWords": []
@@ -11454,7 +11425,7 @@ module.exports = {
 		"Musik": {
 			"word": "Musik",
 			"data": {
-				"_id": "59189a02ce905c0816aaa3b7",
+				"_id": "591c1a999c23da1cd84766bb",
 				"word": "Musik",
 				"data": {
 					"description": "Substantiv, feminin - 1a. Kunst, Töne in bestimmter (geschichtlich …1b. Werk, Werke der Musik; 1c. musikalische Komposition, Musikstück",
@@ -11491,7 +11462,7 @@ module.exports = {
 		"Arbeiter": {
 			"word": "Arbeiter",
 			"data": {
-				"_id": "59189a02ce905c0816aaa3b5",
+				"_id": "591c1a969c23da1cd847666c",
 				"word": "Arbeiter",
 				"data": {
 					"description": "Substantiv, maskulin - a. jemand, der körperlich oder geistig …b. Arbeitnehmer, der überwiegend körperliche Arbeit …",
@@ -11528,7 +11499,7 @@ module.exports = {
 		"interessiert": {
 			"word": "interessiert",
 			"data": {
-				"_id": "59189a03ce905c0816aaa3ce",
+				"_id": "591c1a969c23da1cd847666d",
 				"word": "interessiert",
 				"data": {
 					"description": "Adjektiv - [starken] Anteil nehmend; Interesse habend, zeigend; geistig aufgeschlossen, aufmerksam",
@@ -11564,7 +11535,7 @@ module.exports = {
 		"Gewerkschaftler": {
 			"word": "Gewerkschaftler",
 			"data": {
-				"_id": "59189a01ce905c0816aaa3a4",
+				"_id": "591c1a9a9c23da1cd84766c5",
 				"word": "Gewerkschaftler",
 				"data": {
 					"description": "Substantiv, maskulin - Gewerkschafter",
@@ -11584,7 +11555,7 @@ module.exports = {
 		"organisierten": {
 			"word": "organisierten",
 			"data": {
-				"_id": "59189a02ce905c0816aaa3c0",
+				"_id": "591c1a9c9c23da1cd84766e7",
 				"word": "organisierten",
 				"data": {
 					"similarWords": [
@@ -11613,7 +11584,7 @@ module.exports = {
 		"Kommunisten": {
 			"word": "Kommunisten",
 			"data": {
-				"_id": "59189a02ce905c0816aaa3b8",
+				"_id": "591c1a9c9c23da1cd84766e6",
 				"word": "Kommunisten",
 				"data": {
 					"similarWords": [
@@ -11634,7 +11605,7 @@ module.exports = {
 		"fanden": {
 			"word": "fanden",
 			"data": {
-				"_id": "59189a02ce905c0816aaa3bb",
+				"_id": "591c1a9a9c23da1cd84766c1",
 				"word": "fanden",
 				"data": {
 					"similarWords": [
@@ -11662,64 +11633,33 @@ module.exports = {
 				}
 			}
 		},
-		"grä": {
-			"word": "grä",
+		"gräßlich": {
+			"word": "gräßlich",
 			"data": {
-				"_id": "59189a02ce905c0816aaa3c3",
-				"word": "grä",
+				"_id": "591c1a9c9c23da1cd84766f3",
+				"word": "gräßlich",
 				"data": {
 					"similarWords": [
-						"gräbt",
-						"Gräue",
-						"gräzistisch",
-						"Grän, Gran",
-						"gräbst",
-						"Gräzist",
-						"Gräting",
-						"grämeln",
-						"Gräberin",
-						"Graefenberg-Punkt, Graefenbergpunkt",
-						"Gräberfeld",
-						"Gräkomane",
-						"Grädigkeit",
-						"Gräberfund",
-						"Gräserchen",
-						"gräkolateinisch",
-						"Grätenschritt",
-						"Goldgräberzeit",
-						"Goldgräberfieber",
-						"Fischgrätenmuster"
-					]
-				}
-			}
-		},
-		"lich": {
-			"word": "lich",
-			"data": {
-				"_id": "59189a03ce905c0816aaa3cb",
-				"word": "lich",
-				"data": {
-					"similarWords": [
-						"-lich",
-						"Licht",
-						"licht",
-						"UV-Licht",
-						"Lichtenstein",
-						"Lichterglanz",
-						"Lichte",
-						"Lichen",
-						"Lichtung",
-						"lichtern",
-						"lichteln",
-						"Lichtenberg",
-						"Lichterfest",
-						"Lichtermeer",
-						"Lichterbaum",
-						"Lichterchen",
-						"Heimlichtuerei",
-						"Heimlichtuerin",
-						"Kenntlichmachung",
-						"ähnlichschauen"
+						"grässlich",
+						"Grässlichkeit",
+						"grauslich",
+						"schauderös",
+						"entsetzenerregend, Entsetzen erregend",
+						"erschreckend",
+						"aufklaffen",
+						"furchterregend, Furcht erregend",
+						"schaudererregend, Schauder erregend",
+						"schauervoll",
+						"schaudervoll",
+						"abominabel",
+						"ekelerregend, Ekel erregend",
+						"grauenerregend, Grauen erregend",
+						"verabscheuenswert",
+						"verabscheuungswürdig",
+						"unansehnlich",
+						"desolat",
+						"unausstehlich",
+						"unsympathisch"
 					]
 				}
 			}
@@ -11727,7 +11667,7 @@ module.exports = {
 		"Massen": {
 			"word": "Massen",
 			"data": {
-				"_id": "59189a02ce905c0816aaa3ba",
+				"_id": "591c1a9c9c23da1cd84766f0",
 				"word": "Massen",
 				"data": {
 					"similarWords": [
@@ -11758,7 +11698,7 @@ module.exports = {
 		"schweigen": {
 			"word": "schweigen",
 			"data": {
-				"_id": "59189a03ce905c0816aaa3ca",
+				"_id": "591c1a9b9c23da1cd84766d5",
 				"word": "schweigen",
 				"data": {
 					"description": "starkes Verb - a. nicht [mehr] reden; nicht antworten; …b. nicht [mehr] tönen, keine Klänge, …",
@@ -11794,7 +11734,7 @@ module.exports = {
 		"falscher": {
 			"word": "falscher",
 			"data": {
-				"_id": "59189a02ce905c0816aaa3c7",
+				"_id": "591c1a9c9c23da1cd84766e9",
 				"word": "falscher",
 				"data": {
 					"similarWords": [
@@ -11825,7 +11765,7 @@ module.exports = {
 		"Ansatz": {
 			"word": "Ansatz",
 			"data": {
-				"_id": "59189a02ce905c0816aaa3c8",
+				"_id": "591c1a9b9c23da1cd84766d4",
 				"word": "Ansatz",
 				"data": {
 					"description": "Substantiv, maskulin - 1. das Angesetzte; Verlängerungsstück; 2. erstes sichtbares Zeichen; Spross, Anflug …3a. das Ansetzen",
@@ -11862,7 +11802,7 @@ module.exports = {
 		"politische": {
 			"word": "politische",
 			"data": {
-				"_id": "59189a03ce905c0816aaa3c9",
+				"_id": "591c1a9c9c23da1cd84766ee",
 				"word": "politische",
 				"data": {
 					"similarWords": [
@@ -11893,7 +11833,7 @@ module.exports = {
 		"Botschaften": {
 			"word": "Botschaften",
 			"data": {
-				"_id": "59189a01ce905c0816aaa3a9",
+				"_id": "591c1a9c9c23da1cd84766ed",
 				"word": "Botschaften",
 				"data": {
 					"similarWords": [
@@ -11909,7 +11849,7 @@ module.exports = {
 		"herauszuposaunen": {
 			"word": "herauszuposaunen",
 			"data": {
-				"_id": "59189a01ce905c0816aaa3a6",
+				"_id": "591c1a9b9c23da1cd84766de",
 				"word": "herauszuposaunen",
 				"data": {
 					"similarWords": []
@@ -11919,7 +11859,7 @@ module.exports = {
 		"ästhetischen": {
 			"word": "ästhetischen",
 			"data": {
-				"_id": "59189a02ce905c0816aaa3bc",
+				"_id": "591c1a9b9c23da1cd84766d2",
 				"word": "ästhetischen",
 				"data": {
 					"similarWords": [
@@ -11937,7 +11877,7 @@ module.exports = {
 		"Voraussetzungen": {
 			"word": "Voraussetzungen",
 			"data": {
-				"_id": "59189a02ce905c0816aaa3be",
+				"_id": "591c1a9c9c23da1cd84766ea",
 				"word": "Voraussetzungen",
 				"data": {
 					"similarWords": [
@@ -11968,7 +11908,7 @@ module.exports = {
 		"schaffen": {
 			"word": "schaffen",
 			"data": {
-				"_id": "59189a02ce905c0816aaa3bd",
+				"_id": "591c1a9b9c23da1cd84766d3",
 				"word": "schaffen",
 				"data": {
 					"description": "starkes und schwaches Verb - 1. (durch schöpferische Arbeit, schöpferisches Gestalten) …2. entstehen, zustande kommen lassen; zustande …3. sich  an etwas zu …",
@@ -11980,6 +11920,7 @@ module.exports = {
 					"similarWords": [
 						"Schaffen",
 						"Schaffenslust",
+						"Eisen schaffend, eisenschaffend",
 						"schaffensfreudig",
 						"schaffenslustig",
 						"Schaffensdrang",
@@ -11988,7 +11929,6 @@ module.exports = {
 						"Schaffensprozess",
 						"Schaffensweise",
 						"Schaffenskrise",
-						"Eisen schaffend, eisenschaffend",
 						"schaffig",
 						"Schaffe",
 						"Remedur",
@@ -12004,7 +11944,7 @@ module.exports = {
 		"politisches": {
 			"word": "politisches",
 			"data": {
-				"_id": "59189a03ce905c0816aaa3cd",
+				"_id": "591c1a9c9c23da1cd84766e8",
 				"word": "politisches",
 				"data": {
 					"similarWords": [
@@ -12035,7 +11975,7 @@ module.exports = {
 		"Handeln": {
 			"word": "Handeln",
 			"data": {
-				"_id": "59189a03ce905c0816aaa3d7",
+				"_id": "591c1a9b9c23da1cd84766d0",
 				"word": "Handeln",
 				"data": {
 					"description": "Substantiv, Neutrum - jemandes Ausführung einer Handlung",
@@ -12072,7 +12012,7 @@ module.exports = {
 		"Vielfalt": {
 			"word": "Vielfalt",
 			"data": {
-				"_id": "59189a03ce905c0816aaa3d9",
+				"_id": "591c1a9b9c23da1cd84766d1",
 				"word": "Vielfalt",
 				"data": {
 					"description": "Substantiv, feminin - Fülle von verschiedenen Arten, Formen o. Ä., in denen etwas Bestimmtes vorhanden ist, vorkommt, sich …",
@@ -12109,7 +12049,7 @@ module.exports = {
 		"Handelnden": {
 			"word": "Handelnden",
 			"data": {
-				"_id": "59189a03ce905c0816aaa3d6",
+				"_id": "591c1a9c9c23da1cd84766ef",
 				"word": "Handelnden",
 				"data": {
 					"similarWords": [
@@ -12128,7 +12068,7 @@ module.exports = {
 		"insistiert": {
 			"word": "insistiert",
 			"data": {
-				"_id": "59189a03ce905c0816aaa3cf",
+				"_id": "591c1a9b9c23da1cd84766da",
 				"word": "insistiert",
 				"data": {
 					"similarWords": [
@@ -12140,7 +12080,7 @@ module.exports = {
 		"stellte": {
 			"word": "stellte",
 			"data": {
-				"_id": "59189a06ce905c0816aaa41b",
+				"_id": "591c1a9a9c23da1cd84766cc",
 				"word": "stellte",
 				"data": {
 					"similarWords": [
@@ -12171,7 +12111,7 @@ module.exports = {
 		"Tisch": {
 			"word": "Tisch",
 			"data": {
-				"_id": "59189a03ce905c0816aaa3da",
+				"_id": "591c1a9a9c23da1cd84766cf",
 				"word": "Tisch",
 				"data": {
 					"description": "Substantiv, maskulin - 1a. Möbelstück, das aus einer waagerecht …1b. Gesamtheit von Personen, die an …2. Mahlzeit, Essen",
@@ -12208,7 +12148,7 @@ module.exports = {
 		"hineingetan": {
 			"word": "hineingetan",
 			"data": {
-				"_id": "59189a03ce905c0816aaa3d0",
+				"_id": "591c1a9b9c23da1cd84766dc",
 				"word": "hineingetan",
 				"data": {
 					"similarWords": [
@@ -12221,7 +12161,7 @@ module.exports = {
 		"Minuten": {
 			"word": "Minuten",
 			"data": {
-				"_id": "59189a03ce905c0816aaa3d8",
+				"_id": "591c1a9a9c23da1cd84766ce",
 				"word": "Minuten",
 				"data": {
 					"similarWords": [
@@ -12252,7 +12192,7 @@ module.exports = {
 		"herausnehmen": {
 			"word": "herausnehmen",
 			"data": {
-				"_id": "59189a03ce905c0816aaa3db",
+				"_id": "591c1a9a9c23da1cd84766ca",
 				"word": "herausnehmen",
 				"data": {
 					"description": "starkes Verb - 1a. aus dem Inneren eines Behälters …1b. (ein Organ) operativ entfernen; 2. jemanden nicht länger in seiner …",
@@ -12263,8 +12203,8 @@ module.exports = {
 					"definitionUrl": "http://www.duden.de/rechtschreibung/herausnehmen",
 					"similarWords": [
 						"rausnehmen",
-						"Exemtion",
 						"umheben",
+						"Exemtion",
 						"exzidieren",
 						"ausmieten",
 						"herauslangen",
@@ -12275,8 +12215,8 @@ module.exports = {
 						"auspflücken",
 						"auslöffeln",
 						"Herausstellung",
-						"eximieren",
 						"entladen",
+						"eximieren",
 						"ausladen",
 						"entnehmen",
 						"ausschlachten",
@@ -12288,7 +12228,7 @@ module.exports = {
 		"Danke": {
 			"word": "Danke",
 			"data": {
-				"_id": "59189a04ce905c0816aaa3df",
+				"_id": "591c1a9c9c23da1cd84766f1",
 				"word": "Danke",
 				"data": {
 					"similarWords": [
@@ -12319,7 +12259,7 @@ module.exports = {
 		"Arbeiten": {
 			"word": "Arbeiten",
 			"data": {
-				"_id": "59189a03ce905c0816aaa3dc",
+				"_id": "591c1a9a9c23da1cd84766cd",
 				"word": "Arbeiten",
 				"data": {
 					"similarWords": [
@@ -12350,7 +12290,7 @@ module.exports = {
 		"Interessierte": {
 			"word": "Interessierte",
 			"data": {
-				"_id": "59189a03ce905c0816aaa3de",
+				"_id": "591c1a9a9c23da1cd84766cb",
 				"word": "Interessierte",
 				"data": {
 					"similarWords": [
@@ -12366,8 +12306,8 @@ module.exports = {
 						"Liebhaberwert",
 						"Sport liebend, sportliebend",
 						"aufgeschlossen",
-						"interessieren",
 						"Allrounder",
+						"interessieren",
 						"beiladen",
 						"lernbegierig",
 						"kunstinteressiert",
@@ -12381,7 +12321,7 @@ module.exports = {
 		"wenige": {
 			"word": "wenige",
 			"data": {
-				"_id": "59189a04ce905c0816aaa3e0",
+				"_id": "591c1a9a9c23da1cd84766c8",
 				"word": "wenige",
 				"data": {
 					"similarWords": [
@@ -12410,7 +12350,7 @@ module.exports = {
 		"Kennen": {
 			"word": "Kennen",
 			"data": {
-				"_id": "59189a05ce905c0816aaa3f9",
+				"_id": "591c1a9c9c23da1cd84766f2",
 				"word": "Kennen",
 				"data": {
 					"similarWords": [
@@ -12441,7 +12381,7 @@ module.exports = {
 		"zeitgenössischen": {
 			"word": "zeitgenössischen",
 			"data": {
-				"_id": "59189a05ce905c0816aaa3fa",
+				"_id": "591c1a9b9c23da1cd84766e4",
 				"word": "zeitgenössischen",
 				"data": {
 					"similarWords": [
@@ -12461,7 +12401,7 @@ module.exports = {
 		"bringt": {
 			"word": "bringt",
 			"data": {
-				"_id": "59189a05ce905c0816aaa3fc",
+				"_id": "591c1a9a9c23da1cd84766c6",
 				"word": "bringt",
 				"data": {
 					"similarWords": [
@@ -12492,7 +12432,7 @@ module.exports = {
 		"befreundeter": {
 			"word": "befreundeter",
 			"data": {
-				"_id": "59189a05ce905c0816aaa3fe",
+				"_id": "591c1a9b9c23da1cd84766e5",
 				"word": "befreundeter",
 				"data": {
 					"similarWords": [
@@ -12523,7 +12463,7 @@ module.exports = {
 		"Buchhändler": {
 			"word": "Buchhändler",
 			"data": {
-				"_id": "59189a03ce905c0816aaa3dd",
+				"_id": "591c1a9b9c23da1cd84766d7",
 				"word": "Buchhändler",
 				"data": {
 					"description": "Substantiv, maskulin - Berufsbezeichnung; jemand, der Bücher verkauft",
@@ -12550,7 +12490,7 @@ module.exports = {
 		"Saxophonist": {
 			"word": "Saxophonist",
 			"data": {
-				"_id": "59189a03ce905c0816aaa3d1",
+				"_id": "591c1a9b9c23da1cd84766dd",
 				"word": "Saxophonist",
 				"data": {
 					"similarWords": [
@@ -12563,7 +12503,7 @@ module.exports = {
 		"Tennis": {
 			"word": "Tennis",
 			"data": {
-				"_id": "59189a05ce905c0816aaa400",
+				"_id": "591c1a9a9c23da1cd84766c2",
 				"word": "Tennis",
 				"data": {
 					"description": "Substantiv, Neutrum - Ballspiel, bei dem ein kleiner Ball von zwei Spielern (oder Paaren von Spielern) nach bestimmten …",
@@ -12600,7 +12540,7 @@ module.exports = {
 		"spiele": {
 			"word": "spiele",
 			"data": {
-				"_id": "59189a05ce905c0816aaa3fb",
+				"_id": "591c1a9a9c23da1cd84766c3",
 				"word": "spiele",
 				"data": {
 					"similarWords": [
@@ -12631,7 +12571,7 @@ module.exports = {
 		"CDs": {
 			"word": "CDs",
 			"data": {
-				"_id": "59189a04ce905c0816aaa3e1",
+				"_id": "591c1a9c9c23da1cd84766eb",
 				"word": "CDs",
 				"data": {
 					"similarWords": [
@@ -12662,7 +12602,7 @@ module.exports = {
 		"zuletzt": {
 			"word": "zuletzt",
 			"data": {
-				"_id": "59189a05ce905c0816aaa401",
+				"_id": "591c1a9a9c23da1cd84766c9",
 				"word": "zuletzt",
 				"data": {
 					"description": "Adverb - 1. an letzter Stelle; als Letztes; …2. als Letzter, Letzte, Letztes; 3. das letzte Mal",
@@ -12698,7 +12638,7 @@ module.exports = {
 		"Donaueschinger": {
 			"word": "Donaueschinger",
 			"data": {
-				"_id": "59189a03ce905c0816aaa3d2",
+				"_id": "591c1a9b9c23da1cd84766df",
 				"word": "Donaueschinger",
 				"data": {
 					"similarWords": []
@@ -12708,7 +12648,7 @@ module.exports = {
 		"Musiktagen": {
 			"word": "Musiktagen",
 			"data": {
-				"_id": "59189a03ce905c0816aaa3d5",
+				"_id": "591c1a9b9c23da1cd84766db",
 				"word": "Musiktagen",
 				"data": {
 					"similarWords": []
@@ -12718,7 +12658,7 @@ module.exports = {
 		"kleineres": {
 			"word": "kleineres",
 			"data": {
-				"_id": "59189a05ce905c0816aaa3ff",
+				"_id": "591c1a9b9c23da1cd84766e3",
 				"word": "kleineres",
 				"data": {
 					"similarWords": [
@@ -12749,7 +12689,7 @@ module.exports = {
 		"Werk": {
 			"word": "Werk",
 			"data": {
-				"_id": "59189a04ce905c0816aaa3e2",
+				"_id": "591c1a9a9c23da1cd84766c4",
 				"word": "Werk",
 				"data": {
 					"description": "Substantiv, Neutrum - 1. einer bestimmten [größeren] Aufgabe dienende …2. Handlung, Tat; 3a. Produkt schöpferischer Arbeit",
@@ -12786,7 +12726,7 @@ module.exports = {
 		"Lust": {
 			"word": "Lust",
 			"data": {
-				"_id": "59189a05ce905c0816aaa405",
+				"_id": "591c1a9a9c23da1cd84766c7",
 				"word": "Lust",
 				"data": {
 					"description": "Substantiv, feminin - 1a. inneres Bedürfnis, etwas Bestimmtes zu …1b. aus der Befriedigung, der Erfüllung …2a. heftiges, auf die Befriedigung sinnlicher, …",
@@ -12823,7 +12763,7 @@ module.exports = {
 		"leider": {
 			"word": "leider",
 			"data": {
-				"_id": "59189a05ce905c0816aaa3fd",
+				"_id": "591c1a9b9c23da1cd84766d9",
 				"word": "leider",
 				"data": {
 					"description": "Adverb - bedauerlicherweise, zu meinem, deinem usw. Bedauern",
@@ -12859,7 +12799,7 @@ module.exports = {
 		"vorspielen": {
 			"word": "vorspielen",
 			"data": {
-				"_id": "59189a06ce905c0816aaa407",
+				"_id": "591c1a9c9c23da1cd84766ec",
 				"word": "vorspielen",
 				"data": {
 					"description": "schwaches Verb - 1a. auf einem Instrument spielen, um …1b. (ein Lied, eine Melodie) zuerst …1c. (eine Ton-, Bildaufzeichnung) mithilfe geeigneter …",
@@ -12895,7 +12835,7 @@ module.exports = {
 		"Kassette": {
 			"word": "Kassette",
 			"data": {
-				"_id": "59189a04ce905c0816aaa3e4",
+				"_id": "591c1a9b9c23da1cd84766d8",
 				"word": "Kassette",
 				"data": {
 					"description": "Substantiv, feminin - 1. kleiner, verschließbarer Kasten aus Metall, …2a. flacher, fester Karton mit zusammengestelltem …2b. die Buchrücken frei lassender, fester …",
@@ -12932,7 +12872,7 @@ module.exports = {
 		"Gerät": {
 			"word": "Gerät",
 			"data": {
-				"_id": "59189a05ce905c0816aaa404",
+				"_id": "591c1a9b9c23da1cd84766d6",
 				"word": "Gerät",
 				"data": {
 					"description": "Substantiv, Neutrum - 1a. [beweglicher] Gegenstand, mit dessen Hilfe …1b. zum Turnen u. a. dienende …2. Gesamtheit von Geräten, Ausrüstung",
@@ -12956,12 +12896,12 @@ module.exports = {
 						"Gerätsicherung",
 						"Geräteturner, fachsprachlich Gerätturner",
 						"Gerätehaus",
-						"Geräteübung",
 						"Gerätewart",
 						"Geräteglas",
 						"Geräteboxen",
 						"Geräteteil",
-						"Geräteraum"
+						"Geräteraum",
+						"Geräteübung"
 					]
 				}
 			}
@@ -12969,7 +12909,7 @@ module.exports = {
 		"optimal": {
 			"word": "optimal",
 			"data": {
-				"_id": "59189a04ce905c0816aaa3e3",
+				"_id": "591c1a9b9c23da1cd84766e0",
 				"word": "optimal",
 				"data": {
 					"description": "Adjektiv - (unter den gegebenen Voraussetzungen, im Hinblick auf ein zu erreichendes Ziel) bestmöglich; so günstig wie …",
@@ -12984,11 +12924,11 @@ module.exports = {
 						"optime",
 						"optimalisieren",
 						"suboptimal",
-						"bestmöglich",
 						"hemerophob",
 						"höchste, höchster, höchstes",
 						"unüberbietbar",
 						"energieeffizient",
+						"bestmöglich",
 						"beste, bester, bestes",
 						"Perspektivteam",
 						"goldrichtig",
@@ -13005,7 +12945,7 @@ module.exports = {
 		"bekommen": {
 			"word": "bekommen",
 			"data": {
-				"_id": "59189a04ce905c0816aaa3e7",
+				"_id": "591c1a9b9c23da1cd84766e2",
 				"word": "bekommen",
 				"data": {
 					"description": "starkes Verb - 1a. von jemandem etwas als Geschenk, …1b. jemandem (als Äquivalent, als Bezahlung …1c. jemandem zugestellt, übermittelt o. ä. …",
@@ -13041,7 +12981,7 @@ module.exports = {
 		"Eindruck": {
 			"word": "Eindruck",
 			"data": {
-				"_id": "59189a04ce905c0816aaa3e6",
+				"_id": "591c1a9b9c23da1cd84766e1",
 				"word": "Eindruck",
 				"data": {
 					"description": "Substantiv, maskulin - 1. im Bewusstsein haftende, jemandes Vorstellung …2. in etwas hineingedrückte Spur, Stelle",
@@ -13078,7 +13018,7 @@ module.exports = {
 		"Ruhe": {
 			"word": "Ruhe",
 			"data": {
-				"_id": "59189a04ce905c0816aaa3e5",
+				"_id": "591c1a9d9c23da1cd84766fc",
 				"word": "Ruhe",
 				"data": {
 					"description": "Substantiv, feminin - 1a. durch kein [lärmendes] Geräusch und …1b. Bewegungslosigkeit; 2. Zustand erholsamer, beschaulicher Untätigkeit; Entspannung, …",
@@ -13115,7 +13055,7 @@ module.exports = {
 		"trinken": {
 			"word": "trinken",
 			"data": {
-				"_id": "59189a05ce905c0816aaa402",
+				"_id": "591c1aa19c23da1cd8476759",
 				"word": "trinken",
 				"data": {
 					"description": "starkes Verb - 1a. Flüssigkeit, ein Getränk zu sich …1b. sich in bestimmter Weise trinken …1c. durch Trinken in einen bestimmten …",
@@ -13151,7 +13091,7 @@ module.exports = {
 		"stört": {
 			"word": "stört",
 			"data": {
-				"_id": "59189a05ce905c0816aaa403",
+				"_id": "591c1aa19c23da1cd8476758",
 				"word": "stört",
 				"data": {
 					"similarWords": [
@@ -13182,7 +13122,7 @@ module.exports = {
 		"Leid": {
 			"word": "Leid",
 			"data": {
-				"_id": "59189a04ce905c0816aaa3e9",
+				"_id": "591c1a9d9c23da1cd84766fe",
 				"word": "Leid",
 				"data": {
 					"description": "Substantiv, Neutrum - 1. tiefer seelischer Schmerz als Folge …2. Unrecht, Böses, das jemandem zugefügt …",
@@ -13219,7 +13159,7 @@ module.exports = {
 		"Künste": {
 			"word": "Künste",
 			"data": {
-				"_id": "59189a04ce905c0816aaa3ea",
+				"_id": "591c1a9d9c23da1cd8476700",
 				"word": "Künste",
 				"data": {
 					"similarWords": [
@@ -13250,7 +13190,7 @@ module.exports = {
 		"isoliert": {
 			"word": "isoliert",
 			"data": {
-				"_id": "59189a05ce905c0816aaa406",
+				"_id": "591c1a9e9c23da1cd8476713",
 				"word": "isoliert",
 				"data": {
 					"description": "Adjektiv - a. keinen Kontakt, keinen Austausch habend; …b. einzeln, vereinzelt",
@@ -13286,7 +13226,7 @@ module.exports = {
 		"gehört": {
 			"word": "gehört",
 			"data": {
-				"_id": "59189a04ce905c0816aaa3e8",
+				"_id": "591c1a9d9c23da1cd8476707",
 				"word": "gehört",
 				"data": {
 					"similarWords": [
@@ -13317,7 +13257,7 @@ module.exports = {
 		"betrachtet": {
 			"word": "betrachtet",
 			"data": {
-				"_id": "59189a07ce905c0816aaa428",
+				"_id": "591c1a9d9c23da1cd8476702",
 				"word": "betrachtet",
 				"data": {
 					"similarWords": [
@@ -13348,7 +13288,7 @@ module.exports = {
 		"vorlesen": {
 			"word": "vorlesen",
 			"data": {
-				"_id": "59189a04ce905c0816aaa3eb",
+				"_id": "591c1a9d9c23da1cd8476704",
 				"word": "vorlesen",
 				"data": {
 					"description": "starkes Verb - etwas (Geschriebenes, Gedrucktes) [für jemanden] laut lesen",
@@ -13384,7 +13324,7 @@ module.exports = {
 		"musizieren": {
 			"word": "musizieren",
 			"data": {
-				"_id": "59189a06ce905c0816aaa40c",
+				"_id": "591c1a9d9c23da1cd8476708",
 				"word": "musizieren",
 				"data": {
 					"description": "schwaches Verb - [mit jemandem zusammen] Musik spielen, zu Gehör bringen",
@@ -13420,7 +13360,7 @@ module.exports = {
 		"Kaffee": {
 			"word": "Kaffee",
 			"data": {
-				"_id": "59189a04ce905c0816aaa3ec",
+				"_id": "591c1a9d9c23da1cd8476705",
 				"word": "Kaffee",
 				"data": {
 					"description": "Substantiv, maskulin - 1. Kaffeepflanze, -strauch; 2a. bohnenförmiger Samen des Kaffeestrauches; 2b. Menge gerösteter [gemahlener] Kaffeebohnen",
@@ -13457,7 +13397,7 @@ module.exports = {
 		"unterhalten": {
 			"word": "unterhalten",
 			"data": {
-				"_id": "59189a06ce905c0816aaa40a",
+				"_id": "591c1a9d9c23da1cd8476703",
 				"word": "unterhalten",
 				"data": {
 					"description": "starkes Verb - etwas unter etwas halten",
@@ -13492,7 +13432,7 @@ module.exports = {
 		"manchmal": {
 			"word": "manchmal",
 			"data": {
-				"_id": "59189a04ce905c0816aaa3ef",
+				"_id": "591c1a9d9c23da1cd84766ff",
 				"word": "manchmal",
 				"data": {
 					"description": "Adverb - a. nicht regelmäßig, unterschiedlich häufig, mehr …b. in einigen Fällen",
@@ -13528,7 +13468,7 @@ module.exports = {
 		"Jazz": {
 			"word": "Jazz",
 			"data": {
-				"_id": "59189a06ce905c0816aaa40f",
+				"_id": "591c1a9d9c23da1cd8476701",
 				"word": "Jazz",
 				"data": {
 					"description": "Substantiv, maskulin - aus der Volksmusik der nordamerikanischen Afroamerikaner entstandene Musik mit charakteristischen Rhythmusinstrumenten und mit Bläsergruppen, die …",
@@ -13565,7 +13505,7 @@ module.exports = {
 		"Klassik": {
 			"word": "Klassik",
 			"data": {
-				"_id": "59189a04ce905c0816aaa3ed",
+				"_id": "591c1aa09c23da1cd8476746",
 				"word": "Klassik",
 				"data": {
 					"description": "Substantiv, feminin - 1. Kultur und Kunst der griechisch-römischen …2. Epoche, die sich Kultur und …3. Epoche kultureller Höchstleistung",
@@ -13602,7 +13542,7 @@ module.exports = {
 		"Werbebranche": {
 			"word": "Werbebranche",
 			"data": {
-				"_id": "59189a03ce905c0816aaa3d3",
+				"_id": "591c1a9f9c23da1cd8476733",
 				"word": "Werbebranche",
 				"data": {
 					"description": "Substantiv, feminin - den Bereich der Werbung umfassende Branche",
@@ -13623,7 +13563,7 @@ module.exports = {
 		"Frisur": {
 			"word": "Frisur",
 			"data": {
-				"_id": "59189a06ce905c0816aaa410",
+				"_id": "591c1aa19c23da1cd8476755",
 				"word": "Frisur",
 				"data": {
 					"description": "Substantiv, feminin - 1. Art und Weise, in der …2. das Frisieren",
@@ -13660,7 +13600,7 @@ module.exports = {
 		"Hab": {
 			"word": "Hab",
 			"data": {
-				"_id": "59189a04ce905c0816aaa3f1",
+				"_id": "591c1aa19c23da1cd8476762",
 				"word": "Hab",
 				"data": {
 					"similarWords": [
@@ -13691,7 +13631,7 @@ module.exports = {
 		"schneiden": {
 			"word": "schneiden",
 			"data": {
-				"_id": "59189a05ce905c0816aaa3f8",
+				"_id": "591c1a9d9c23da1cd8476709",
 				"word": "schneiden",
 				"data": {
 					"description": "unregelmäßiges Verb - 1a. (mit dem Messer oder einem …1b. (mit dem Messer oder einem …2. durch Schneiden kürzen [und in …",
@@ -13724,7 +13664,7 @@ module.exports = {
 		"Kartoffel": {
 			"word": "Kartoffel",
 			"data": {
-				"_id": "59189a04ce905c0816aaa3ee",
+				"_id": "591c1a9d9c23da1cd847670a",
 				"word": "Kartoffel",
 				"data": {
 					"description": "Substantiv, feminin - 1. krautige Pflanze mit gefiederten Blättern …2. essbare Knolle der Kartoffel; 3. knollige Nase",
@@ -13761,7 +13701,7 @@ module.exports = {
 		"recherchieren": {
 			"word": "recherchieren",
 			"data": {
-				"_id": "59189a06ce905c0816aaa40b",
+				"_id": "591c1a9d9c23da1cd8476706",
 				"word": "recherchieren",
 				"data": {
 					"description": "schwaches Verb - a. Ermittlungen, Nachforschungen anstellen; b. durch Recherchen aufdecken, herausfinden, ermitteln",
@@ -13797,7 +13737,7 @@ module.exports = {
 		"inzwischen": {
 			"word": "inzwischen",
 			"data": {
-				"_id": "59189a06ce905c0816aaa40e",
+				"_id": "591c1a9e9c23da1cd8476711",
 				"word": "inzwischen",
 				"data": {
 					"description": "Adverb - a. unterdessen; a. gibt an, dass …b. währenddessen; b. gibt an, dass …c. bis dahin; c. gibt an, …",
@@ -13833,7 +13773,7 @@ module.exports = {
 		"merkwürdige": {
 			"word": "merkwürdige",
 			"data": {
-				"_id": "59189a06ce905c0816aaa412",
+				"_id": "591c1aa19c23da1cd8476757",
 				"word": "merkwürdige",
 				"data": {
 					"similarWords": [
@@ -13864,21 +13804,21 @@ module.exports = {
 		"Geschichten": {
 			"word": "Geschichten",
 			"data": {
-				"_id": "59189a06ce905c0816aaa40d",
+				"_id": "591c1aa29c23da1cd8476763",
 				"word": "Geschichten",
 				"data": {
 					"similarWords": [
 						"Geschichtenbuch",
 						"Dönkes",
-						"verwursten",
 						"Geschichte",
 						"Geschichtenerzählerin",
 						"Geschichtenerzähler",
+						"verwursten",
 						"Fabelbuch",
 						"Heimatkalender",
+						"Döhnkes",
 						"geheimnisumwittert",
 						"Vorlesewettbewerb",
-						"Döhnkes",
 						"tolldreist",
 						"erbaulich",
 						"Märchentante",
@@ -13895,7 +13835,7 @@ module.exports = {
 		"erlebt": {
 			"word": "erlebt",
 			"data": {
-				"_id": "59189a06ce905c0816aaa416",
+				"_id": "591c1a9d9c23da1cd847670b",
 				"word": "erlebt",
 				"data": {
 					"description": "erlebte Rede (Sprachwissenschaft)",
@@ -13928,7 +13868,7 @@ module.exports = {
 		"fängt": {
 			"word": "fängt",
 			"data": {
-				"_id": "59189a06ce905c0816aaa411",
+				"_id": "591c1aa19c23da1cd847675a",
 				"word": "fängt",
 				"data": {
 					"similarWords": [
@@ -13959,7 +13899,7 @@ module.exports = {
 		"landet": {
 			"word": "landet",
 			"data": {
-				"_id": "59189a06ce905c0816aaa408",
+				"_id": "591c1a9e9c23da1cd8476716",
 				"word": "landet",
 				"data": {
 					"similarWords": [
@@ -13988,7 +13928,7 @@ module.exports = {
 		"woanders": {
 			"word": "woanders",
 			"data": {
-				"_id": "59189a04ce905c0816aaa3f0",
+				"_id": "591c1a9d9c23da1cd84766f9",
 				"word": "woanders",
 				"data": {
 					"description": "Adverb - an einem anderen Ort, an einer anderen Stelle",
@@ -14024,7 +13964,7 @@ module.exports = {
 		"anderer": {
 			"word": "anderer",
 			"data": {
-				"_id": "59189a06ce905c0816aaa409",
+				"_id": "591c1a9e9c23da1cd8476710",
 				"word": "anderer",
 				"data": {
 					"similarWords": [
@@ -14055,7 +13995,7 @@ module.exports = {
 		"Kopf": {
 			"word": "Kopf",
 			"data": {
-				"_id": "59189a06ce905c0816aaa414",
+				"_id": "591c1a9d9c23da1cd847670c",
 				"word": "Kopf",
 				"data": {
 					"description": "Substantiv, maskulin - 1. oft rundlicher [durch den Hals …2a. Person mit bestimmten [intellektuellen] Fähigkeiten; …2b. an der Spitze von etwas …",
@@ -14092,7 +14032,7 @@ module.exports = {
 		"Labyrinthe": {
 			"word": "Labyrinthe",
 			"data": {
-				"_id": "59189a05ce905c0816aaa3f3",
+				"_id": "591c1a9e9c23da1cd8476712",
 				"word": "Labyrinthe",
 				"data": {
 					"similarWords": [
@@ -14118,7 +14058,7 @@ module.exports = {
 		"Faden": {
 			"word": "Faden",
 			"data": {
-				"_id": "59189a05ce905c0816aaa3f4",
+				"_id": "591c1a9e9c23da1cd847670e",
 				"word": "Faden",
 				"data": {
 					"description": "Substantiv, maskulin - 1. langes, sehr dünnes, aus Fasern …2. etwas, was die Form eines …3. Maßeinheit, die etwa 1,80 m …",
@@ -14155,7 +14095,7 @@ module.exports = {
 		"verloren": {
 			"word": "verloren",
 			"data": {
-				"_id": "59189a06ce905c0816aaa413",
+				"_id": "591c1a9e9c23da1cd847670f",
 				"word": "verloren",
 				"data": {
 					"description": "Adjektiv - dem Verderben preisgegeben, zum Untergang bestimmt; nicht mehr zu retten",
@@ -14190,7 +14130,7 @@ module.exports = {
 		"Roter": {
 			"word": "Roter",
 			"data": {
-				"_id": "59189a05ce905c0816aaa3f2",
+				"_id": "591c1a9f9c23da1cd8476731",
 				"word": "Roter",
 				"data": {
 					"similarWords": [
@@ -14221,7 +14161,7 @@ module.exports = {
 		"Baum": {
 			"word": "Baum",
 			"data": {
-				"_id": "59189a05ce905c0816aaa3f5",
+				"_id": "591c1a9e9c23da1cd847670d",
 				"word": "Baum",
 				"data": {
 					"description": "Substantiv, maskulin - 1. Holzgewächs mit festem Stamm, aus …2. den Baum schmücken; 2. sie …3. Graph mit mehreren Knoten, deren …",
@@ -14258,7 +14198,7 @@ module.exports = {
 		"bedeutet": {
 			"word": "bedeutet",
 			"data": {
-				"_id": "59189a05ce905c0816aaa3f7",
+				"_id": "591c1a9e9c23da1cd8476715",
 				"word": "bedeutet",
 				"data": {
 					"similarWords": [
@@ -14289,7 +14229,7 @@ module.exports = {
 		"Kartoffelsorte": {
 			"word": "Kartoffelsorte",
 			"data": {
-				"_id": "59189a03ce905c0816aaa3d4",
+				"_id": "591c1aa09c23da1cd8476737",
 				"word": "Kartoffelsorte",
 				"data": {
 					"description": "Substantiv, feminin - Sorte von Kartoffeln",
@@ -14311,7 +14251,7 @@ module.exports = {
 		"Onkel": {
 			"word": "Onkel",
 			"data": {
-				"_id": "59189a05ce905c0816aaa3f6",
+				"_id": "591c1a9e9c23da1cd8476714",
 				"word": "Onkel",
 				"data": {
 					"description": "Substantiv, maskulin - 1. Bruder oder Schwager der Mutter …2a. [bekannter] männlicher Erwachsener; 2b. Mann",
@@ -14323,8 +14263,8 @@ module.exports = {
 					"definitionUrl": "http://www.duden.de/rechtschreibung/Onkel_Verwandter_Erwachsener",
 					"similarWords": [
 						"-onkel",
-						"Ohm",
 						"onkeln",
+						"Ohm",
 						"onkelhaft",
 						"Onkelehe",
 						"Nennonkel",
@@ -14347,7 +14287,7 @@ module.exports = {
 		"Kartoffeln": {
 			"word": "Kartoffeln",
 			"data": {
-				"_id": "59189a06ce905c0816aaa415",
+				"_id": "591c1aa09c23da1cd847674d",
 				"word": "Kartoffeln",
 				"data": {
 					"similarWords": [
@@ -14378,7 +14318,7 @@ module.exports = {
 		"schmecken": {
 			"word": "schmecken",
 			"data": {
-				"_id": "59189a06ce905c0816aaa417",
+				"_id": "591c1a9e9c23da1cd847671d",
 				"word": "schmecken",
 				"data": {
 					"description": "schwaches Verb - 1a. mit der Zunge, dem Gaumen …1b. riechen; 2a. eine bestimmte Empfindung im Mund …",
@@ -14414,7 +14354,7 @@ module.exports = {
 		"einzelnen": {
 			"word": "einzelnen",
 			"data": {
-				"_id": "59189a07ce905c0816aaa41d",
+				"_id": "591c1a9e9c23da1cd8476719",
 				"word": "einzelnen",
 				"data": {
 					"similarWords": [
@@ -14445,7 +14385,7 @@ module.exports = {
 		"Sorten": {
 			"word": "Sorten",
 			"data": {
-				"_id": "59189a07ce905c0816aaa423",
+				"_id": "591c1a9e9c23da1cd8476717",
 				"word": "Sorten",
 				"data": {
 					"similarWords": [
@@ -14476,7 +14416,7 @@ module.exports = {
 		"schmeckte": {
 			"word": "schmeckte",
 			"data": {
-				"_id": "59189a07ce905c0816aaa41e",
+				"_id": "591c1aa19c23da1cd8476754",
 				"word": "schmeckte",
 				"data": {
 					"similarWords": [
@@ -14507,7 +14447,7 @@ module.exports = {
 		"gekochtem": {
 			"word": "gekochtem",
 			"data": {
-				"_id": "59189a07ce905c0816aaa41c",
+				"_id": "591c1aa19c23da1cd8476753",
 				"word": "gekochtem",
 				"data": {
 					"similarWords": [
@@ -14536,7 +14476,7 @@ module.exports = {
 		"Zustand": {
 			"word": "Zustand",
 			"data": {
-				"_id": "59189a07ce905c0816aaa42c",
+				"_id": "591c1a9e9c23da1cd8476718",
 				"word": "Zustand",
 				"data": {
 					"description": "Substantiv, maskulin - a. augenblickliches Beschaffen-, Geartetsein; Art und …b. augenblicklich bestehende Lage, Situation, Verhältnisse",
@@ -14573,7 +14513,7 @@ module.exports = {
 		"heraus": {
 			"word": "heraus",
 			"data": {
-				"_id": "59189a07ce905c0816aaa421",
+				"_id": "591c1a9e9c23da1cd847671b",
 				"word": "heraus",
 				"data": {
 					"description": "Adverb - von dort drinnen hierher nach draußen",
@@ -14609,7 +14549,7 @@ module.exports = {
 		"Sterben": {
 			"word": "Sterben",
 			"data": {
-				"_id": "59189a07ce905c0816aaa41f",
+				"_id": "591c1aa19c23da1cd847675d",
 				"word": "Sterben",
 				"data": {
 					"description": "Substantiv, Neutrum - im Sterben liegen; das große Sterben (die Pest); es ist zum Sterben langweilig (umgangssprachlich für …",
@@ -14646,7 +14586,7 @@ module.exports = {
 		"lag": {
 			"word": "lag",
 			"data": {
-				"_id": "59189a07ce905c0816aaa420",
+				"_id": "591c1a9e9c23da1cd847671c",
 				"word": "lag",
 				"data": {
 					"description": "siehe liegen",
@@ -14676,64 +14616,33 @@ module.exports = {
 				}
 			}
 		},
-		"wu": {
-			"word": "wu",
+		"wußte": {
+			"word": "wußte",
 			"data": {
-				"_id": "59189a07ce905c0816aaa429",
-				"word": "wu",
+				"_id": "591c1a9e9c23da1cd847671a",
+				"word": "wußte",
 				"data": {
 					"similarWords": [
-						"Wu",
-						"grasüberwuchert",
-						"wuschelköpfig",
-						"Wuchertum",
-						"Preiswucher",
-						"Wucherei",
-						"Zellwucherung",
-						"Überwucherung",
-						"Bewucherung",
-						"Wucherzinsen",
-						"umwuchern",
-						"Wukela",
-						"wucherisch",
-						"Wuzeltisch",
-						"Wucherzins",
-						"verwuscheln",
-						"wuschig",
-						"wuchern",
-						"wuseln",
-						"Wucher"
-					]
-				}
-			}
-		},
-		"te": {
-			"word": "te",
-			"data": {
-				"_id": "59189a07ce905c0816aaa42d",
-				"word": "te",
-				"data": {
-					"similarWords": [
-						"Te",
-						"n-te, n-ter, n-tes",
-						"x-te, x-ter, x-tes",
-						"Tao-Te-King",
-						"Feistheit",
-						"Feiste",
-						"dufte",
-						"Tellur",
-						"Beamtete",
-						"Geröstete",
-						"Plastetüte",
-						"Schildkrot",
-						"TED",
-						"hinterst",
-						"Konjugationsendung",
-						"Esparsette",
-						"Schrat",
-						"Schrätel",
-						"siebte, siebter, siebtes",
-						"Annette, Anette"
+						"wusste",
+						"Lebenslage",
+						"rumbringen",
+						"alledem, alldem",
+						"Herzensangst",
+						"zartbesaitet, zart besaitet",
+						"anscheinend",
+						"wissen",
+						"vorauswissen",
+						"weiterwissen",
+						"trotzdem",
+						"einerseits",
+						"pointieren",
+						"nachrechnen",
+						"einige, einiger, einiges",
+						"weder",
+						"Hinz",
+						"ah",
+						"unglückselig",
+						"ratlos"
 					]
 				}
 			}
@@ -14741,7 +14650,7 @@ module.exports = {
 		"meinte": {
 			"word": "meinte",
 			"data": {
-				"_id": "59189a07ce905c0816aaa422",
+				"_id": "591c1a9f9c23da1cd8476723",
 				"word": "meinte",
 				"data": {
 					"similarWords": [
@@ -14772,7 +14681,7 @@ module.exports = {
 		"Irgendwann": {
 			"word": "Irgendwann",
 			"data": {
-				"_id": "59189a07ce905c0816aaa42a",
+				"_id": "591c1aa19c23da1cd8476756",
 				"word": "Irgendwann",
 				"data": {
 					"similarWords": [
@@ -14802,7 +14711,7 @@ module.exports = {
 		"Gesangstück": {
 			"word": "Gesangstück",
 			"data": {
-				"_id": "59189a06ce905c0816aaa419",
+				"_id": "591c1a9f9c23da1cd8476734",
 				"word": "Gesangstück",
 				"data": {
 					"description": "siehe Gesangsstück",
@@ -14815,7 +14724,7 @@ module.exports = {
 		"lauter": {
 			"word": "lauter",
 			"data": {
-				"_id": "59189a07ce905c0816aaa426",
+				"_id": "591c1a9e9c23da1cd847671e",
 				"word": "lauter",
 				"data": {
 					"description": "Adjektiv - 1. rein, unvermischt, ungetrübt; 2. aufrichtig, ehrlich",
@@ -14850,7 +14759,7 @@ module.exports = {
 		"letzten": {
 			"word": "letzten",
 			"data": {
-				"_id": "59189a07ce905c0816aaa424",
+				"_id": "591c1a9e9c23da1cd847671f",
 				"word": "letzten",
 				"data": {
 					"similarWords": [
@@ -14881,7 +14790,7 @@ module.exports = {
 		"Worten": {
 			"word": "Worten",
 			"data": {
-				"_id": "59189a07ce905c0816aaa427",
+				"_id": "591c1aa29c23da1cd8476766",
 				"word": "Worten",
 				"data": {
 					"similarWords": [
@@ -14912,7 +14821,7 @@ module.exports = {
 		"zusammensetzt": {
 			"word": "zusammensetzt",
 			"data": {
-				"_id": "59189a07ce905c0816aaa42b",
+				"_id": "591c1a9f9c23da1cd8476721",
 				"word": "zusammensetzt",
 				"data": {
 					"similarWords": [
@@ -14943,7 +14852,7 @@ module.exports = {
 		"kennen": {
 			"word": "kennen",
 			"data": {
-				"_id": "59189a07ce905c0816aaa42e",
+				"_id": "591c1a9f9c23da1cd8476722",
 				"word": "kennen",
 				"data": {
 					"description": "unregelmäßiges Verb - 1a. mit jemandem, etwas (in seinen …1b. jemandem in bestimmter Weise, durch …1c. mit jemandem bekannt sein",
@@ -14976,7 +14885,7 @@ module.exports = {
 		"Licht": {
 			"word": "Licht",
 			"data": {
-				"_id": "59189a07ce905c0816aaa425",
+				"_id": "591c1aa29c23da1cd8476767",
 				"word": "Licht",
 				"data": {
 					"description": "Substantiv, Neutrum - 1a. etwas, was die Umgebung hell …1b. Tageslicht; 1c. Beleuchtung",
@@ -15013,7 +14922,7 @@ module.exports = {
 		"Tschechow": {
 			"word": "Tschechow",
 			"data": {
-				"_id": "59189a06ce905c0816aaa418",
+				"_id": "591c1aa09c23da1cd847673c",
 				"word": "Tschechow",
 				"data": {
 					"description": "Eigenname - russischer Schriftsteller",
@@ -15029,7 +14938,7 @@ module.exports = {
 		"Badenweiler": {
 			"word": "Badenweiler",
 			"data": {
-				"_id": "59189a06ce905c0816aaa41a",
+				"_id": "591c1a9f9c23da1cd847672f",
 				"word": "Badenweiler",
 				"data": {
 					"similarWords": []
@@ -15039,7 +14948,7 @@ module.exports = {
 		"Bett": {
 			"word": "Bett",
 			"data": {
-				"_id": "59189a08ce905c0816aaa43c",
+				"_id": "591c1a9e9c23da1cd8476720",
 				"word": "Bett",
 				"data": {
 					"description": "Substantiv, Neutrum - 1. Möbelstück zum Schlafen, Ausruhen; 2. Deckbett, Bettdecke; 3. ein enges, breites, tiefes Bett; …",
@@ -15076,7 +14985,7 @@ module.exports = {
 		"aufrichtete": {
 			"word": "aufrichtete",
 			"data": {
-				"_id": "59189a07ce905c0816aaa42f",
+				"_id": "591c1aa09c23da1cd8476740",
 				"word": "aufrichtete",
 				"data": {
 					"similarWords": [
@@ -15091,7 +15000,7 @@ module.exports = {
 		"deutsch": {
 			"word": "deutsch",
 			"data": {
-				"_id": "59189a08ce905c0816aaa43b",
+				"_id": "591c1a9f9c23da1cd8476724",
 				"word": "deutsch",
 				"data": {
 					"description": "Adjektiv - a. die Deutschen, Deutschland betreffend; b. in der Sprache der Bevölkerung …c. in deutscher Schreibschrift [verfasst]",
@@ -15127,7 +15036,7 @@ module.exports = {
 		"sterbe": {
 			"word": "sterbe",
 			"data": {
-				"_id": "59189a08ce905c0816aaa43a",
+				"_id": "591c1aa09c23da1cd8476743",
 				"word": "sterbe",
 				"data": {
 					"similarWords": [
@@ -15158,7 +15067,7 @@ module.exports = {
 		"fiel": {
 			"word": "fiel",
 			"data": {
-				"_id": "59189a08ce905c0816aaa43d",
+				"_id": "591c1a9f9c23da1cd8476727",
 				"word": "fiel",
 				"data": {
 					"description": "siehe fallen",
@@ -15190,7 +15099,7 @@ module.exports = {
 		"starb": {
 			"word": "starb",
 			"data": {
-				"_id": "59189a08ce905c0816aaa440",
+				"_id": "591c1a9d9c23da1cd84766fa",
 				"word": "starb",
 				"data": {
 					"description": "siehe sterben",
@@ -15223,7 +15132,7 @@ module.exports = {
 		"kurzen": {
 			"word": "kurzen",
 			"data": {
-				"_id": "59189a08ce905c0816aaa43f",
+				"_id": "591c1aa29c23da1cd8476764",
 				"word": "kurzen",
 				"data": {
 					"similarWords": [
@@ -15254,7 +15163,7 @@ module.exports = {
 		"Ausrufe": {
 			"word": "Ausrufe",
 			"data": {
-				"_id": "59189a08ce905c0816aaa43e",
+				"_id": "591c1a9f9c23da1cd8476732",
 				"word": "Ausrufe",
 				"data": {
 					"similarWords": [
@@ -15285,7 +15194,7 @@ module.exports = {
 		"Worte": {
 			"word": "Worte",
 			"data": {
-				"_id": "59189a08ce905c0816aaa441",
+				"_id": "591c1a9d9c23da1cd84766fb",
 				"word": "Worte",
 				"data": {
 					"similarWords": [
@@ -15316,7 +15225,7 @@ module.exports = {
 		"sprechend": {
 			"word": "sprechend",
 			"data": {
-				"_id": "59189a08ce905c0816aaa443",
+				"_id": "591c1a9c9c23da1cd84766f5",
 				"word": "sprechend",
 				"data": {
 					"description": "Adjektiv - a. anschaulich, deutlich; überzeugend; b. ausdrucksvoll",
@@ -15352,7 +15261,7 @@ module.exports = {
 		"sterben": {
 			"word": "sterben",
 			"data": {
-				"_id": "59189a08ce905c0816aaa442",
+				"_id": "591c1a9d9c23da1cd84766fd",
 				"word": "sterben",
 				"data": {
 					"description": "starkes Verb - a. aufhören zu leben, sein Leben …b. einen bestimmten Tod erleiden; c. (für etwas, jemanden) sein Leben …",
@@ -15388,7 +15297,7 @@ module.exports = {
 		"Vokalprojekt": {
 			"word": "Vokalprojekt",
 			"data": {
-				"_id": "59189a08ce905c0816aaa430",
+				"_id": "591c1a9f9c23da1cd8476735",
 				"word": "Vokalprojekt",
 				"data": {
 					"similarWords": []
@@ -15398,7 +15307,7 @@ module.exports = {
 		"Arbeit": {
 			"word": "Arbeit",
 			"data": {
-				"_id": "59189a08ce905c0816aaa445",
+				"_id": "591c1a9c9c23da1cd84766f7",
 				"word": "Arbeit",
 				"data": {
 					"description": "Substantiv, feminin - 1a. Tätigkeit mit einzelnen Verrichtungen, Ausführung …1b. das Arbeiten, Schaffen, Tätigsein; das …1c. Mühe, Anstrengung; Beschwerlichkeit, Plage",
@@ -15435,7 +15344,7 @@ module.exports = {
 		"schenkte": {
 			"word": "schenkte",
 			"data": {
-				"_id": "59189a0ace905c0816aaa45d",
+				"_id": "591c1aa09c23da1cd847674a",
 				"word": "schenkte",
 				"data": {
 					"similarWords": [
@@ -15463,7 +15372,7 @@ module.exports = {
 		"Milch": {
 			"word": "Milch",
 			"data": {
-				"_id": "59189a08ce905c0816aaa444",
+				"_id": "591c1a9c9c23da1cd84766f8",
 				"word": "Milch",
 				"data": {
 					"description": "Substantiv, feminin - 1a. aus dem Euter von Kühen …1b. in den Milchdrüsen von Frauen …2. milchiger Saft bestimmter Pflanzen",
@@ -15500,7 +15409,7 @@ module.exports = {
 		"steckte": {
 			"word": "steckte",
 			"data": {
-				"_id": "59189a08ce905c0816aaa446",
+				"_id": "591c1aa09c23da1cd8476749",
 				"word": "steckte",
 				"data": {
 					"similarWords": [
@@ -15531,7 +15440,7 @@ module.exports = {
 		"Rekorder": {
 			"word": "Rekorder",
 			"data": {
-				"_id": "59189a0ace905c0816aaa45c",
+				"_id": "591c1aa09c23da1cd8476745",
 				"word": "Rekorder",
 				"data": {
 					"similarWords": [
@@ -15562,7 +15471,7 @@ module.exports = {
 		"balancierte": {
 			"word": "balancierte",
 			"data": {
-				"_id": "59189a08ce905c0816aaa431",
+				"_id": "591c1aa09c23da1cd847673b",
 				"word": "balancierte",
 				"data": {
 					"similarWords": [
@@ -15577,7 +15486,7 @@ module.exports = {
 		"Stereolautsprecher": {
 			"word": "Stereolautsprecher",
 			"data": {
-				"_id": "59189a08ce905c0816aaa436",
+				"_id": "591c1aa09c23da1cd847673a",
 				"word": "Stereolautsprecher",
 				"data": {
 					"description": "Substantiv, maskulin - einer von zwei zusammengehörigen Lautsprechern für die stereofone Wiedergabe von Musik o. Ä.",
@@ -15594,7 +15503,7 @@ module.exports = {
 		"Lautsprecher": {
 			"word": "Lautsprecher",
 			"data": {
-				"_id": "59189a09ce905c0816aaa44a",
+				"_id": "591c1a9f9c23da1cd847672d",
 				"word": "Lautsprecher",
 				"data": {
 					"description": "Substantiv, maskulin - (besonders zur [verstärkten] Wiedergabe von Gesprochenem oder von Musik verwendetes) Gerät, das elektrische Wechselströme in …",
@@ -15631,7 +15540,7 @@ module.exports = {
 		"bequem": {
 			"word": "bequem",
 			"data": {
-				"_id": "59189a09ce905c0816aaa449",
+				"_id": "591c1a9f9c23da1cd847672e",
 				"word": "bequem",
 				"data": {
 					"description": "Adjektiv - 1a. angenehm, keinerlei Beschwerden oder Missbehagen …1b. keine Anstrengung verursachend, ohne Mühe …2. leicht, mühelos",
@@ -15667,7 +15576,7 @@ module.exports = {
 		"Sessel": {
 			"word": "Sessel",
 			"data": {
-				"_id": "59189a08ce905c0816aaa447",
+				"_id": "591c1a9f9c23da1cd847672c",
 				"word": "Sessel",
 				"data": {
 					"description": "Substantiv, maskulin - 1. mit Rückenlehne, gewöhnlich auch mit …2. Stuhl",
@@ -15704,7 +15613,7 @@ module.exports = {
 		"rauchte": {
 			"word": "rauchte",
 			"data": {
-				"_id": "59189a09ce905c0816aaa44b",
+				"_id": "591c1aa09c23da1cd847674b",
 				"word": "rauchte",
 				"data": {
 					"similarWords": [
@@ -15735,7 +15644,7 @@ module.exports = {
 		"Zigarre": {
 			"word": "Zigarre",
 			"data": {
-				"_id": "59189a09ce905c0816aaa457",
+				"_id": "591c1aa09c23da1cd8476748",
 				"word": "Zigarre",
 				"data": {
 					"description": "Substantiv, feminin - 1. zum Rauchen dienende dickere, an …2. grobe Zurechtweisung, Rüffel",
@@ -15772,7 +15681,7 @@ module.exports = {
 		"trank": {
 			"word": "trank",
 			"data": {
-				"_id": "59189a09ce905c0816aaa448",
+				"_id": "591c1a9f9c23da1cd8476729",
 				"word": "trank",
 				"data": {
 					"description": "siehe trinken",
@@ -15805,7 +15714,7 @@ module.exports = {
 		"hörte": {
 			"word": "hörte",
 			"data": {
-				"_id": "59189a0ace905c0816aaa460",
+				"_id": "591c1a9f9c23da1cd847672a",
 				"word": "hörte",
 				"data": {
 					"similarWords": [
@@ -15836,7 +15745,7 @@ module.exports = {
 		"schien": {
 			"word": "schien",
 			"data": {
-				"_id": "59189a09ce905c0816aaa459",
+				"_id": "591c1aa19c23da1cd847675b",
 				"word": "schien",
 				"data": {
 					"description": "siehe scheinen",
@@ -15869,13 +15778,13 @@ module.exports = {
 		"Unterschiede": {
 			"word": "Unterschiede",
 			"data": {
-				"_id": "59189a09ce905c0816aaa44d",
+				"_id": "591c1aa19c23da1cd8476761",
 				"word": "Unterschiede",
 				"data": {
 					"similarWords": [
+						"unterschieden",
 						"diatopisch",
 						"homograd",
-						"unterschieden",
 						"heterograd",
 						"Einheitskleidung",
 						"preislich",
@@ -15900,7 +15809,7 @@ module.exports = {
 		"Stocken": {
 			"word": "Stocken",
 			"data": {
-				"_id": "59189a09ce905c0816aaa450",
+				"_id": "591c1aa29c23da1cd8476765",
 				"word": "Stocken",
 				"data": {
 					"similarWords": [
@@ -15931,7 +15840,7 @@ module.exports = {
 		"Atemanhalten": {
 			"word": "Atemanhalten",
 			"data": {
-				"_id": "59189a08ce905c0816aaa437",
+				"_id": "591c1aa09c23da1cd8476742",
 				"word": "Atemanhalten",
 				"data": {
 					"similarWords": []
@@ -15941,7 +15850,7 @@ module.exports = {
 		"Beschleunigung": {
 			"word": "Beschleunigung",
 			"data": {
-				"_id": "59189a0ace905c0816aaa45f",
+				"_id": "591c1a9c9c23da1cd84766f4",
 				"word": "Beschleunigung",
 				"data": {
 					"description": "Substantiv, feminin - 1a. das Schnellerwerden; das Schnellermachen; 1b. Eile, Hast; 2. Zunahme der Geschwindigkeit innerhalb einer …",
@@ -15978,7 +15887,7 @@ module.exports = {
 		"kurzes": {
 			"word": "kurzes",
 			"data": {
-				"_id": "59189a09ce905c0816aaa44e",
+				"_id": "591c1aa19c23da1cd8476750",
 				"word": "kurzes",
 				"data": {
 					"similarWords": [
@@ -16009,7 +15918,7 @@ module.exports = {
 		"Husten": {
 			"word": "Husten",
 			"data": {
-				"_id": "59189a09ce905c0816aaa454",
+				"_id": "591c1a9c9c23da1cd84766f6",
 				"word": "Husten",
 				"data": {
 					"description": "Substantiv, maskulin - [Erkältungs]krankheit, bei der man oft und stark husten muss",
@@ -16046,7 +15955,7 @@ module.exports = {
 		"ausgespuckt": {
 			"word": "ausgespuckt",
 			"data": {
-				"_id": "59189a08ce905c0816aaa435",
+				"_id": "591c1aa09c23da1cd847673d",
 				"word": "ausgespuckt",
 				"data": {
 					"similarWords": [
@@ -16058,33 +15967,46 @@ module.exports = {
 		"herausgewürgt": {
 			"word": "herausgewürgt",
 			"data": {
-				"_id": "59189a08ce905c0816aaa432",
+				"_id": "591c1aa09c23da1cd8476738",
 				"word": "herausgewürgt",
 				"data": {
 					"similarWords": []
 				}
 			}
 		},
-		"Gleichma": {
-			"word": "Gleichma",
+		"Gleichmaß": {
+			"word": "Gleichmaß",
 			"data": {
-				"_id": "59189a09ce905c0816aaa44c",
-				"word": "Gleichma",
+				"_id": "591c1aa19c23da1cd8476760",
+				"word": "Gleichmaß",
 				"data": {
+					"description": "Substantiv, Neutrum - a. Ebenmaß, Harmonie; b. Ausgeglichenheit, Einheitlichkeit (des Verlaufs oder …",
+					"wordProperties": {
+						"type": "Substantiv",
+						"genus": "Neutrum",
+						"definition": "a. Ebenmaß, Harmonie; b. Ausgeglichenheit, Einheitlichkeit (des Verlaufs oder …"
+					},
+					"definitionUrl": "http://www.duden.de/rechtschreibung/Gleichmasz",
 					"similarWords": [
-						"gleichmachen",
-						"Gleichmacher",
-						"Gleichmaß",
-						"gleichmacherisch",
-						"Gleichmacherin",
-						"Gleichmacherei",
-						"gleichgewichtig",
-						"gleichmäßig",
-						"gleichmächtig",
+						"Einheitlichkeit",
+						"Gleichförmigkeit",
+						"Ausgewogenheit",
+						"Ebenmäßigkeit",
+						"Seelenstärke",
 						"Gleichmäßigkeit",
-						"dahinleben",
-						"Rhythmus",
-						"ebenmäßig"
+						"Homogenität",
+						"ebenmäßig",
+						"gleichgewichtig",
+						"proportioniert",
+						"Ebenmaß",
+						"ausgewogen",
+						"gleichmäßig",
+						"Gelassenheit",
+						"Bedächtigkeit",
+						"Coolness",
+						"Besinnlichkeit",
+						"Regelmäßigkeit",
+						"Rhythmus"
 					]
 				}
 			}
@@ -16092,7 +16014,7 @@ module.exports = {
 		"umspielt": {
 			"word": "umspielt",
 			"data": {
-				"_id": "59189a08ce905c0816aaa438",
+				"_id": "591c1aa09c23da1cd8476739",
 				"word": "umspielt",
 				"data": {
 					"similarWords": [
@@ -16105,7 +16027,7 @@ module.exports = {
 		"mächtigen": {
 			"word": "mächtigen",
 			"data": {
-				"_id": "59189a09ce905c0816aaa44f",
+				"_id": "591c1aa09c23da1cd8476744",
 				"word": "mächtigen",
 				"data": {
 					"similarWords": [
@@ -16131,7 +16053,7 @@ module.exports = {
 		"Fauchen": {
 			"word": "Fauchen",
 			"data": {
-				"_id": "59189a0ace905c0816aaa45e",
+				"_id": "591c1a9f9c23da1cd8476730",
 				"word": "Fauchen",
 				"data": {
 					"similarWords": [
@@ -16151,7 +16073,7 @@ module.exports = {
 		"furcht": {
 			"word": "furcht",
 			"data": {
-				"_id": "59189a09ce905c0816aaa453",
+				"_id": "591c1aa19c23da1cd847675c",
 				"word": "furcht",
 				"data": {
 					"similarWords": [
@@ -16182,7 +16104,7 @@ module.exports = {
 		"erregenden": {
 			"word": "erregenden",
 			"data": {
-				"_id": "59189a0ace905c0816aaa461",
+				"_id": "591c1aa09c23da1cd8476747",
 				"word": "erregenden",
 				"data": {
 					"similarWords": [
@@ -16196,62 +16118,33 @@ module.exports = {
 				}
 			}
 		},
-		"gro": {
-			"word": "gro",
+		"Ausmaßes": {
+			"word": "Ausmaßes",
 			"data": {
-				"_id": "59189a09ce905c0816aaa452",
-				"word": "gro",
+				"_id": "591c1aa09c23da1cd847674c",
+				"word": "Ausmaßes",
 				"data": {
 					"similarWords": [
-						"grob",
-						"Gros",
-						"Grog",
-						"en gros",
-						"groß",
-						"Grosz",
-						"Groll",
-						"Growl",
-						"Groove",
-						"Groat",
-						"Groom",
-						"grolieresk",
-						"Groteskfilm",
-						"Grotesktanz",
-						"Gropius",
-						"Growian",
-						"Groschen",
-						"Gröstl"
-					]
-				}
-			}
-		},
-		"Ausma": {
-			"word": "Ausma",
-			"data": {
-				"_id": "59189a0ace905c0816aaa463",
-				"word": "Ausma",
-				"data": {
-					"similarWords": [
-						"ausmalen",
+						"Watergate",
+						"Abmessung",
+						"Dosierung",
+						"Großvorhaben",
 						"Ausmaß",
-						"Ausmalung",
-						"ausmachen",
-						"Ausmarsch",
-						"Ausmarchung",
-						"Ausmahlung",
-						"ausmahlen",
-						"ausmauern",
-						"ausmarchen",
-						"ausmären",
-						"ausmanövrieren",
-						"Kolossalstatue",
-						"Kolossalfigur",
-						"Großbrand",
-						"Kolossalbau",
-						"luftverschmutzend",
-						"Bergriese",
-						"Ausmauerung",
-						"ausmarschieren"
+						"stupend",
+						"Super-GAU",
+						"Integrieranlage",
+						"Grubenkatastrophe",
+						"minimal",
+						"überdimensional",
+						"übergroß",
+						"machtvoll",
+						"Ausdehnung",
+						"monumental",
+						"umfangreich",
+						"titanisch",
+						"riesengroß",
+						"voluminös",
+						"geringfügig"
 					]
 				}
 			}
@@ -16259,7 +16152,7 @@ module.exports = {
 		"Hochofen": {
 			"word": "Hochofen",
 			"data": {
-				"_id": "59189a0ace905c0816aaa462",
+				"_id": "591c1aa19c23da1cd847675f",
 				"word": "Hochofen",
 				"data": {
 					"description": "Substantiv, maskulin - großer Schmelzofen zur Gewinnung von Roheisen",
@@ -16296,7 +16189,7 @@ module.exports = {
 		"gesehen": {
 			"word": "gesehen",
 			"data": {
-				"_id": "59189a09ce905c0816aaa45a",
+				"_id": "591c1aa19c23da1cd847675e",
 				"word": "gesehen",
 				"data": {
 					"description": "siehe sehen",
@@ -16329,7 +16222,7 @@ module.exports = {
 		"feines": {
 			"word": "feines",
 			"data": {
-				"_id": "59189a0ace905c0816aaa464",
+				"_id": "591c1a9f9c23da1cd8476728",
 				"word": "feines",
 				"data": {
 					"similarWords": [
@@ -16360,7 +16253,7 @@ module.exports = {
 		"Zischen": {
 			"word": "Zischen",
 			"data": {
-				"_id": "59189a0ace905c0816aaa465",
+				"_id": "591c1a9f9c23da1cd847672b",
 				"word": "Zischen",
 				"data": {
 					"similarWords": [
@@ -16391,7 +16284,7 @@ module.exports = {
 		"Zerstäuber": {
 			"word": "Zerstäuber",
 			"data": {
-				"_id": "59189a09ce905c0816aaa451",
+				"_id": "591c1aa19c23da1cd8476751",
 				"word": "Zerstäuber",
 				"data": {
 					"description": "Substantiv, maskulin - Gerät zum Zerstäuben",
@@ -16416,7 +16309,7 @@ module.exports = {
 		"Wehen": {
 			"word": "Wehen",
 			"data": {
-				"_id": "59189a09ce905c0816aaa45b",
+				"_id": "591c1aa19c23da1cd8476752",
 				"word": "Wehen",
 				"data": {
 					"similarWords": [
@@ -16446,7 +16339,7 @@ module.exports = {
 		"Wind": {
 			"word": "Wind",
 			"data": {
-				"_id": "59189a09ce905c0816aaa458",
+				"_id": "591c1a9f9c23da1cd8476725",
 				"word": "Wind",
 				"data": {
 					"description": "Substantiv, maskulin - 1. spürbar stärker bewegte Luft im …2a. (bei der Orgel) durch ein …2b. bei bestimmten Prozessen (z. B. …",
@@ -16483,7 +16376,7 @@ module.exports = {
 		"maschinelles": {
 			"word": "maschinelles",
 			"data": {
-				"_id": "59189a0ace905c0816aaa466",
+				"_id": "591c1aa09c23da1cd847674e",
 				"word": "maschinelles",
 				"data": {
 					"similarWords": [
@@ -16514,7 +16407,7 @@ module.exports = {
 		"Keuchen": {
 			"word": "Keuchen",
 			"data": {
-				"_id": "59189a09ce905c0816aaa456",
+				"_id": "591c1aa19c23da1cd847674f",
 				"word": "Keuchen",
 				"data": {
 					"similarWords": [
@@ -16535,7 +16428,7 @@ module.exports = {
 		"Nachluftringen": {
 			"word": "Nachluftringen",
 			"data": {
-				"_id": "59189a08ce905c0816aaa434",
+				"_id": "591c1aa09c23da1cd847673f",
 				"word": "Nachluftringen",
 				"data": {
 					"similarWords": []
@@ -16545,7 +16438,7 @@ module.exports = {
 		"Durchatmen": {
 			"word": "Durchatmen",
 			"data": {
-				"_id": "59189a08ce905c0816aaa433",
+				"_id": "591c1a9f9c23da1cd8476736",
 				"word": "Durchatmen",
 				"data": {
 					"similarWords": [
@@ -16560,7 +16453,7 @@ module.exports = {
 		"Aufatmen": {
 			"word": "Aufatmen",
 			"data": {
-				"_id": "59189a08ce905c0816aaa439",
+				"_id": "591c1aa09c23da1cd8476741",
 				"word": "Aufatmen",
 				"data": {
 					"similarWords": [
@@ -16575,7 +16468,7 @@ module.exports = {
 		"Welt": {
 			"word": "Welt",
 			"data": {
-				"_id": "59189a09ce905c0816aaa455",
+				"_id": "591c1a9f9c23da1cd8476726",
 				"word": "Welt",
 				"data": {
 					"description": "Substantiv, feminin - 1. Erde, Lebensraum des Menschen; 2a. Gesamtheit der Menschen; 2b. größere Gruppe von Menschen, Lebewesen, …",
@@ -16686,12 +16579,13 @@ module.exports = {
 		"Flügeltür",
 		"Balkon",
 		"stand",
-		"Stra",
+		"Straße",
 		"Stimmen",
 		"Autolärm",
 		"hören",
 		"Sofa",
 		"Lesetisch",
+		"saß",
 		"verknitterten",
 		"schwarzen",
 		"Leinenanzug",
@@ -16736,7 +16630,7 @@ module.exports = {
 		"Spinnweb",
 		"Frau",
 		"Bohnenblüte",
-		"grü",
+		"grüßen",
 		"treffen",
 		"Reggaekonzert",
 		"anhören",
@@ -16766,7 +16660,7 @@ module.exports = {
 		"Berliner",
 		"Hamburger",
 		"lachte",
-		"pa",
+		"paßt",
 		"hierhergekommen",
 		"verhüllten",
 		"anzusehen",
@@ -16776,7 +16670,7 @@ module.exports = {
 		"Komponist",
 		"aufgeführt",
 		"Requiem",
-		"hei",
+		"heißt",
 		"Aspiration",
 		"unterschiedlichen",
 		"Instrumenten",
@@ -16806,6 +16700,7 @@ module.exports = {
 		"las",
 		"Bild",
 		"Transparenten",
+		"Straßen",
 		"trug",
 		"nötig",
 		"lebendig",
@@ -16841,9 +16736,8 @@ module.exports = {
 		"ziemlich",
 		"schwierig",
 		"Versuch",
-		"ma",
-		"wei",
-		"mu",
+		"maßlos",
+		"weiß",
 		"entsteht",
 		"Braves",
 		"scheitern",
@@ -16852,7 +16746,7 @@ module.exports = {
 		"versöhnen",
 		"per",
 		"se",
-		"ausschlie",
+		"ausschließt",
 		"Gleichheit",
 		"Freiheit",
 		"Ausgleich",
@@ -16878,7 +16772,7 @@ module.exports = {
 		"natürliche",
 		"gesellschaftliches",
 		"auszubalancieren",
-		"blo",
+		"bloßes",
 		"Sozialmaterial",
 		"sehen",
 		"Einmaligkeit",
@@ -16905,8 +16799,7 @@ module.exports = {
 		"Atem",
 		"aufgenommen",
 		"denkt",
-		"gleichmä",
-		"ig",
+		"gleichmäßig",
 		"bewegt",
 		"hört",
 		"genau",
@@ -16915,10 +16808,9 @@ module.exports = {
 		"Schritts",
 		"sieht",
 		"fühlt",
-		"Schlo",
-		"platz",
+		"Schloßplatz",
 		"geredet",
-		"Barnimstra",
+		"Barnimstraße",
 		"Hof",
 		"Fliederstrauch",
 		"pflanzte",
@@ -16977,8 +16869,7 @@ module.exports = {
 		"organisierten",
 		"Kommunisten",
 		"fanden",
-		"grä",
-		"lich",
+		"gräßlich",
 		"Massen",
 		"schweigen",
 		"falscher",
@@ -17073,8 +16964,7 @@ module.exports = {
 		"heraus",
 		"Sterben",
 		"lag",
-		"wu",
-		"te",
+		"wußte",
 		"meinte",
 		"Irgendwann",
 		"Gesangstück",
@@ -17121,14 +17011,13 @@ module.exports = {
 		"Husten",
 		"ausgespuckt",
 		"herausgewürgt",
-		"Gleichma",
+		"Gleichmaß",
 		"umspielt",
 		"mächtigen",
 		"Fauchen",
 		"furcht",
 		"erregenden",
-		"gro",
-		"Ausma",
+		"Ausmaßes",
 		"Hochofen",
 		"gesehen",
 		"feines",

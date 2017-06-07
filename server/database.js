@@ -44,9 +44,7 @@ module.exports = class Database {
 			if ( !this.connected ) {
 				this.connect().then( () => {
 					this.collection.find( { word: word } ).toArray( ( error, data ) => {
-						// console.log( word, data, error );
-
-						if ( error !== null || !data.length ) {
+						if ( error !== null || data === null || !data.length ) {
 							reject( error );
 						} else {
 							resolve( data );
@@ -68,10 +66,7 @@ module.exports = class Database {
 
 	insert ( word, data ) {
 		return new Promise( ( resolve, reject ) => {
-			this.collection.insertOne( {
-				word: word,
-				data: data
-			}, ( error ) => {
+			this.collection.insertOne( data, ( error ) => {
 				if ( error !== null ) {
 					reject( error );
 				} else {

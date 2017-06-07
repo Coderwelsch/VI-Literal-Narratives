@@ -22,6 +22,8 @@ analyzer.enrichWords().then( ( data ) => {
 			splittedWords: analyzer.wordDictArray
 		};
 
+	console.log( data );
+	return;
 	console.log( data.length + " word(s) loaded" );
 
 	flattened = data.map( ( item ) => {
@@ -34,4 +36,6 @@ analyzer.enrichWords().then( ( data ) => {
 
 	FileSystem.writeFileSync( exportPathJson, JSON.stringify( exportData, null, 4 ), { encoding: "utf8", flag: "w+" } );
 	console.log( "Exported data to %s", exportPathJson );
+} ).catch( ( error ) => {
+	console.log( error );
 } );

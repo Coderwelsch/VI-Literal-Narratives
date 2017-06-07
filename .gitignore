@@ -1,3 +1,6 @@
+# server
+server/database/
+
 # Logs
 logs
 *.log
