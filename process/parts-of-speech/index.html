@@ -1,0 +1,76 @@
+<html>
+	<head>
+		<title>Test - Parts Of Speech</title>
+
+		<style>
+			body {
+				display: flex;
+				justify-content: center;
+			}
+
+			.content {
+				max-width: 660px;
+			}
+		</style>
+	</head>
+
+	<body>
+		<script src="jquery-3.2.1.min.js"></script>
+		<script>
+			let $text,
+				$sentences;
+
+			$.get( "input.txt.xml" ).then( ( data ) => {
+				$text = $( data );
+				$sentences = $text.find( "sentences sentence" );
+				dataLoaded();
+			} );
+
+			function dataLoaded () {
+				let html = processSentences(),
+					$body = $( "body" );
+
+				$body.append( `
+					<div class="content">
+						${html}
+					</div>
+				`);
+			}
+
+			function processSentences () {
+				let $currSentence,
+					$currTokens,
+					$currToken,
+					currSen,
+					pos,
+					processedHtml = "";
+
+				$sentences.each( function () {
+					currSen = "";
+
+					$currSentence = $( this );
+					$currTokens = $currSentence.find( "tokens token" );
+
+					processedHtml += `<h4>Satz: ${$currSentence.attr( "id" )}</h4>`;
+
+					$currTokens.each( function ( i ) {
+						$currToken = $( this );
+						pos = $currToken.find( "POS" ).text();
+
+						if ( pos === "," || pos === "." ) {
+							currSen += "<span>" + $currToken.find( "word" ).text() + " </span>";
+						} else if ( i !== 0 && i < $currTokens.length - 1 ) {
+							currSen += "<span> " + $currToken.find( "word" ).text() + "</span>";
+						} else {
+							currSen += "<span>" + $currToken.find( "word" ).text() + "</span>";
+						}
+					} );
+
+					processedHtml += `<p>${currSen}</p>`;
+				} );
+
+				return processedHtml;
+			}
+		</script>
+	</body>
+</html>
